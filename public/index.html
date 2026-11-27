@@ -1,102 +1,474 @@
-
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="light">
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#146c43"
-    >
-
-    <meta
-        name="description"
-        content="ایران‌گرد هیرکان؛ راهنمای رایگان گردشگری ایران"
-    >
-
-    <meta name="application-name" content="ایران‌گرد هیرکان">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f766e">
     <title>ایران‌گرد هیرکان | Irangard Hirkan</title>
+    
+    <style>
+        /* =========================================
+           THEME VARIABLES
+           ========================================= */
+        :root {
+            --primary: #0f766e;
+            --primary-hover: #115e59;
+            --primary-light: #ccfbf1;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --surface-secondary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --banner-background: #134e4a;
+            --banner-text: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --font-persian: "Vazirmatn", Tahoma, sans-serif;
+            --font-default: system-ui, -apple-system, sans-serif;
+        }
 
-    <link rel="manifest" href="./manifest.json">
+        [data-theme="dark"] {
+            --primary: #2dd4bf;
+            --primary-light: #134e4a;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-secondary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --banner-background: #042f2e;
+        }
 
-    <link
-        rel="icon"
-        type="image/png"
-        href="./icons/icon-192.png"
-    >
+        /* =========================================
+           RESET & LAYOUT
+           ========================================= */
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh;
+            background: var(--background); color: var(--text-primary);
+            font-family: var(--font-default); font-size: 15px; line-height: 1.7;
+            transition: background 0.2s, color 0.2s;
+        }
+        html[lang="fa"] { font-family: var(--font-persian); }
+        a { color: inherit; text-decoration: none; }
+        button { cursor: pointer; font: inherit; }
 
-    <link rel="stylesheet" href="/css/main.css">
+        .app-container { max-width: 900px; margin-inline: auto; min-height: 100vh; position: relative; }
+        .main-content { padding: 20px 16px 100px; }
 
-    <script src="/js/app.js" defer></script>
+        /* =========================================
+           TOPBAR & NAV
+           ========================================= */
+        .topbar {
+            height: 64px; display: flex; align-items: center; justify-content: space-between;
+            padding-inline: 16px; background: var(--surface); border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .brand { display: flex; align-items: center; gap: 8px; color: var(--primary); font-size: 19px; font-weight: 700; cursor: pointer; }
+        .icon-button {
+            width: 40px; height: 40px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+            background: var(--surface); color: var(--text-primary); display: flex; align-items: center; justify-content: center;
+        }
+        .language-button { padding: 8px 12px; background: var(--primary-light); color: var(--primary); border: none; border-radius: var(--radius-sm); font-weight: 700; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 900px; height: 68px; display: flex; align-items: center; justify-content: space-around;
+            background: var(--surface); border-top: 1px solid var(--border); z-index: 100;
+        }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); font-size: 11px; cursor: pointer; }
+        .nav-icon { font-size: 22px; }
+        .nav-item.active { color: var(--primary); font-weight: 700; }
+
+        /* =========================================
+           CONTENT & CARDS
+           ========================================= */
+        .page-title { margin: 0 0 8px; font-size: 25px; font-weight: 700; }
+        .page-subtitle { margin: 0 0 22px; color: var(--text-secondary); font-size: 14px; }
+        .section-title { margin: 26px 0 14px; font-size: 19px; font-weight: 700; }
+        
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 12px; }
+        .card.clickable { cursor: pointer; transition: transform 0.2s; }
+        .card.clickable:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .card-title { margin: 0 0 6px; font-size: 17px; font-weight: 700; color: var(--primary); }
+        .card-description { margin: 0; color: var(--text-secondary); font-size: 13px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        .button {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 44px; padding: 10px 18px; border: none; border-radius: var(--radius-md);
+            background: var(--primary); color: #fff; font-weight: 700; margin-top: 16px; text-decoration: none;
+        }
+        .search-container { position: relative; margin: 20px 0; }
+        .input {
+            width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--border);
+            border-radius: var(--radius-md); background: var(--surface); color: var(--text-primary); outline: none;
+        }
+        .input:focus { border-color: var(--primary); }
+
+        /* =========================================
+           HIRKAN PROMO BANNER
+           ========================================= */
+        .hirkan-banner {
+            margin-top: 32px; padding: 18px; background: var(--banner-background); color: var(--banner-text);
+            border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+        .hirkan-banner-title { margin: 0 0 4px; font-size: 16px; font-weight: 700; }
+        .hirkan-banner-description { margin: 0; font-size: 12px; opacity: 0.85; }
+        .hirkan-banner-link { padding: 8px 12px; border: 1px solid rgba(255,255,255,0.5); border-radius: var(--radius-sm); color: white; font-size: 12px; font-weight: 700; }
+    </style>
 </head>
+<body>
 
-<body class="loading">
+    <div class="app-container">
+        <!-- Top Nav -->
+        <header class="topbar">
+            <div class="brand" onclick="window.location.hash='#/'">
+                <span>🇮🇷</span>
+                <span id="app-name">ایران‌گرد هیرکان</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button id="theme-toggle" class="icon-button">☾</button>
+                <button id="lang-toggle" class="language-button">EN</button>
+            </div>
+        </header>
 
-    <header class="app-header">
-        <a href="#/" class="brand" aria-label="صفحه اصلی">
-            <span id="brand-name">ایران‌گرد هیرکان</span>
-        </a>
-    </header>
+        <!-- Main Content Area -->
+        <main id="app-content" class="main-content">
+            <!-- محتوا توسط جاوااسکریپت لود می‌شود -->
+        </main>
 
-    <div
-        id="app-loader"
-        role="status"
-        aria-live="polite"
-    >
-        در حال بارگذاری...
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="window.location.hash='#/'">
+                <span class="nav-icon">⌂</span>
+                <span>خانه</span>
+            </div>
+            <div class="nav-item" onclick="window.location.hash='#/provinces'">
+                <span class="nav-icon">◈</span>
+                <span>استان‌ها</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">✈</span>
+                <span>سفر</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">♡</span>
+                <span>علاقه‌مندی</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">⚙</span>
+                <span>تنظیمات</span>
+            </div>
+        </nav>
     </div>
 
-    <div
-        id="app-error"
-        role="alert"
-        hidden
-    ></div>
+    <script>
+        // =========================================
+        // DATA (From ChatGPT)
+        // =========================================
+        const PROVINCES_DATA = [
+            { id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', capital_id: 'tehran', desc_fa: 'استان تهران مرکز سیاسی، اقتصادی و فرهنگی ایران است.', desc_en: 'Tehran Province is the political, economic, and cultural center of Iran.' },
+            { id: 'alborz', name_fa: 'البرز', name_en: 'Alborz', capital_id: 'karaj', desc_fa: 'استان البرز با طبیعت کوهستانی و جاذبه‌های گردشگری در نزدیکی تهران قرار دارد.', desc_en: 'Alborz Province features mountain landscapes and tourist attractions near Tehran.' },
+            { id: 'isfahan', name_fa: 'اصفهان', name_en: 'Isfahan', capital_id: 'isfahan', desc_fa: 'استان اصفهان با معماری تاریخی و آثار باشکوه یکی از قطب‌های گردشگری ایران است.', desc_en: 'Isfahan Province is a major tourism destination known for its magnificent historical architecture.' },
+            { id: 'fars', name_fa: 'فارس', name_en: 'Fars', capital_id: 'shiraz', desc_fa: 'استان فارس سرزمین تاریخ، شعر و تمدن باستانی ایران است.', desc_en: 'Fars Province is a land of history, poetry, and ancient Persian civilization.' },
+            { id: 'razavi-khorasan', name_fa: 'خراسان رضوی', name_en: 'Razavi Khorasan', capital_id: 'mashhad', desc_fa: 'استان خراسان رضوی به دلیل وجود حرم امام رضا از مهم‌ترین مقاصد زیارتی ایران است.', desc_en: 'Razavi Khorasan is one of Iran’s most important pilgrimage destinations.' },
+            { id: 'north-khorasan', name_fa: 'خراسان شمالی', name_en: 'North Khorasan', capital_id: 'bojnurd', desc_fa: 'استان خراسان شمالی با طبیعت سرسبز و فرهنگ اقوام گوناگون شناخته می‌شود.', desc_en: 'North Khorasan is known for its green landscapes and diverse ethnic cultures.' },
+            { id: 'south-khorasan', name_fa: 'خراسان جنوبی', name_en: 'South Khorasan', capital_id: 'birjand', desc_fa: 'استان خراسان جنوبی با کویرهای زیبا و محصولات کشاورزی بومی شناخته می‌شود.', desc_en: 'South Khorasan is known for its beautiful deserts and traditional agricultural products.' },
+            { id: 'east-azerbaijan', name_fa: 'آذربایجان شرقی', name_en: 'East Azerbaijan', capital_id: 'tabriz', desc_fa: 'استان آذربایجان شرقی با تاریخ غنی، بازارهای سنتی و طبیعت کوهستانی شناخته می‌شود.', desc_en: 'East Azerbaijan is known for its rich history, traditional bazaars, and mountain scenery.' },
+            { id: 'west-azerbaijan', name_fa: 'آذربایجان غربی', name_en: 'West Azerbaijan', capital_id: 'urmia', desc_fa: 'استان آذربایجان غربی با دریاچه ارومیه و جاذبه‌های طبیعی و تاریخی شناخته می‌شود.', desc_en: 'West Azerbaijan is known for Lake Urmia and its natural and historical attractions.' },
+            { id: 'ardabil', name_fa: 'اردبیل', name_en: 'Ardabil', capital_id: 'ardabil', desc_fa: 'استان اردبیل با چشمه‌های آب گرم، کوه سبلان و طبیعت خنک مقصدی گردشگری است.', desc_en: 'Ardabil Province is a tourism destination famous for hot springs, Mount Sabalan, and cool landscapes.' },
+            { id: 'zanjan', name_fa: 'زنجان', name_en: 'Zanjan', capital_id: 'zanjan', desc_fa: 'استان زنجان با صنایع دستی، گنبد سلطانیه و جاذبه‌های تاریخی شناخته می‌شود.', desc_en: 'Zanjan Province is known for its handicrafts, Soltaniyeh Dome, and historical attractions.' },
+            { id: 'gilan', name_fa: 'گیلان', name_en: 'Gilan', capital_id: 'rasht', desc_fa: 'استان گیلان با جنگل‌های سرسبز، شالیزارها و سواحل دریای خزر شناخته می‌شود.', desc_en: 'Gilan Province is famous for its green forests, rice fields, and Caspian Sea coastline.' },
+            { id: 'mazandaran', name_fa: 'مازندران', name_en: 'Mazandaran', capital_id: 'sari', desc_fa: 'استان مازندران با جنگل‌های هیرکانی، کوهستان و سواحل زیبای خزر مقصدی محبوب است.', desc_en: 'Mazandaran is a popular destination featuring Hyrcanian forests, mountains, and beautiful Caspian beaches.' },
+            { id: 'golestan', name_fa: 'گلستان', name_en: 'Golestan', capital_id: 'gorgan', desc_fa: 'استان گلستان با جنگل‌های باستانی، آبشارها و تنوع زیستی چشمگیر شناخته می‌شود.', desc_en: 'Golestan Province is known for its ancient forests, waterfalls, and remarkable biodiversity.' },
+            { id: 'qazvin', name_fa: 'قزوین', name_en: 'Qazvin', capital_id: 'qazvin', desc_fa: 'استان قزوین با بناهای تاریخی، باغ‌های سنتی و آثار فرهنگی ارزشمند شناخته می‌شود.', desc_en: 'Qazvin Province is known for its historical buildings, traditional gardens, and cultural heritage.' },
+            { id: 'markazi', name_fa: 'مرکزی', name_en: 'Markazi', capital_id: 'arak', desc_fa: 'استان مرکزی با آثار تاریخی، روستاهای دیدنی و جاذبه‌های طبیعی شناخته می‌شود.', desc_en: 'Markazi Province is known for its historical monuments, scenic villages, and natural attractions.' },
+            { id: 'hamadan', name_fa: 'همدان', name_en: 'Hamadan', capital_id: 'hamadan', desc_fa: 'استان همدان با پیشینه تاریخی کهن و جاذبه‌هایی مانند غار علیصدر شناخته می‌شود.', desc_en: 'Hamadan Province is known for its ancient history and attractions such as Ali Sadr Cave.' },
+            { id: 'kurdistan', name_fa: 'کردستان', name_en: 'Kurdistan', capital_id: 'sanandaj', desc_fa: 'استان کردستان با کوهستان‌های زیبا، فرهنگ کردی و موسیقی محلی شناخته می‌شود.', desc_en: 'Kurdistan Province is known for its beautiful mountains, Kurdish culture, and traditional music.' },
+            { id: 'kermanshah', name_fa: 'کرمانشاه', name_en: 'Kermanshah', capital_id: 'kermanshah', desc_fa: 'استان کرمانشاه با آثار باستانی ارزشمند و طبیعت کوهستانی شناخته می‌شود.', desc_en: 'Kermanshah Province is known for its valuable archaeological sites and mountain landscapes.' },
+            { id: 'lorestan', name_fa: 'لرستان', name_en: 'Lorestan', capital_id: 'khorramabad', desc_fa: 'استان لرستان با آبشارهای فراوان، کوه‌های زاگرس و طبیعت بکر شناخته می‌شود.', desc_en: 'Lorestan Province is known for its numerous waterfalls, Zagros Mountains, and pristine nature.' },
+            { id: 'ilam', name_fa: 'ایلام', name_en: 'Ilam', capital_id: 'ilam', desc_fa: 'استان ایلام با جنگل‌های بلوط، دره‌های زیبا و طبیعت زاگرسی شناخته می‌شود.', desc_en: 'Ilam Province is known for its oak forests, beautiful valleys, and Zagros landscapes.' },
+            { id: 'khuzestan', name_fa: 'خوزستان', name_en: 'Khuzestan', capital_id: 'ahvaz', desc_fa: 'استان خوزستان با تاریخ باستانی، رودخانه‌های بزرگ و تمدن کهن شناخته می‌شود.', desc_en: 'Khuzestan Province is known for its ancient civilization, historic heritage, and major rivers.' },
+            { id: 'chaharmahal-and-bakhtiari', name_fa: 'چهارمحال و بختیاری', name_en: 'Chaharmahal and Bakhtiari', capital_id: 'shahrekord', desc_fa: 'استان چهارمحال و بختیاری با چشمه‌های زلال، کوهستان‌های مرتفع و طبیعت بکر شناخته می‌شود.', desc_en: 'Chaharmahal and Bakhtiari is known for its clear springs, high mountains, and pristine nature.' },
+            { id: 'kohgiluyeh-and-boyer-ahmad', name_fa: 'کهگیلویه و بویراحمد', name_en: 'Kohgiluyeh and Boyer-Ahmad', capital_id: 'yasuj', desc_fa: 'استان کهگیلویه و بویراحمد با جنگل‌های بلوط، آبشارها و طبیعت سرسبز زاگرس شناخته می‌شود.', desc_en: 'Kohgiluyeh and Boyer-Ahmad is known for its oak forests, waterfalls, and green Zagros landscapes.' },
+            { id: 'bushehr', name_fa: 'بوشهر', name_en: 'Bushehr', capital_id: 'bushehr', desc_fa: 'استان بوشهر با سواحل خلیج فارس، معماری ساحلی و فرهنگ دریانوردی شناخته می‌شود.', desc_en: 'Bushehr Province is known for its Persian Gulf coastline, coastal architecture, and maritime culture.' },
+            { id: 'hormozgan', name_fa: 'هرمزگان', name_en: 'Hormozgan', capital_id: 'bandar-abbas', desc_fa: 'استان هرمزگان با جزایر زیبا، سواحل خلیج فارس و جاذبه‌های دریایی شناخته می‌شود.', desc_en: 'Hormozgan Province is known for its beautiful islands, Persian Gulf beaches, and marine attractions.' },
+            { id: 'sistan-and-baluchestan', name_fa: 'سیستان و بلوچستان', name_en: 'Sistan and Baluchestan', capital_id: 'zahedan', desc_fa: 'استان سیستان و بلوچستان با فرهنگ بومی، سواحل مکران و آثار تاریخی کهن شناخته می‌شود.', desc_en: 'Sistan and Baluchestan is known for its indigenous cultures, Makran coastline, and ancient historical sites.' },
+            { id: 'kerman', name_fa: 'کرمان', name_en: 'Kerman', capital_id: 'kerman', desc_fa: 'استان کرمان با باغ‌های تاریخی، کویرهای شگفت‌انگیز و آثار تمدن باستانی شناخته می‌شود.', desc_en: 'Kerman Province is known for its historical gardens, spectacular deserts, and ancient heritage.' },
+            { id: 'yazd', name_fa: 'یزد', name_en: 'Yazd', capital_id: 'yazd', desc_fa: 'استان یزد با معماری خشتی، بادگیرها و بافت تاریخی ثبت جهانی شناخته می‌شود.', desc_en: 'Yazd Province is known for its adobe architecture, windcatchers, and UNESCO-listed historic city.' },
+            { id: 'semnan', name_fa: 'سمنان', name_en: 'Semnan', capital_id: 'semnan', desc_fa: 'استان سمنان با کویرهای وسیع، مناطق حفاظت‌شده و جاذبه‌های تاریخی شناخته می‌شود.', desc_en: 'Semnan Province is known for its vast deserts, protected areas, and historical attractions.' },
+            { id: 'qom', name_fa: 'قم', name_en: 'Qom', capital_id: 'qom', desc_fa: 'استان قم با حرم حضرت معصومه و جایگاه مهم مذهبی و تاریخی شناخته می‌شود.', desc_en: 'Qom Province is known for the Shrine of Fatima Masumeh and its important religious heritage.' }
+        ];
 
-    <main id="app">
+        const CITIES_DATA = [
+            { id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', province_id: 'tehran', desc_fa: 'تهران پایتخت ایران و شهری بزرگ با جاذبه‌های تاریخی، فرهنگی و مدرن است.', desc_en: 'Tehran is the capital of Iran and a major city with historical, cultural, and modern attractions.' },
+            { id: 'karaj', name_fa: 'کرج', name_en: 'Karaj', province_id: 'alborz', desc_fa: 'کرج مرکز استان البرز و شهری در دامنه رشته‌کوه البرز است.', desc_en: 'Karaj is the capital of Alborz Province, located near the Alborz mountain range.' },
+            { id: 'isfahan', name_fa: 'اصفهان', name_en: 'Isfahan', province_id: 'isfahan', desc_fa: 'اصفهان شهری تاریخی با میدان نقش جهان، پل‌های قدیمی و معماری باشکوه است.', desc_en: 'Isfahan is a historic city famous for Naqsh-e Jahan Square, ancient bridges, and magnificent architecture.' },
+            { id: 'shiraz', name_fa: 'شیراز', name_en: 'Shiraz', province_id: 'fars', desc_fa: 'شیراز شهر شعر و ادب فارسی و زادگاه شاعران بزرگی چون حافظ و سعدی است.', desc_en: 'Shiraz is a city of Persian poetry and literature and the home of renowned poets Hafez and Saadi.' },
+            { id: 'mashhad', name_fa: 'مشهد', name_en: 'Mashhad', province_id: 'razavi-khorasan', desc_fa: 'مشهد یکی از مهم‌ترین شهرهای زیارتی ایران و میزبان حرم امام رضا است.', desc_en: 'Mashhad is one of Iran’s most important pilgrimage cities and home to the Imam Reza Shrine.' },
+            { id: 'bojnurd', name_fa: 'بجنورد', name_en: 'Bojnurd', province_id: 'north-khorasan', desc_fa: 'بجنورد مرکز خراسان شمالی و شهری با فرهنگ و طبیعت متنوع است.', desc_en: 'Bojnurd is the capital of North Khorasan and a city with diverse culture and landscapes.' },
+            { id: 'birjand', name_fa: 'بیرجند', name_en: 'Birjand', province_id: 'south-khorasan', desc_fa: 'بیرجند شهری تاریخی با باغ‌های ایرانی و معماری سنتی در شرق ایران است.', desc_en: 'Birjand is a historic eastern Iranian city known for its Persian gardens and traditional architecture.' },
+            { id: 'tabriz', name_fa: 'تبریز', name_en: 'Tabriz', province_id: 'east-azerbaijan', desc_fa: 'تبریز شهری تاریخی با بازار بزرگ سرپوشیده و فرهنگ غنی آذربایجانی است.', desc_en: 'Tabriz is a historic city known for its grand covered bazaar and rich Azerbaijani culture.' },
+            { id: 'urmia', name_fa: 'ارومیه', name_en: 'Urmia', province_id: 'west-azerbaijan', desc_fa: 'ارومیه شهری تاریخی در کنار دریاچه ارومیه با فرهنگی چندقومیتی است.', desc_en: 'Urmia is a historic city near Lake Urmia with a multicultural heritage.' },
+            { id: 'ardabil', name_fa: 'اردبیل', name_en: 'Ardabil', province_id: 'ardabil', desc_fa: 'اردبیل شهری باستانی و خنک در نزدیکی کوه سبلان و چشمه‌های آب گرم است.', desc_en: 'Ardabil is an ancient, cool-climate city near Mount Sabalan and natural hot springs.' },
+            { id: 'zanjan', name_fa: 'زنجان', name_en: 'Zanjan', province_id: 'zanjan', desc_fa: 'زنجان شهری تاریخی با صنایع دستی مشهور و جاذبه‌های فرهنگی است.', desc_en: 'Zanjan is a historic city famous for its handicrafts and cultural attractions.' },
+            { id: 'rasht', name_fa: 'رشت', name_en: 'Rasht', province_id: 'gilan', desc_fa: 'رشت مرکز گیلان و شهری سرسبز با غذاهای محلی و فرهنگ غنی است.', desc_en: 'Rasht is the capital of Gilan, a green city famous for its local cuisine and rich culture.' },
+            { id: 'sari', name_fa: 'ساری', name_en: 'Sari', province_id: 'mazandaran', desc_fa: 'ساری مرکز مازندران و شهری سرسبز در نزدیکی جنگل‌ها و دریای خزر است.', desc_en: 'Sari is the capital of Mazandaran, a green city near forests and the Caspian Sea.' },
+            { id: 'gorgan', name_fa: 'گرگان', name_en: 'Gorgan', province_id: 'golestan', desc_fa: 'گرگان شهری تاریخی با طبیعت سرسبز و دسترسی به جنگل‌های هیرکانی است.', desc_en: 'Gorgan is a historic city surrounded by green landscapes and Hyrcanian forests.' },
+            { id: 'qazvin', name_fa: 'قزوین', name_en: 'Qazvin', province_id: 'qazvin', desc_fa: 'قزوین شهری تاریخی با بناهای صفوی، مساجد قدیمی و شیرینی‌های سنتی است.', desc_en: 'Qazvin is a historic city known for Safavid architecture, ancient mosques, and traditional sweets.' },
+            { id: 'arak', name_fa: 'اراک', name_en: 'Arak', province_id: 'markazi', desc_fa: 'اراک مرکز استان مرکزی و شهری با پیشینه صنعتی و جاذبه‌های تاریخی است.', desc_en: 'Arak is the capital of Markazi Province, known for its industrial heritage and historical attractions.' },
+            { id: 'hamadan', name_fa: 'همدان', name_en: 'Hamadan', province_id: 'hamadan', desc_fa: 'همدان از کهن‌ترین شهرهای ایران و میزبان آرامگاه بوعلی سینا است.', desc_en: 'Hamadan is one of Iran’s oldest cities and home to the Avicenna Mausoleum.' },
+            { id: 'sanandaj', name_fa: 'سنندج', name_en: 'Sanandaj', province_id: 'kurdistan', desc_fa: 'سنندج مرکز کردستان و شهری شناخته‌شده برای موسیقی و فرهنگ کردی است.', desc_en: 'Sanandaj is the capital of Kurdistan and is renowned for Kurdish music and culture.' },
+            { id: 'kermanshah', name_fa: 'کرمانشاه', name_en: 'Kermanshah', province_id: 'kermanshah', desc_fa: 'کرمانشاه شهری تاریخی در زاگرس و نزدیک به مجموعه باستانی طاق بستان است.', desc_en: 'Kermanshah is a historic Zagros city near the ancient Taq-e Bostan complex.' },
+            { id: 'khorramabad', name_fa: 'خرم‌آباد', name_en: 'Khorramabad', province_id: 'lorestan', desc_fa: 'خرم‌آباد شهری سرسبز با قلعه فلک‌الافلاک و آبشارهای دیدنی است.', desc_en: 'Khorramabad is a green city famous for Falak-ol-Aflak Castle and scenic waterfalls.' },
+            { id: 'ilam', name_fa: 'ایلام', name_en: 'Ilam', province_id: 'ilam', desc_fa: 'ایلام شهری کوهستانی با جنگل‌های بلوط و طبیعت زیبای زاگرس است.', desc_en: 'Ilam is a mountainous city surrounded by oak forests and beautiful Zagros landscapes.' },
+            { id: 'ahvaz', name_fa: 'اهواز', name_en: 'Ahvaz', province_id: 'khuzestan', desc_fa: 'اهواز مرکز خوزستان و شهری بزرگ در کنار رودخانه کارون است.', desc_en: 'Ahvaz is the capital of Khuzestan and a major city situated along the Karun River.' },
+            { id: 'shahrekord', name_fa: 'شهرکرد', name_en: 'Shahrekord', province_id: 'chaharmahal-and-bakhtiari', desc_fa: 'شهرکرد یکی از مرتفع‌ترین مراکز استان ایران و شهری با آب‌وهوای خنک است.', desc_en: 'Shahrekord is one of Iran’s highest provincial capitals and is known for its cool climate.' },
+            { id: 'yasuj', name_fa: 'یاسوج', name_en: 'Yasuj', province_id: 'kohgiluyeh-and-boyer-ahmad', desc_fa: 'یاسوج شهری کوهستانی با آبشارها و جنگل‌های زیبای بلوط است.', desc_en: 'Yasuj is a mountainous city known for its waterfalls and beautiful oak forests.' },
+            { id: 'bushehr', name_fa: 'بوشهر', name_en: 'Bushehr', province_id: 'bushehr', desc_fa: 'بوشهر شهری بندری با معماری تاریخی و چشم‌انداز زیبای خلیج فارس است.', desc_en: 'Bushehr is a port city with historic architecture and beautiful Persian Gulf views.' },
+            { id: 'bandar-abbas', name_fa: 'بندرعباس', name_en: 'Bandar Abbas', province_id: 'hormozgan', desc_fa: 'بندرعباس مرکز هرمزگان و یکی از مهم‌ترین شهرهای بندری جنوب ایران است.', desc_en: 'Bandar Abbas is the capital of Hormozgan and one of southern Iran’s most important port cities.' },
+            { id: 'zahedan', name_fa: 'زاهدان', name_en: 'Zahedan', province_id: 'sistan-and-baluchestan', desc_fa: 'زاهدان مرکز سیستان و بلوچستان و شهری با فرهنگ بومی متنوع است.', desc_en: 'Zahedan is the capital of Sistan and Baluchestan and a city with diverse local cultures.' },
+            { id: 'kerman', name_fa: 'کرمان', name_en: 'Kerman', province_id: 'kerman', desc_fa: 'کرمان شهری تاریخی با بازارهای سنتی، باغ شاهزاده و آثار معماری ارزشمند است.', desc_en: 'Kerman is a historic city known for traditional bazaars, Shazdeh Garden, and valuable architecture.' },
+            { id: 'yazd', name_fa: 'یزد', name_en: 'Yazd', province_id: 'yazd', desc_fa: 'یزد شهری کویری با بادگیرهای سنتی و بافت تاریخی ثبت‌شده در یونسکو است.', desc_en: 'Yazd is a desert city famous for traditional windcatchers and its UNESCO-listed historic center.' },
+            { id: 'semnan', name_fa: 'سمنان', name_en: 'Semnan', province_id: 'semnan', desc_fa: 'سمنان شهری تاریخی در حاشیه کویر با جاذبه‌های طبیعی و فرهنگی است.', desc_en: 'Semnan is a historic city on the edge of the desert with natural and cultural attractions.' },
+            { id: 'qom', name_fa: 'قم', name_en: 'Qom', province_id: 'qom', desc_fa: 'قم شهری مذهبی و تاریخی با حرم حضرت معصومه و مراکز فرهنگی است.', desc_en: 'Qom is a religious and historic city known for the Shrine of Fatima Masumeh and cultural centers.' }
+        ];
 
-        <section id="home">
-            <h1 data-i18n="home.title">
-                به ایران‌گرد هیرکان خوش آمدید
-            </h1>
+        // =========================================
+        // TRANSLATIONS
+        // =========================================
+        const TRANSLATIONS = {
+            "fa": {
+                "home.title": "به ایران‌گرد هیرکان خوش آمدید",
+                "home.desc": "زیبایی‌های ایران را کشف کنید",
+                "nav.home": "خانه",
+                "nav.provinces": "استان‌ها",
+                "nav.travel_info": "اطلاعات سفر",
+                "nav.favorites": "علاقه‌مندی‌ها",
+                "nav.settings": "تنظیمات",
+                "hirkan.title": "توسعه‌یافته توسط هیرکان",
+                "hirkan.desc": "طراحی و توسعه توسط Hirkan Develop Group",
+                "hirkan.btn": "وب‌سایت هیرکان",
+                "search.placeholder": "جستجوی استان یا شهر...",
+                "provinces.title": "استان‌های ایران",
+                "province.capital": "مرکز استان",
+                "btn.back": "بازگشت",
+                "btn.view_city": "مشاهده شهر"
+            },
+            "en": {
+                "home.title": "Welcome to Irangard Hirkan",
+                "home.desc": "Discover the beauty of Iran",
+                "nav.home": "Home",
+                "nav.provinces": "Provinces",
+                "nav.travel_info": "Travel Info",
+                "nav.favorites": "Favorites",
+                "nav.settings": "Settings",
+                "hirkan.title": "Developed by Hirkan",
+                "hirkan.desc": "Designed and developed by Hirkan Develop Group",
+                "hirkan.btn": "Hirkan Website",
+                "search.placeholder": "Search province or city...",
+                "provinces.title": "Provinces of Iran",
+                "province.capital": "Capital",
+                "btn.back": "Back",
+                "btn.view_city": "View City"
+            }
+        };
 
-            <p data-i18n="home.subtitle">
-                زیبایی‌های ایران را کشف کنید
-            </p>
+        let currentLang = "fa";
+        let currentTheme = "light";
 
-            <nav aria-label="منوی اصلی">
-                <a href="#/" data-i18n="nav.home">خانه</a>
-                <a href="#/provinces" data-i18n="nav.provinces">
-                    استان‌ها
-                </a>
-                <a href="#/favorites" data-i18n="nav.favorites">
-                    علاقه‌مندی‌ها
-                </a>
-                <a href="#/settings" data-i18n="nav.settings">
-                    تنظیمات
-                </a>
-                <a href="#/about" data-i18n="nav.about">
-                    درباره ما
-                </a>
-            </nav>
-        </section>
+        // =========================================
+        // INIT & EVENTS
+        // =========================================
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
+        });
 
-    </main>
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'fa' ? 'en' : 'fa';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+            document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
+            router(); // Re-render current page
+        });
 
-    <footer class="app-footer">
-        <p>
-            © Hirkan Develop Group
-        </p>
+        // =========================================
+        // ROUTER
+        // =========================================
+        function router() {
+            const hash = window.location.hash || '#/';
+            const parts = hash.split('/').filter(Boolean);
+            const t = TRANSLATIONS[currentLang];
 
-        <a href="https://hdg.hirkansara.ir" target="_blank" rel="noopener noreferrer">
-            Hirkan Develop Group
-        </a>
-    </footer>
+            // Update bottom nav active state
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            if (parts[0] === 'province' && parts[1]) {
+                renderProvince(parts[1], t);
+            } else if (parts[0] === 'city' && parts[1]) {
+                renderCity(parts[1], t);
+            } else if (parts[0] === 'provinces') {
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+                renderProvincesList(t);
+            } else {
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+                renderHome(t);
+            }
+        }
 
+        // =========================================
+        // VIEWS
+        // =========================================
+        function renderHome(t) {
+            const html = `
+                <h1 class="page-title">${t['home.title']}</h1>
+                <p class="page-subtitle">${t['home.desc']}</p>
+                
+                <div class="search-container">
+                    <input type="search" id="search-input" class="input" placeholder="${t['search.placeholder']}" oninput="filterProvinces(this.value)" />
+                </div>
+
+                <h2 class="section-title">${t['provinces.title']}</h2>
+                <div id="provinces-grid" class="grid">
+                    ${generateProvinceCards(PROVINCES_DATA, t)}
+                </div>
+
+                <div class="hirkan-banner">
+                    <div>
+                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
+                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
+                    </div>
+                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
+                </div>
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        function renderProvincesList(t) {
+            const html = `
+                <h1 class="page-title">${t['provinces.title']}</h1>
+                <div class="search-container">
+                    <input type="search" id="search-input" class="input" placeholder="${t['search.placeholder']}" oninput="filterProvinces(this.value)" />
+                </div>
+                <div id="provinces-grid" class="grid">
+                    ${generateProvinceCards(PROVINCES_DATA, t)}
+                </div>
+                <div class="hirkan-banner" style="margin-top: 40px;">
+                    <div>
+                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
+                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
+                    </div>
+                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
+                </div>
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        function renderProvince(id, t) {
+            const prov = PROVINCES_DATA.find(p => p.id === id);
+            if (!prov) return renderHome(t);
+
+            const capital = CITIES_DATA.find(c => c.id === prov.capital_id);
+            const name = currentLang === 'fa' ? prov.name_fa : prov.name_en;
+            const desc = currentLang === 'fa' ? prov.desc_fa : prov.desc_en;
+            const capName = capital ? (currentLang === 'fa' ? capital.name_fa : capital.name_en) : '';
+
+            const html = `
+                <button class="button" style="background: var(--surface-secondary); color: var(--text-primary); border: 1px solid var(--border); margin-bottom: 20px;" onclick="history.back()">
+                    ← ${t['btn.back']}
+                </button>
+                <h1 class="page-title">${name}</h1>
+                <p class="page-subtitle">${desc}</p>
+
+                <div class="card">
+                    <h2 class="card-title">${t['province.capital']}</h2>
+                    <p class="card-description">${capName}</p>
+                    ${capital ? `<button class="button" onclick="window.location.hash='#/city/${capital.id}'">${t['btn.view_city']}</button>` : ''}
+                </div>
+
+                <div class="hirkan-banner">
+                    <div>
+                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
+                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
+                    </div>
+                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
+                </div>
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        function renderCity(id, t) {
+            const city = CITIES_DATA.find(c => c.id === id);
+            if (!city) return renderHome(t);
+            
+            const prov = PROVINCES_DATA.find(p => p.id === city.province_id);
+
+            const name = currentLang === 'fa' ? city.name_fa : city.name_en;
+            const desc = currentLang === 'fa' ? city.desc_fa : city.desc_en;
+            const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : '';
+
+            const html = `
+                <button class="button" style="background: var(--surface-secondary); color: var(--text-primary); border: 1px solid var(--border); margin-bottom: 20px;" onclick="history.back()">
+                    ← ${t['btn.back']}
+                </button>
+                <h1 class="page-title">${name}</h1>
+                <p class="page-subtitle">${provName}</p>
+
+                <div class="card">
+                    <p class="card-description" style="font-size: 15px;">${desc}</p>
+                </div>
+
+                <div class="hirkan-banner">
+                    <div>
+                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
+                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
+                    </div>
+                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
+                </div>
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        // =========================================
+        // HELPERS
+        // =========================================
+        function generateProvinceCards(data, t) {
+            return data.map(p => {
+                const name = currentLang === 'fa' ? p.name_fa : p.name_en;
+                const desc = currentLang === 'fa' ? p.desc_fa : p.desc_en;
+                return `
+                    <div class="card clickable" onclick="window.location.hash='#/province/${p.id}'">
+                        <h3 class="card-title">${name}</h3>
+                        <p class="card-description" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${desc}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterProvinces(query) {
+            const t = TRANSLATIONS[currentLang];
+            const q = query.toLowerCase();
+            const filtered = PROVINCES_DATA.filter(p => 
+                p.name_fa.includes(q) || p.name_en.toLowerCase().includes(q) || 
+                p.desc_fa.includes(q) || p.desc_en.toLowerCase().includes(q)
+            );
+            document.getElementById('provinces-grid').innerHTML = generateProvinceCards(filtered, t);
+        }
+
+        // Start App
+        window.addEventListener('hashchange', router);
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!window.location.hash) window.location.hash = '#/';
+            router();
+        });
+    </script>
 </body>
 </html>
