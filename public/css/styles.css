@@ -1,0 +1,722 @@
+
+/* =========================================
+   IRANGARD - DESIGN SYSTEM
+   Hirkan Develop Group
+   ========================================= */
+
+/* Local font files can be added to public/fonts/.
+   If unavailable, the system font fallback is used. */
+
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* =========================================
+   THEME VARIABLES
+   ========================================= */
+
+:root {
+    color-scheme: light;
+
+    --primary: #0f766e;
+    --primary-hover: #115e59;
+    --primary-light: #ccfbf1;
+
+    --secondary: #d97706;
+    --secondary-light: #fef3c7;
+
+    --success: #16a34a;
+    --danger: #dc2626;
+
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --surface-secondary: #f1f5f9;
+
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    --border: #e2e8f0;
+
+    --banner-background: #134e4a;
+    --banner-text: #ffffff;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 26px;
+
+    --font-persian: "Vazirmatn", Tahoma, sans-serif;
+    --font-default: system-ui, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", sans-serif;
+
+    --container-width: 900px;
+
+    --topbar-height: 64px;
+    --bottom-nav-height: 68px;
+
+    --transition: 180ms ease;
+}
+
+/* Dark theme */
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    --primary: #2dd4bf;
+    --primary-hover: #5eead4;
+    --primary-light: #134e4a;
+
+    --secondary: #fbbf24;
+    --secondary-light: #78350f;
+
+    --success: #4ade80;
+    --danger: #f87171;
+
+    --background: #0f172a;
+    --surface: #1e293b;
+    --surface-secondary: #334155;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+
+    --border: #334155;
+
+    --banner-background: #042f2e;
+    --banner-text: #f0fdfa;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   RESET
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+
+    background: var(--background);
+    color: var(--text-primary);
+
+    font-family: var(--font-default);
+    font-size: 15px;
+    line-height: 1.7;
+
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+html[lang="fa"],
+html[lang="ar"] {
+    font-family: var(--font-persian);
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* =========================================
+   APP LAYOUT
+   ========================================= */
+
+.app-container {
+    width: 100%;
+    max-width: var(--container-width);
+    min-height: 100vh;
+    margin-inline: auto;
+    background: var(--background);
+    position: relative;
+    box-shadow: var(--shadow-sm);
+}
+
+.main-content {
+    min-height: calc(
+        100vh - var(--topbar-height) - var(--bottom-nav-height)
+    );
+
+    padding: 20px 16px 32px;
+    padding-bottom: 40px;
+}
+
+/* =========================================
+   TOPBAR
+   ========================================= */
+
+.topbar {
+    height: var(--topbar-height);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-inline: 16px;
+
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.topbar-start,
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--primary);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.brand-icon {
+    font-size: 23px;
+}
+
+.icon-button {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    background: var(--surface);
+    color: var(--text-primary);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+
+    transition: var(--transition);
+}
+
+.icon-button:hover {
+    background: var(--surface-secondary);
+}
+
+.back-button {
+    font-size: 23px;
+}
+
+.language-button {
+    min-width: 42px;
+    height: 36px;
+
+    padding-inline: 9px;
+
+    background: var(--primary-light);
+    color: var(--primary);
+
+    border: none;
+    border-radius: var(--radius-sm);
+
+    font-weight: 700;
+}
+
+/* =========================================
+   BOTTOM NAVIGATION
+   ========================================= */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    max-width: var(--container-width);
+
+    height: var(--bottom-nav-height);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+
+    z-index: 100;
+    padding-inline: 4px;
+
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-item {
+    flex: 1;
+    min-width: 0;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 2px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    font-weight: 500;
+
+    transition: var(--transition);
+}
+
+.nav-icon {
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.nav-item.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.nav-item.active .nav-icon {
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   GENERAL TYPOGRAPHY
+   ========================================= */
+
+.page-title {
+    margin: 0 0 8px;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+.page-subtitle {
+    margin: 0 0 22px;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.section-title {
+    margin: 26px 0 14px;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+/* =========================================
+   CARDS
+   ========================================= */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    padding: 16px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-clickable {
+    cursor: pointer;
+}
+
+.card-clickable:hover {
+    transform: translateY(-2px);
+}
+
+.card-title {
+    margin: 0 0 6px;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.card-description {
+    margin: 0;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+/* =========================================
+   GRID
+   ========================================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.grid-three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 44px;
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: var(--radius-md);
+
+    background: var(--primary);
+    color: #ffffff;
+
+    font-weight: 700;
+
+    transition: var(--transition);
+}
+
+.button:hover {
+    background: var(--primary-hover);
+}
+
+.button-secondary {
+    background: var(--surface-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.button-secondary:hover {
+    background: var(--border);
+}
+
+/* =========================================
+   INPUTS AND SEARCH
+   ========================================= */
+
+.input {
+    width: 100%;
+    min-height: 48px;
+
+    padding: 10px 14px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+    color: var(--text-primary);
+
+    outline: none;
+}
+
+.input:focus {
+    border-color: var(--primary);
+}
+
+.input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-container {
+    position: relative;
+    margin: 20px 0;
+}
+
+/* =========================================
+   BADGES
+   ========================================= */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 10px;
+
+    background: var(--primary-light);
+    color: var(--primary);
+
+    border-radius: 30px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =========================================
+   HIRKAN PROMO BANNER
+   ========================================= */
+
+.hirkan-banner {
+    margin-top: 32px;
+
+    padding: 18px;
+
+    background: var(--banner-background);
+    color: var(--banner-text);
+
+    border-radius: var(--radius-lg);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    box-shadow: var(--shadow-md);
+}
+
+.hirkan-banner-content {
+    min-width: 0;
+}
+
+.hirkan-banner-title {
+    margin: 0 0 4px;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.hirkan-banner-description {
+    margin: 0;
+
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.hirkan-banner-link {
+    flex-shrink: 0;
+
+    padding: 8px 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-sm);
+
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.hirkan-banner-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* =========================================
+   SETTINGS
+   ========================================= */
+
+.settings-group {
+    margin-bottom: 24px;
+}
+
+.settings-item {
+    min-height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.settings-item-label {
+    font-weight: 600;
+}
+
+.settings-item-description {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* =========================================
+   LOADING AND EMPTY STATES
+   ========================================= */
+
+.loading-state,
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px 20px;
+
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (min-width: 700px) {
+    .main-content {
+        padding: 28px 26px 110px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hirkan-banner {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 380px) {
+    .nav-item {
+        font-size: 10px;
+    }
+
+    .nav-icon {
+        font-size: 19px;
+    }
+
+    .brand {
+        font-size: 17px;
+    }
+
+    .main-content {
+        padding-inline: 12px;
+    }
+
+    .grid {
+        gap: 8px;
+    }
+}
+
+/* =========================================
+   DIRECTION SUPPORT
+   ========================================= */
+
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="ltr"] {
+    text-align: left;
+}
+
+[dir="rtl"] .back-button span {
+    transform: scaleX(-1);
+}
+
+[dir="ltr"] .back-button span {
+    transform: none;
+}
