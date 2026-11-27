@@ -39,21 +39,32 @@
             padding-inline: 16px; background: var(--surface); border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 100;
         }
-        .brand { display: flex; align-items: center; gap: 8px; color: var(--primary); font-size: 19px; font-weight: 700; cursor: pointer; }
+        .brand { display: flex; align-items: center; gap: 8px; color: var(--primary); font-size: 18px; font-weight: 700; cursor: pointer; }
+        .version-badge {
+            font-size: 10px; font-family: monospace; background: var(--surface-secondary);
+            color: var(--text-muted); padding: 2px 6px; border-radius: 10px; margin-right: 4px;
+        }
         .icon-button {
-            width: 40px; height: 40px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+            width: 36px; height: 36px; border: 1px solid var(--border); border-radius: var(--radius-sm);
             background: var(--surface); color: var(--text-primary); display: flex; align-items: center; justify-content: center;
         }
-        .language-button { padding: 8px 12px; background: var(--primary-light); color: var(--primary); border: none; border-radius: var(--radius-sm); font-weight: 700; }
+        .language-button { padding: 6px 10px; background: var(--primary-light); color: var(--primary); border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 13px; }
 
+        /* Bottom Nav (Adjusted for 6 items on small screens) */
         .bottom-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 900px; height: 68px; display: flex; align-items: center; justify-content: space-around;
-            background: var(--surface); border-top: 1px solid var(--border); z-index: 100; padding: 0 4px;
+            width: 100%; max-width: 900px; height: 64px; display: flex; align-items: center; justify-content: space-around;
+            background: var(--surface); border-top: 1px solid var(--border); z-index: 100; padding: 0;
         }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); font-size: 10px; cursor: pointer; }
-        .nav-icon { font-size: 20px; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); font-size: 9px; cursor: pointer; padding: 4px 0; }
+        .nav-icon { font-size: 18px; margin-bottom: 2px; }
         .nav-item.active { color: var(--primary); font-weight: 700; }
+        
+        /* Fix for small screens to prevent overlap */
+        @media (min-width: 380px) {
+            .nav-item { font-size: 10px; }
+            .nav-icon { font-size: 20px; }
+        }
 
         .page-title { margin: 0 0 8px; font-size: 25px; font-weight: 700; }
         .page-subtitle { margin: 0 0 22px; color: var(--text-secondary); font-size: 14px; }
@@ -68,17 +79,14 @@
         .card-title { margin: 0 0 6px; font-size: 17px; font-weight: 700; color: var(--primary); padding-left: 30px; }
         .card-description { margin: 0; color: var(--text-secondary); font-size: 13px; }
         
-        /* ==== کلاس جدید برای متن‌های طولانی (500 کلمه‌ای) ==== */
         .rich-text {
-            white-space: pre-line; /* این دستور \n\n را تبدیل به پاراگراف واقعی می‌کند */
-            line-height: 1.9;
-            text-align: justify;
-            font-size: 15px;
-            color: var(--text-primary);
-            margin-top: 10px;
+            white-space: pre-line; line-height: 1.9; text-align: justify; font-size: 15px;
+            color: var(--text-primary); margin-top: 10px;
         }
         
+        /* Responsive Grid: Mobile 2 columns, Tablet 3-4 columns */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+        
         .button {
             display: inline-flex; align-items: center; justify-content: center;
             min-height: 44px; padding: 10px 18px; border: none; border-radius: var(--radius-md);
@@ -96,8 +104,8 @@
         .input:focus { border-color: var(--primary); }
 
         .badge {
-            display: inline-block; padding: 4px 10px; background: var(--primary-light);
-            color: var(--primary); border-radius: 30px; font-size: 12px; font-weight: 700; margin-bottom: 8px;
+            display: inline-block; padding: 4px 8px; background: var(--primary-light);
+            color: var(--primary); border-radius: 30px; font-size: 11px; font-weight: 700; margin-bottom: 8px;
         }
         .tips-box {
             background: var(--surface-secondary); border-right: 4px solid var(--primary);
@@ -109,20 +117,34 @@
         .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
         .fav-btn {
-            position: absolute; top: 14px; left: 14px;
-            background: none; border: none; font-size: 22px; padding: 0;
-            color: var(--text-muted); transition: color 0.2s;
+            position: absolute; top: 12px; left: 12px;
+            background: none; border: none; font-size: 20px; padding: 0;
+            color: var(--text-muted); transition: color 0.2s; z-index: 10;
         }
-        [dir="ltr"] .fav-btn { left: auto; right: 14px; }
+        [dir="ltr"] .fav-btn { left: auto; right: 12px; }
         .fav-btn.active { color: var(--danger); }
 
+        /* Hirkan Banner Responsive */
         .hirkan-banner {
             margin-top: 32px; padding: 18px; background: var(--banner-background); color: var(--banner-text);
             border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: space-between; gap: 12px;
         }
         .hirkan-banner-title { margin: 0 0 4px; font-size: 16px; font-weight: 700; }
         .hirkan-banner-description { margin: 0; font-size: 12px; opacity: 0.85; }
-        .hirkan-banner-link { padding: 8px 12px; border: 1px solid rgba(255,255,255,0.5); border-radius: var(--radius-sm); color: white; font-size: 12px; font-weight: 700; }
+        .hirkan-banner-link { padding: 8px 12px; border: 1px solid rgba(255,255,255,0.5); border-radius: var(--radius-sm); color: white; font-size: 12px; font-weight: 700; white-space: nowrap; }
+
+        /* Mobile fix for Hirkan Banner */
+        @media (max-width: 450px) {
+            .hirkan-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            .hirkan-banner-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -132,6 +154,7 @@
             <div class="brand" onclick="window.location.hash='#/'">
                 <span>🇮🇷</span>
                 <span id="app-name">ایران‌گرد هیرکان</span>
+                <span class="version-badge" id="version-display"></span>
             </div>
             <div style="display:flex; gap:8px;">
                 <button id="theme-toggle" class="icon-button">☾</button>
@@ -212,12 +235,27 @@
             }
         };
 
+        // آپدیت نام اپ و شماره نسخه در هدر
+        function updateBrandInfo() {
+            const brandName = document.getElementById('app-name');
+            const versionBadge = document.getElementById('version-display');
+            
+            if (currentLang === 'fa') {
+                brandName.textContent = "ایران‌گرد هیرکان";
+            } else {
+                brandName.textContent = "Irangard Hirkan";
+            }
+            versionBadge.textContent = `v${APP_VERSION}`;
+        }
+
         document.documentElement.setAttribute('data-theme', currentTheme);
         document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
         
         document.documentElement.lang = currentLang;
         document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
         document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
+        
+        updateBrandInfo();
 
         document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
         document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
@@ -242,6 +280,7 @@
             document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
             document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
             localStorage.setItem('irangard_lang', currentLang);
+            updateBrandInfo();
             router();
         }
 
@@ -280,7 +319,6 @@
             
             const routeName = parts[0];
 
-            // چک کردن اینکه دیتا لود شده است یا نه
             if (typeof PROVINCES_DATA === 'undefined') {
                 document.getElementById('app-content').innerHTML = '<p style="text-align:center; margin-top:50px;">در حال بارگذاری داده‌ها...</p>';
                 return;
@@ -315,7 +353,8 @@
         }
 
         function renderHome(t) {
-            const featured = ATTRACTIONS_DATA.filter(a => a.category_fa.includes('یونسکو')).slice(0, 6);
+            // تغییر: به جای فیلتر یونسکو که فقط ۱ آیتم بود، ۶ جاذبه اول را نشان می‌دهیم
+            const featured = ATTRACTIONS_DATA.slice(0, 6);
             const homeProvinces = PROVINCES_DATA.slice(0, 6);
 
             const html = `
@@ -454,14 +493,16 @@
             const desc = currentLang === 'fa' ? city.desc_fa : city.desc_en;
             const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : '';
             
+            // اگر نام شهر و استان یکسان بود، لینک زیرنویس حذف می‌شود
+            const isSameName = (currentLang === 'fa' && city.name_fa === prov.name_fa) || (currentLang === 'en' && city.name_en === prov.name_en);
+            const subtitleHtml = isSameName ? '' : `<p class="page-subtitle" onclick="window.location.hash='#/province/${city.province_id}'" style="cursor:pointer; color:var(--primary)">${provName} ↗</p>`;
+            
             const cityAttractions = ATTRACTIONS_DATA.filter(a => a.city_id === city.id);
 
             const html = `
                 <button class="button button-outline" onclick="history.back()">← ${t['btn.back']}</button>
                 <h1 class="page-title">${name}</h1>
-                <p class="page-subtitle" onclick="window.location.hash='#/province/${city.province_id}'" style="cursor:pointer; color:var(--primary)">
-                    ${provName} ↗
-                </p>
+                ${subtitleHtml}
 
                 <div class="card">
                     <div class="rich-text">${desc}</div>
@@ -517,7 +558,7 @@
                 </div>
 
                 <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:20px;">
-                    ${cityName ? `<button class="button" style="background:var(--surface-secondary); color:var(--text-primary); margin:0;" onclick="window.location.hash='#/city/${city.id}'">${t['attraction.city']}: ${cityName}</button>` : ''}
+                    ${cityName && cityName !== name ? `<button class="button" style="background:var(--surface-secondary); color:var(--text-primary); margin:0;" onclick="window.location.hash='#/city/${city.id}'">${t['attraction.city']}: ${cityName}</button>` : ''}
                     ${provName ? `<button class="button" style="background:var(--surface-secondary); color:var(--text-primary); margin:0;" onclick="window.location.hash='#/province/${prov.id}'">${t['attraction.province']}: ${provName}</button>` : ''}
                 </div>
 
@@ -626,12 +667,12 @@
                 const desc = currentLang === 'fa' ? p.desc_fa : p.desc_en;
                 const isFav = favorites.includes(p.id);
                 return `
-                    <div class="card clickable" onclick="window.location.hash='#/province/${p.id}'">
-                        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${p.id}', event)">
+                    <div class="card clickable" onclick="window.location.hash='#/province/${p.id}'" style="padding: 12px;">
+                        <button class="fav-btn ${isFav ? 'active' : ''}" style="top:8px; left:8px;" onclick="toggleFavorite('${p.id}', event)">
                             ${isFav ? '❤️' : '♡'}
                         </button>
-                        <h3 class="card-title">${name}</h3>
-                        <p class="card-description" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${desc}</p>
+                        <h3 class="card-title" style="font-size:15px; padding-left:24px;">${name}</h3>
+                        <p class="card-description" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size:11px;">${desc}</p>
                     </div>
                 `;
             }).join('');
@@ -647,8 +688,8 @@
                     <button class="fav-btn ${isFav ? 'active' : ''}" style="top:8px; left:8px;" onclick="toggleFavorite('${attr.id}', event)">
                         ${isFav ? '❤️' : '♡'}
                     </button>
-                    <span class="badge" style="font-size:10px; margin-bottom:4px; margin-left:25px;">${cat}</span>
-                    <h3 class="card-title" style="font-size:15px;">${name}</h3>
+                    <span class="badge" style="font-size:10px; margin-bottom:4px; margin-left:24px;">${cat}</span>
+                    <h3 class="card-title" style="font-size:14px;">${name}</h3>
                 </div>
             `;
         }
@@ -721,10 +762,8 @@
         }
     </script>
     
-    <!-- لود کردن فایل دیتا -->
     <script src="/data.js"></script>
 
-    <!-- فعال‌سازی Service Worker -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
