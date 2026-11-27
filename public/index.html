@@ -1,121 +1,102 @@
 
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" data-theme="light">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#0f766e">
-    <meta name="description" content="ایران‌گرد؛ راهنمای گردشگری ایران">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>ایران‌گرد | Irangard</title>
+    <meta
+        name="theme-color"
+        content="#146c43"
+    >
+
+    <meta
+        name="description"
+        content="ایران‌گرد هیرکان؛ راهنمای رایگان گردشگری ایران"
+    >
+
+    <meta name="application-name" content="ایران‌گرد هیرکان">
+
+    <title>ایران‌گرد هیرکان | Irangard Hirkan</title>
 
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./css/styles.css">
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link
+        rel="icon"
+        type="image/png"
+        href="./icons/icon-192.png"
+    >
+
+    <link rel="stylesheet" href="./css/style.css">
 
     <script src="./js/app.js" defer></script>
 </head>
 
-<body>
+<body class="loading">
 
-    <div class="app-container">
+    <header class="app-header">
+        <a href="#/" class="brand" aria-label="صفحه اصلی">
+            <span id="brand-name">ایران‌گرد هیرکان</span>
+        </a>
+    </header>
 
-        <!-- Top Navigation -->
-        <header class="topbar">
-
-            <div class="topbar-start">
-
-                <button
-                    id="back-button"
-                    class="icon-button back-button"
-                    type="button"
-                    aria-label="Back"
-                    hidden
-                >
-                    <span aria-hidden="true">←</span>
-                </button>
-
-                <a href="#/home" class="brand">
-                    <span class="brand-icon" aria-hidden="true">🇮🇷</span>
-                    <span class="brand-name" data-i18n="app_name">
-                        ایران‌گرد
-                    </span>
-                </a>
-
-            </div>
-
-            <div class="topbar-actions">
-
-                <button
-                    id="theme-toggle"
-                    class="icon-button"
-                    type="button"
-                    aria-label="Toggle theme"
-                    title="Toggle theme"
-                >
-                    <span id="theme-icon" aria-hidden="true">☾</span>
-                </button>
-
-                <button
-                    id="language-toggle"
-                    class="language-button"
-                    type="button"
-                    aria-label="Change language"
-                >
-                    EN
-                </button>
-
-            </div>
-
-        </header>
-
-
-        <!-- Main Application Content -->
-        <main id="app-content" class="main-content" tabindex="-1">
-
-            <section class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>در حال بارگذاری...</p>
-            </section>
-
-        </main>
-
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav" aria-label="Main navigation">
-
-            <a href="#/home" class="nav-item" data-route="home">
-                <span class="nav-icon" aria-hidden="true">⌂</span>
-                <span data-i18n="nav.home">خانه</span>
-            </a>
-
-            <a href="#/provinces" class="nav-item" data-route="provinces">
-                <span class="nav-icon" aria-hidden="true">◈</span>
-                <span data-i18n="nav.provinces">استان‌ها</span>
-            </a>
-
-            <a href="#/travel-info" class="nav-item" data-route="travel-info">
-                <span class="nav-icon" aria-hidden="true">✈</span>
-                <span data-i18n="nav.travel_info">اطلاعات سفر</span>
-            </a>
-
-            <a href="#/favorites" class="nav-item" data-route="favorites">
-                <span class="nav-icon" aria-hidden="true">♡</span>
-                <span data-i18n="nav.favorites">علاقه‌مندی‌ها</span>
-            </a>
-
-            <a href="#/settings" class="nav-item" data-route="settings">
-                <span class="nav-icon" aria-hidden="true">⚙</span>
-                <span data-i18n="nav.settings">تنظیمات</span>
-            </a>
-
-        </nav>
-
+    <div
+        id="app-loader"
+        role="status"
+        aria-live="polite"
+    >
+        در حال بارگذاری...
     </div>
+
+    <div
+        id="app-error"
+        role="alert"
+        hidden
+    ></div>
+
+    <main id="app">
+
+        <section id="home">
+            <h1 data-i18n="home.title">
+                به ایران‌گرد هیرکان خوش آمدید
+            </h1>
+
+            <p data-i18n="home.subtitle">
+                زیبایی‌های ایران را کشف کنید
+            </p>
+
+            <nav aria-label="منوی اصلی">
+                <a href="#/" data-i18n="nav.home">خانه</a>
+                <a href="#/provinces" data-i18n="nav.provinces">
+                    استان‌ها
+                </a>
+                <a href="#/favorites" data-i18n="nav.favorites">
+                    علاقه‌مندی‌ها
+                </a>
+                <a href="#/settings" data-i18n="nav.settings">
+                    تنظیمات
+                </a>
+                <a href="#/about" data-i18n="nav.about">
+                    درباره ما
+                </a>
+            </nav>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>
+            © Hirkan Develop Group
+        </p>
+
+        <a href="https://hdg.hirkansara.ir" target="_blank" rel="noopener noreferrer">
+            Hirkan Develop Group
+        </a>
+    </footer>
 
 </body>
 </html>
