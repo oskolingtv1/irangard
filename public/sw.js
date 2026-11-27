@@ -1,4 +1,4 @@
-const CACHE_NAME = 'irangard-v2';
+const CACHE_NAME = 'irangard-v3';
 const ASSETS = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', (e) => {
