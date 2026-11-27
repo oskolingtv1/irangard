@@ -44,13 +44,17 @@
             font-size: 10px; font-family: monospace; background: var(--surface-secondary);
             color: var(--text-muted); padding: 2px 6px; border-radius: 10px; margin-right: 4px;
         }
+        .topbar-actions { display: flex; align-items: center; gap: 8px; }
+        
         .icon-button {
             width: 36px; height: 36px; border: 1px solid var(--border); border-radius: var(--radius-sm);
             background: var(--surface); color: var(--text-primary); display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
         }
         .language-button { padding: 6px 10px; background: var(--primary-light); color: var(--primary); border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 13px; }
+        .exit-button { color: var(--danger); border-color: var(--danger); }
 
-        /* Bottom Nav (Adjusted for 6 items on small screens) */
+        /* Bottom Nav */
         .bottom-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 900px; height: 64px; display: flex; align-items: center; justify-content: space-around;
@@ -60,7 +64,6 @@
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         .nav-item.active { color: var(--primary); font-weight: 700; }
         
-        /* Fix for small screens to prevent overlap */
         @media (min-width: 380px) {
             .nav-item { font-size: 10px; }
             .nav-icon { font-size: 20px; }
@@ -84,7 +87,6 @@
             color: var(--text-primary); margin-top: 10px;
         }
         
-        /* Responsive Grid: Mobile 2 columns, Tablet 3-4 columns */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
         
         .button {
@@ -133,7 +135,6 @@
         .hirkan-banner-description { margin: 0; font-size: 12px; opacity: 0.85; }
         .hirkan-banner-link { padding: 8px 12px; border: 1px solid rgba(255,255,255,0.5); border-radius: var(--radius-sm); color: white; font-size: 12px; font-weight: 700; white-space: nowrap; }
 
-        /* Mobile fix for Hirkan Banner */
         @media (max-width: 450px) {
             .hirkan-banner {
                 flex-direction: column;
@@ -156,9 +157,12 @@
                 <span id="app-name">ایران‌گرد هیرکان</span>
                 <span class="version-badge" id="version-display"></span>
             </div>
-            <div style="display:flex; gap:8px;">
-                <button id="theme-toggle" class="icon-button">☾</button>
-                <button id="lang-toggle" class="language-button">EN</button>
+            
+            <div class="topbar-actions">
+                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">☾</button>
+                <button class="language-button" onclick="toggleLanguage()" id="lang-toggle">EN</button>
+                <!-- دکمه خروج -->
+                <button class="icon-button exit-button" onclick="exitApp()" title="خروج">✖</button>
             </div>
         </header>
 
@@ -198,7 +202,7 @@
             "fa": {
                 "home.title": "به ایران‌گرد هیرکان خوش آمدید", "home.desc": "زیبایی‌های ایران را کشف کنید",
                 "nav.home": "خانه", "nav.provinces": "استان‌ها", "nav.attractions": "جاذبه‌ها", "nav.travel": "سفر", "nav.favorites": "علاقه‌مندی", "nav.settings": "تنظیمات",
-                "hirkan.title": "توسعه‌یافته توسط هیرکان", "hirkan.desc": "طراحی و توسعه توسط Hirkan Develop Group", "hirkan.btn": "وب‌سایت هیرکان",
+                "hirkan.btn": "مشاهده",
                 "search.placeholder": "جستجوی استان، شهر یا جاذبه...", "search.results": "نتایج جستجو",
                 "provinces.title": "استان‌های ایران", "province.capital": "مرکز استان",
                 "attractions.title": "جاذبه‌های گردشگری ایران", "city.attractions": "جاذبه‌های گردشگری",
@@ -217,7 +221,7 @@
             "en": {
                 "home.title": "Welcome to Irangard Hirkan", "home.desc": "Discover the beauty of Iran",
                 "nav.home": "Home", "nav.provinces": "Provinces", "nav.attractions": "Attractions", "nav.travel": "Travel", "nav.favorites": "Favorites", "nav.settings": "Settings",
-                "hirkan.title": "Developed by Hirkan", "hirkan.desc": "Designed and developed by Hirkan Develop Group", "hirkan.btn": "Hirkan Website",
+                "hirkan.btn": "View",
                 "search.placeholder": "Search province, city or attraction...", "search.results": "Search Results",
                 "provinces.title": "Provinces of Iran", "province.capital": "Capital",
                 "attractions.title": "Tourist Attractions of Iran", "city.attractions": "Tourist Attractions",
@@ -235,7 +239,6 @@
             }
         };
 
-        // آپدیت نام اپ و شماره نسخه در هدر
         function updateBrandInfo() {
             const brandName = document.getElementById('app-name');
             const versionBadge = document.getElementById('version-display');
@@ -257,14 +260,23 @@
         
         updateBrandInfo();
 
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-        document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
-
         window.addEventListener('hashchange', router);
         window.addEventListener('DOMContentLoaded', () => {
             if (!window.location.hash) window.location.hash = '#/';
             router();
         });
+
+        // تابع خروج از اپ
+        function exitApp() {
+            const msg = currentLang === 'fa' ? 'آیا از برنامه خارج می‌شوید؟' : 'Are you sure you want to exit?';
+            if(confirm(msg)) {
+                window.close(); // تلاش برای بستن اپ (در PWA نصب شده کار می‌کند)
+                // اگر مرورگر اجازه نداد، یک صفحه خالی باز می‌کند
+                setTimeout(() => {
+                    window.location.href = "about:blank";
+                }, 100);
+            }
+        }
 
         function toggleTheme() {
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -352,8 +364,31 @@
             window.scrollTo(0, 0);
         }
 
+        // =========================================
+        // بنر هیرکان (چرخشی و تصادفی)
+        // =========================================
+        function getHirkanBanner(t) {
+            // اگر دیتای محصولات لود نشده بود، یک پیش‌فرض نمایش بده
+            const products = typeof HIRKAN_PRODUCTS !== 'undefined' && HIRKAN_PRODUCTS.length > 0 ? HIRKAN_PRODUCTS : [
+                { title_fa: "وب‌سایت هیرکان", title_en: "Hirkan Website", desc_fa: "طراحی و توسعه", desc_en: "Design & Dev", url: "https://hdg.hirkansara.ir" }
+            ];
+            
+            // انتخاب یک محصول به صورت رندوم
+            const p = products[Math.floor(Math.random() * products.length)];
+
+            return `
+                <div class="hirkan-banner">
+                    <div>
+                        <div class="hirkan-banner-title">${currentLang === 'fa' ? p.title_fa : p.title_en}</div>
+                        <div class="hirkan-banner-description">${currentLang === 'fa' ? p.desc_fa : p.desc_en}</div>
+                    </div>
+                    <a href="${p.url}" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
+                </div>
+            `;
+        }
+
+        // ... (بقیه توابع رندر صفحات دقیقاً مثل قبل بدون تغییر می‌مانند)
         function renderHome(t) {
-            // تغییر: به جای فیلتر یونسکو که فقط ۱ آیتم بود، ۶ جاذبه اول را نشان می‌دهیم
             const featured = ATTRACTIONS_DATA.slice(0, 6);
             const homeProvinces = PROVINCES_DATA.slice(0, 6);
 
@@ -493,7 +528,6 @@
             const desc = currentLang === 'fa' ? city.desc_fa : city.desc_en;
             const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : '';
             
-            // اگر نام شهر و استان یکسان بود، لینک زیرنویس حذف می‌شود
             const isSameName = (currentLang === 'fa' && city.name_fa === prov.name_fa) || (currentLang === 'en' && city.name_en === prov.name_en);
             const subtitleHtml = isSameName ? '' : `<p class="page-subtitle" onclick="window.location.hash='#/province/${city.province_id}'" style="cursor:pointer; color:var(--primary)">${provName} ↗</p>`;
             
@@ -647,18 +681,6 @@
                 ${getHirkanBanner(t)}
             `;
             document.getElementById('app-content').innerHTML = html;
-        }
-
-        function getHirkanBanner(t) {
-            return `
-                <div class="hirkan-banner">
-                    <div>
-                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
-                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
-                    </div>
-                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
-                </div>
-            `;
         }
 
         function generateProvinceCards(data, t) {
