@@ -1,0 +1,14 @@
+{
+  "name": "ایران‌گرد | Irangard",
+  "short_name": "ایران‌گرد",
+  "description": "راهنمای گردشگری ایران — گروه توسعه هیرکان",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1a5490",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": []
+}
