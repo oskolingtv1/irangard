@@ -7,63 +7,31 @@
     <title>ایران‌گرد هیرکان | Irangard Hirkan</title>
     
     <style>
-        /* =========================================
-           THEME VARIABLES
-           ========================================= */
         :root {
-            --primary: #0f766e;
-            --primary-hover: #115e59;
-            --primary-light: #ccfbf1;
-            --background: #f8fafc;
-            --surface: #ffffff;
-            --surface-secondary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --banner-background: #134e4a;
-            --banner-text: #ffffff;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --font-persian: "Vazirmatn", Tahoma, sans-serif;
-            --font-default: system-ui, -apple-system, sans-serif;
+            --primary: #0f766e; --primary-hover: #115e59; --primary-light: #ccfbf1;
+            --background: #f8fafc; --surface: #ffffff; --surface-secondary: #f1f5f9;
+            --text-primary: #0f172a; --text-secondary: #64748b; --text-muted: #94a3b8;
+            --border: #e2e8f0; --banner-background: #134e4a; --banner-text: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px;
+            --font-persian: "Vazirmatn", Tahoma, sans-serif; --font-default: system-ui, -apple-system, sans-serif;
         }
-
         [data-theme="dark"] {
-            --primary: #2dd4bf;
-            --primary-light: #134e4a;
-            --background: #0f172a;
-            --surface: #1e293b;
-            --surface-secondary: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --border: #334155;
-            --banner-background: #042f2e;
+            --primary: #2dd4bf; --primary-light: #134e4a; --background: #0f172a;
+            --surface: #1e293b; --surface-secondary: #334155; --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1; --border: #334155; --banner-background: #042f2e;
         }
-
-        /* =========================================
-           RESET & LAYOUT
-           ========================================= */
         * { box-sizing: border-box; }
         body {
-            margin: 0; min-height: 100vh;
-            background: var(--background); color: var(--text-primary);
-            font-family: var(--font-default); font-size: 15px; line-height: 1.7;
-            transition: background 0.2s, color 0.2s;
+            margin: 0; min-height: 100vh; background: var(--background); color: var(--text-primary);
+            font-family: var(--font-default); font-size: 15px; line-height: 1.7; transition: background 0.2s, color 0.2s;
         }
         html[lang="fa"] { font-family: var(--font-persian); }
-        a { color: inherit; text-decoration: none; }
-        button { cursor: pointer; font: inherit; }
+        a { color: inherit; text-decoration: none; } button { cursor: pointer; font: inherit; }
 
         .app-container { max-width: 900px; margin-inline: auto; min-height: 100vh; position: relative; }
         .main-content { padding: 20px 16px 100px; }
 
-        /* =========================================
-           TOPBAR & NAV
-           ========================================= */
         .topbar {
             height: 64px; display: flex; align-items: center; justify-content: space-between;
             padding-inline: 16px; background: var(--surface); border-bottom: 1px solid var(--border);
@@ -85,9 +53,6 @@
         .nav-icon { font-size: 22px; }
         .nav-item.active { color: var(--primary); font-weight: 700; }
 
-        /* =========================================
-           CONTENT & CARDS
-           ========================================= */
         .page-title { margin: 0 0 8px; font-size: 25px; font-weight: 700; }
         .page-subtitle { margin: 0 0 22px; color: var(--text-secondary); font-size: 14px; }
         .section-title { margin: 26px 0 14px; font-size: 19px; font-weight: 700; }
@@ -104,6 +69,10 @@
             min-height: 44px; padding: 10px 18px; border: none; border-radius: var(--radius-md);
             background: var(--primary); color: #fff; font-weight: 700; margin-top: 16px; text-decoration: none;
         }
+        .button-outline {
+            background: var(--surface-secondary); color: var(--text-primary); border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
         .search-container { position: relative; margin: 20px 0; }
         .input {
             width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--border);
@@ -111,9 +80,15 @@
         }
         .input:focus { border-color: var(--primary); }
 
-        /* =========================================
-           HIRKAN PROMO BANNER
-           ========================================= */
+        .badge {
+            display: inline-block; padding: 4px 10px; background: var(--primary-light);
+            color: var(--primary); border-radius: 30px; font-size: 12px; font-weight: 700; margin-bottom: 8px;
+        }
+        .tips-box {
+            background: var(--surface-secondary); border-right: 4px solid var(--primary);
+            padding: 12px; border-radius: var(--radius-sm); margin-top: 16px; font-size: 14px;
+        }
+
         .hirkan-banner {
             margin-top: 32px; padding: 18px; background: var(--banner-background); color: var(--banner-text);
             border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -126,7 +101,6 @@
 <body>
 
     <div class="app-container">
-        <!-- Top Nav -->
         <header class="topbar">
             <div class="brand" onclick="window.location.hash='#/'">
                 <span>🇮🇷</span>
@@ -138,39 +112,30 @@
             </div>
         </header>
 
-        <!-- Main Content Area -->
-        <main id="app-content" class="main-content">
-            <!-- محتوا توسط جاوااسکریپت لود می‌شود -->
-        </main>
+        <main id="app-content" class="main-content"></main>
 
-        <!-- Bottom Nav -->
         <nav class="bottom-nav">
             <div class="nav-item active" onclick="window.location.hash='#/'">
-                <span class="nav-icon">⌂</span>
-                <span>خانه</span>
+                <span class="nav-icon">⌂</span><span>خانه</span>
             </div>
             <div class="nav-item" onclick="window.location.hash='#/provinces'">
-                <span class="nav-icon">◈</span>
-                <span>استان‌ها</span>
+                <span class="nav-icon">◈</span><span>استان‌ها</span>
             </div>
             <div class="nav-item">
-                <span class="nav-icon">✈</span>
-                <span>سفر</span>
+                <span class="nav-icon">✈</span><span>سفر</span>
             </div>
             <div class="nav-item">
-                <span class="nav-icon">♡</span>
-                <span>علاقه‌مندی</span>
+                <span class="nav-icon">♡</span><span>علاقه‌مندی</span>
             </div>
             <div class="nav-item">
-                <span class="nav-icon">⚙</span>
-                <span>تنظیمات</span>
+                <span class="nav-icon">⚙</span><span>تنظیمات</span>
             </div>
         </nav>
     </div>
 
     <script>
         // =========================================
-        // DATA (From ChatGPT)
+        // DATA
         // =========================================
         const PROVINCES_DATA = [
             { id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', capital_id: 'tehran', desc_fa: 'استان تهران مرکز سیاسی، اقتصادی و فرهنگی ایران است.', desc_en: 'Tehran Province is the political, economic, and cultural center of Iran.' },
@@ -240,6 +205,72 @@
             { id: 'qom', name_fa: 'قم', name_en: 'Qom', province_id: 'qom', desc_fa: 'قم شهری مذهبی و تاریخی با حرم حضرت معصومه و مراکز فرهنگی است.', desc_en: 'Qom is a religious and historic city known for the Shrine of Fatima Masumeh and cultural centers.' }
         ];
 
+        const ATTRACTIONS_DATA = [
+            // Batch 1
+            { id: 'persepolis', name_fa: 'تخت جمشید', name_en: 'Persepolis', city_id: 'marvdasht', province_id: 'fars', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'تخت جمشید پایتخت تشریفاتی امپراتوری هخامنشی بود که به دستور داریوش بزرگ ساخته شد. این مجموعه باستانی با ستون‌های عظیم، پلکان‌های سنگی و نقش‌برجسته‌های باشکوه، نمادی از هنر و تمدن ایران باستان است.', desc_en: 'Persepolis was the ceremonial capital of the Achaemenid Empire, founded under Darius the Great. Its monumental columns, stone staircases, and magnificent reliefs showcase the art and civilization of ancient Persia.', tips_fa: 'برای بازدید کامل، صبح زود و در هوای خنک مراجعه کنید.', tips_en: 'Visit early in the morning for a more comfortable experience.' },
+            { id: 'naqsh-e-rostam', name_fa: 'نقش رستم', name_en: 'Naqsh-e Rostam', city_id: 'marvdasht', province_id: 'fars', category_fa: 'میراث تاریخی', category_en: 'Historical Heritage', desc_fa: 'نقش رستم مجموعه‌ای از آرامگاه‌های شاهان هخامنشی و سنگ‌نگاره‌های ساسانی است. این محوطه تاریخی از مهم‌ترین آثار باستانی ایران بوده و روایتگر بخش بزرگی از تاریخ شاهنشاهی ایران است.', desc_en: 'Naqsh-e Rostam contains the rock-cut tombs of Achaemenid kings and remarkable Sassanian reliefs. This archaeological site is one of Iran’s most important historical landmarks, illustrating centuries of Persian imperial history.', tips_fa: 'بازدید از نقش رستم را با تخت جمشید در یک روز برنامه‌ریزی کنید.', tips_en: 'Combine your visit with Persepolis for a full-day historical tour.' },
+            { id: 'pasargadae', name_fa: 'پاسارگاد', name_en: 'Pasargadae', city_id: 'pasargad', province_id: 'fars', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'پاسارگاد نخستین پایتخت امپراتوری هخامنشی و محل آرامگاه کوروش بزرگ است. باغ‌های تاریخی، کاخ‌ها و بقایای معماری این مجموعه نشان‌دهنده آغاز شکوفایی هنر و معماری هخامنشی هستند.', desc_en: 'Pasargadae was the first capital of the Achaemenid Empire and is home to the tomb of Cyrus the Great. Its ancient gardens, palaces, and architectural remains represent the beginnings of Achaemenid artistic and architectural achievements.', tips_fa: 'برای دیدن تمام بخش‌های مجموعه، چند ساعت زمان اختصاص دهید.', tips_en: 'Allow several hours to explore the entire archaeological complex.' },
+            { id: 'naqsh-e-jahan', name_fa: 'میدان نقش جهان', name_en: 'Naqsh-e Jahan Square', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'میدان نقش جهان یکی از بزرگ‌ترین میدان‌های تاریخی جهان است که در دوره صفویه ساخته شد. این میدان با مساجد تاریخی، کاخ عالی‌قاپو و بازارهای سنتی، جلوه‌ای بی‌نظیر از معماری ایرانی را به نمایش می‌گذارد.', desc_en: 'Naqsh-e Jahan Square is one of the largest historic squares in the world, built during the Safavid era. Surrounded by historic mosques, Ali Qapu Palace, and traditional bazaars, it showcases the magnificence of Persian architecture.', tips_fa: 'غروب آفتاب زمان مناسبی برای قدم‌زدن و عکاسی در میدان است.', tips_en: 'Sunset is an excellent time for walking and photography.' },
+            { id: 'ali-qapu', name_fa: 'کاخ عالی‌قاپو', name_en: 'Ali Qapu Palace', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'کاخ تاریخی', category_en: 'Historical Palace', desc_fa: 'کاخ عالی‌قاپو یکی از بناهای شاخص دوره صفویه در میدان نقش جهان است. تالار موسیقی، نقاشی‌های دیواری و ایوان مرتفع آن از ویژگی‌های برجسته معماری این کاخ هستند.', desc_en: 'Ali Qapu Palace is one of the most prominent Safavid monuments overlooking Naqsh-e Jahan Square. Its music hall, wall paintings, and elevated terrace are among the palace’s most remarkable architectural features.', tips_fa: 'تالار موسیقی و ایوان بالایی کاخ را از دست ندهید.', tips_en: 'Do not miss the music hall and the upper terrace.' },
+            { id: 'imam-mosque-isfahan', name_fa: 'مسجد امام اصفهان', name_en: 'Imam Mosque of Isfahan', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد امام اصفهان یکی از شاهکارهای معماری اسلامی و صفوی است که در ضلع جنوبی میدان نقش جهان قرار دارد. کاشی‌کاری‌های فیروزه‌ای، گنبد باشکوه و کتیبه‌های هنری آن شهرت جهانی دارند.', desc_en: 'The Imam Mosque of Isfahan is a masterpiece of Islamic and Safavid architecture located on the southern side of Naqsh-e Jahan Square. Its turquoise tilework, magnificent dome, and artistic inscriptions are internationally renowned.', tips_fa: 'برای مشاهده جزئیات کاشی‌کاری‌ها با دقت در حیاط و شبستان‌ها قدم بزنید.', tips_en: 'Explore the courtyard and prayer halls to appreciate the intricate tilework.' },
+            { id: 'sheikh-lotfollah-mosque', name_fa: 'مسجد شیخ لطف‌الله', name_en: 'Sheikh Lotfollah Mosque', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد شیخ لطف‌الله از زیباترین بناهای دوره صفوی در میدان نقش جهان است. گنبد کرم‌رنگ، نقوش ظریف اسلیمی و تغییر رنگ کاشی‌های آن در نور روز از جذابیت‌های ویژه این بنا محسوب می‌شوند.', desc_en: 'Sheikh Lotfollah Mosque is one of the most beautiful Safavid monuments in Naqsh-e Jahan Square. Its cream-colored dome, delicate arabesque patterns, and changing tile colors under daylight make it particularly distinctive.', tips_fa: 'در ساعات مختلف روز از تغییر رنگ گنبد دیدن کنید.', tips_en: 'Observe the dome at different times of day to appreciate its changing colors.' },
+            { id: 'chehel-sotoun', name_fa: 'کاخ چهلستون', name_en: 'Chehel Sotoun Palace', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'کاخ تاریخی', category_en: 'Historical Palace', desc_fa: 'کاخ چهلستون از بناهای باشکوه دوره صفویه در اصفهان است که در میان باغی زیبا قرار دارد. ایوان ستون‌دار، استخر بزرگ و نقاشی‌های تاریخی تالار اصلی، جلوه‌ای از هنر درباری ایران را نشان می‌دهند.', desc_en: 'Chehel Sotoun Palace is a magnificent Safavid monument situated within a beautiful garden in Isfahan. Its columned veranda, large reflecting pool, and historical paintings showcase the artistic traditions of the Persian royal court.', tips_fa: 'بازتاب ستون‌ها در آب استخر را برای عکاسی امتحان کنید.', tips_en: 'Photograph the reflections of the columns in the palace pool.' },
+            { id: 'jameh-mosque-isfahan', name_fa: 'مسجد جامع اصفهان', name_en: 'Jameh Mosque of Isfahan', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'مسجد جامع اصفهان یکی از قدیمی‌ترین و مهم‌ترین مساجد تاریخی ایران است که در طول قرن‌ها توسعه یافته است. این بنا مجموعه‌ای ارزشمند از سبک‌های معماری دوره‌های مختلف ایران اسلامی را در خود جای داده است.', desc_en: 'The Jameh Mosque of Isfahan is one of Iran’s oldest and most significant historic mosques, developed over many centuries. It contains an extraordinary collection of architectural styles from different periods of Islamic Persian history.', tips_fa: 'برای مشاهده تنوع معماری، بخش‌های مختلف مسجد را به‌طور کامل بازدید کنید.', tips_en: 'Explore the different sections to discover its diverse architectural styles.' },
+            { id: 'si-o-se-pol', name_fa: 'پل سی‌وسه‌پل', name_en: 'Si-o-se-pol Bridge', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'پل تاریخی', category_en: 'Historic Bridge', desc_fa: 'سی‌وسه‌پل یکی از معروف‌ترین پل‌های تاریخی ایران است که در دوره شاه عباس صفوی ساخته شد. این پل با ۳۳ دهانه و معماری آجری چشمگیر، زاینده‌رود را به یکی از نمادهای شهر اصفهان تبدیل کرده است.', desc_en: 'Si-o-se-pol is one of Iran’s most famous historic bridges, built during the reign of Shah Abbas I. With its 33 arches and impressive brick architecture, it has become one of Isfahan’s most recognizable landmarks.', tips_fa: 'شب‌ها برای تماشای نورپردازی و معماری پل مراجعه کنید.', tips_en: 'Visit at night to enjoy the bridge’s architecture and illumination.' },
+            { id: 'khaju-bridge', name_fa: 'پل خواجو', name_en: 'Khaju Bridge', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'پل تاریخی', category_en: 'Historic Bridge', desc_fa: 'پل خواجو از زیباترین پل‌های تاریخی اصفهان است که در دوره صفویه ساخته شد. معماری چندطبقه، تزئینات کاشی‌کاری و فضای تاریخی آن، این پل را به یکی از جاذبه‌های مهم شهر تبدیل کرده است.', desc_en: 'Khaju Bridge is one of the most beautiful historic bridges in Isfahan, built during the Safavid period. Its multi-level architecture, decorative tilework, and historic atmosphere make it an important city attraction.', tips_fa: 'برای تماشای جزئیات معماری، از طبقات مختلف پل بازدید کنید.', tips_en: 'Explore its different levels to appreciate the architectural details.' },
+            { id: 'golestan-palace', name_fa: 'کاخ گلستان', name_en: 'Golestan Palace', city_id: 'tehran', province_id: 'tehran', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'کاخ گلستان مجموعه‌ای تاریخی از دوران قاجار و یکی از مهم‌ترین آثار معماری تهران است. تالار آینه، تخت مرمر و تزئینات کاشی‌کاری و آینه‌کاری آن، هنر و شکوه دربار قاجار را به نمایش می‌گذارند.', desc_en: 'Golestan Palace is a historic Qajar-era complex and one of Tehran’s most important architectural landmarks. Its Mirror Hall, Marble Throne, and intricate tile and mirror decorations showcase the artistic heritage of the Qajar court.', tips_fa: 'برای بازدید از تالارهای مختلف، زمان کافی در نظر بگیرید.', tips_en: 'Allow enough time to explore the palace’s various halls and museums.' },
+            { id: 'national-museum-iran', name_fa: 'موزه ملی ایران', name_en: 'National Museum of Iran', city_id: 'tehran', province_id: 'tehran', category_fa: 'موزه', category_en: 'Museum', desc_fa: 'موزه ملی ایران مهم‌ترین موزه باستان‌شناسی کشور است و آثار ارزشمندی از دوران پیشاتاریخ تا دوره اسلامی را نگهداری می‌کند. این مجموعه فرصتی برای آشنایی با تاریخ، فرهنگ و تمدن چندین هزار ساله ایران فراهم می‌کند.', desc_en: 'The National Museum of Iran is the country’s most important archaeological museum, preserving valuable artifacts from prehistoric times through the Islamic period. It offers visitors an opportunity to explore thousands of years of Iranian history and civilization.', tips_fa: 'بازدید از هر دو بخش ایران باستان و دوران اسلامی را برنامه‌ریزی کنید.', tips_en: 'Plan to visit both the Ancient Iran and Islamic Archaeology sections.' },
+            { id: 'saadabad-palace', name_fa: 'مجموعه کاخ سعدآباد', name_en: 'Saadabad Palace Complex', city_id: 'tehran', province_id: 'tehran', category_fa: 'مجموعه تاریخی', category_en: 'Historical Complex', desc_fa: 'مجموعه سعدآباد در منطقه خوش‌آب‌وهوای شمال تهران قرار دارد و شامل کاخ‌ها و موزه‌های متعددی است. این مجموعه در دوره قاجار شکل گرفت و در دوره پهلوی به اقامتگاه سلطنتی تبدیل شد.', desc_en: 'The Saadabad Complex is located in the scenic northern part of Tehran and contains numerous palaces and museums. Originally developed during the Qajar era, it later became a royal residence during the Pahlavi period.', tips_fa: 'برای بازدید از محوطه گسترده مجموعه کفش مناسب پیاده‌روی بپوشید.', tips_en: 'Wear comfortable walking shoes to explore the extensive grounds.' },
+            { id: 'milad-tower', name_fa: 'برج میلاد', name_en: 'Milad Tower', city_id: 'tehran', province_id: 'tehran', category_fa: 'جاذبه شهری', category_en: 'Urban Attraction', desc_fa: 'برج میلاد یکی از بلندترین برج‌های ایران و از نمادهای مدرن شهر تهران است. این برج دارای سکوی دید باز، فضاهای تفریحی، رستوران‌ها و امکانات فرهنگی و گردشگری است.', desc_en: 'Milad Tower is one of Iran’s tallest towers and a modern symbol of Tehran. It features observation decks, recreational spaces, restaurants, and cultural and tourist facilities.', tips_fa: 'در روزهای صاف برای تماشای چشم‌انداز گسترده تهران مراجعه کنید.', tips_en: 'Visit on a clear day for expansive views of Tehran.' },
+            { id: 'shah-cheragh', name_fa: 'شاهچراغ', name_en: 'Shah Cheragh Shrine', city_id: 'shiraz', province_id: 'fars', category_fa: 'زیارتگاه تاریخی', category_en: 'Historic Shrine', desc_fa: 'شاهچراغ آرامگاه احمد بن موسی، از شخصیت‌های مهم تاریخی و مذهبی شیراز است. فضای داخلی زیارتگاه با آینه‌کاری‌های درخشان، کاشی‌های رنگارنگ و معماری چشمگیر تزئین شده است.', desc_en: 'Shah Cheragh is the shrine of Ahmad ibn Musa, an important historical and religious figure in Shiraz. Its interior is decorated with brilliant mirror mosaics, colorful tiles, and striking architectural details.', tips_fa: 'هنگام بازدید، مقررات پوشش و عکاسی مجموعه را رعایت کنید.', tips_en: 'Respect the shrine’s dress code and photography regulations.' },
+            { id: 'hafez-tomb', name_fa: 'آرامگاه حافظ', name_en: 'Tomb of Hafez', city_id: 'shiraz', province_id: 'fars', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه حافظ، شاعر نامدار ایرانی، در باغی زیبا به نام حافظیه قرار دارد. معماری آرامگاه، فضای شاعرانه باغ و حضور دوستداران شعر فارسی، این مکان را به یکی از محبوب‌ترین جاذبه‌های فرهنگی شیراز تبدیل کرده است.', desc_en: 'The Tomb of Hafez, the resting place of the renowned Persian poet, is located in the beautiful Hafezieh Garden. Its architecture, poetic atmosphere, and visitors celebrating Persian literature make it one of Shiraz’s most beloved cultural attractions.', tips_fa: 'عصر هنگام برای تجربه فضای شاعرانه حافظیه زمان مناسبی است.', tips_en: 'Visit in the evening to enjoy the garden’s poetic atmosphere.' },
+            { id: 'saadi-tomb', name_fa: 'آرامگاه سعدی', name_en: 'Tomb of Saadi', city_id: 'shiraz', province_id: 'fars', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه سعدی در باغی سرسبز در شمال شرقی شیراز قرار دارد و محل دفن یکی از بزرگ‌ترین شاعران ادبیات فارسی است. معماری آرامگاه و حوض ماهی معروف آن، فضایی آرام و فرهنگی برای بازدیدکنندگان ایجاد کرده‌اند.', desc_en: 'The Tomb of Saadi is situated in a green garden in northeastern Shiraz and commemorates one of the greatest poets of Persian literature. Its architectural design and famous fish pond create a peaceful cultural atmosphere for visitors.', tips_fa: 'از فضای باغ و حوض ماهی نیز در کنار آرامگاه دیدن کنید.', tips_en: 'Take time to explore the garden and its famous fish pond.' },
+            { id: 'arg-e-karim-khan', name_fa: 'ارگ کریم‌خان', name_en: 'Arg of Karim Khan', city_id: 'shiraz', province_id: 'fars', category_fa: 'بنای تاریخی', category_en: 'Historical Monument', desc_fa: 'ارگ کریم‌خان در مرکز شیراز به دستور کریم‌خان زند ساخته شد و زمانی محل اقامت و حکومت او بود. برج‌های بلند، دیوارهای مستحکم و معماری آجری این بنا از ویژگی‌های شاخص آن هستند.', desc_en: 'The Arg of Karim Khan was built in central Shiraz by order of Karim Khan Zand and once served as his residence and seat of government. Its tall towers, fortified walls, and brick architecture are among its most distinctive features.', tips_fa: 'جزئیات برج‌ها و تزئینات معماری داخلی را با دقت مشاهده کنید.', tips_en: 'Pay attention to the towers and the interior architectural details.' },
+
+            // Batch 2
+            { id: 'chogha-zanbil', name_fa: 'چغازنبیل', name_en: 'Chogha Zanbil', city_id: 'shush', province_id: 'khuzestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'چغازنبیل یکی از مهم‌ترین زیگورات‌های باستانی جهان است که در تمدن ایلام ساخته شده است. این بنای مذهبی باستانی دارای ساختاری پلکانی و بقایای معابد و سازه‌های تاریخی ارزشمند است.', desc_en: 'Chogha Zanbil is one of the most important ancient ziggurats in the world, built by the Elamite civilization. This ancient religious monument features a stepped structure and the remains of valuable temples and historical buildings.', tips_fa: 'برای بازدید از محوطه وسیع، کفش مناسب و آب آشامیدنی همراه داشته باشید.', tips_en: 'Bring comfortable shoes and drinking water when exploring the site.' },
+            { id: 'susa-ancient-city', name_fa: 'شهر باستانی شوش', name_en: 'Ancient City of Susa', city_id: 'shush', province_id: 'khuzestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'شوش یکی از کهن‌ترین مراکز تمدنی ایران و جهان است که تاریخ سکونت در آن به هزاران سال پیش بازمی‌گردد. بقایای کاخ‌های باستانی، محوطه‌های باستان‌شناسی و آثار تاریخی متعدد، اهمیت این شهر را نشان می‌دهند.', desc_en: 'Susa is one of the oldest centers of civilization in Iran and the world, with a history of settlement dating back thousands of years. Ancient palace remains, archaeological areas, and numerous historical artifacts demonstrate the importance of this city.', tips_fa: 'بازدید از موزه شوش و قلعه تاریخی شوش را نیز در برنامه قرار دهید.', tips_en: 'Include the Susa Museum and historic Susa Castle in your visit.' },
+            { id: 'shushtar-historical-hydraulic-system', name_fa: 'سازه‌های آبی تاریخی شوشتر', name_en: 'Shushtar Historical Hydraulic System', city_id: 'shushtar', province_id: 'khuzestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'سازه‌های آبی شوشتر مجموعه‌ای شگفت‌انگیز از آسیاب‌ها، کانال‌ها، پل‌ها و آبشارهای مصنوعی هستند که قدمت بخش‌هایی از آن‌ها به دوران باستان می‌رسد. این مجموعه نمونه‌ای برجسته از مهندسی آب و مدیریت منابع طبیعی در ایران تاریخی است.', desc_en: 'The Shushtar Historical Hydraulic System is an extraordinary network of watermills, canals, bridges, and artificial waterfalls, with parts dating back to ancient times. It is an outstanding example of water engineering and resource management in historic Iran.', tips_fa: 'در ساعات روشنایی روز از محوطه آسیاب‌ها و آبشارها بازدید کنید.', tips_en: 'Visit the watermills and waterfalls during daylight hours.' },
+            { id: 'bishapur', name_fa: 'شهر باستانی بیشاپور', name_en: 'Bishapur Ancient City', city_id: 'kazerun', province_id: 'fars', category_fa: 'میراث تاریخی', category_en: 'Historical Heritage', desc_fa: 'بیشاپور شهری باستانی از دوره ساسانی است که به دستور شاپور اول ساخته شد. بقایای کاخ‌ها، معابد و نقش‌برجسته‌های ساسانی این شهر، اطلاعات ارزشمندی درباره هنر و معماری آن دوران ارائه می‌کنند.', desc_en: 'Bishapur is an ancient Sassanian city founded by order of Shapur I. Its palace ruins, temples, and Sassanian rock reliefs provide valuable insights into the art and architecture of that era.', tips_fa: 'بازدید از نقش‌برجسته‌های تنگ چوگان را با شهر بیشاپور ترکیب کنید.', tips_en: 'Combine your visit with the rock reliefs of Tang-e Chogan.' },
+            { id: 'arg-e-bam', name_fa: 'ارگ بم', name_en: 'Bam Citadel', city_id: 'bam', province_id: 'kerman', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'ارگ بم یکی از بزرگ‌ترین سازه‌های خشتی جهان و نمونه‌ای برجسته از معماری سنتی مناطق کویری ایران است. این مجموعه تاریخی شامل بخش‌های مسکونی، نظامی، حکومتی و فضاهای عمومی بوده است.', desc_en: 'Bam Citadel is one of the largest adobe structures in the world and an outstanding example of traditional architecture in Iran’s desert regions. The historic complex once included residential, military, governmental, and public areas.', tips_fa: 'پیش از بازدید، وضعیت بخش‌های قابل دسترس مجموعه را بررسی کنید.', tips_en: 'Check which sections of the citadel are accessible before visiting.' },
+            { id: 'shahzadeh-garden', name_fa: 'باغ شاهزاده ماهان', name_en: 'Shazdeh Garden', city_id: 'mahan', province_id: 'kerman', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'باغ شاهزاده ماهان یکی از زیباترین باغ‌های تاریخی ایران است که در نزدیکی شهر ماهان قرار دارد. حوض‌ها، فواره‌ها، درختان سرسبز و عمارت انتهایی باغ، نمونه‌ای چشمگیر از باغ‌سازی ایرانی هستند.', desc_en: 'Shazdeh Garden is one of Iran’s most beautiful historic gardens, located near the town of Mahan. Its pools, fountains, green trees, and elegant pavilion represent the remarkable tradition of Persian garden design.', tips_fa: 'بهار و اوایل پاییز زمان مناسبی برای بازدید از باغ است.', tips_en: 'Spring and early autumn are pleasant seasons to visit the garden.' },
+            { id: 'goharshad-mosque', name_fa: 'مسجد گوهرشاد', name_en: 'Goharshad Mosque', city_id: 'mashhad', province_id: 'razavi-khorasan', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد گوهرشاد از بناهای برجسته دوره تیموری است که به دستور گوهرشاد بیگم ساخته شد. کاشی‌کاری‌های نفیس، گنبد بزرگ و ایوان‌های باشکوه آن از نمونه‌های ارزشمند معماری اسلامی ایران هستند.', desc_en: 'Goharshad Mosque is a remarkable Timurid monument commissioned by Goharshad Begum. Its exquisite tilework, large dome, and magnificent iwans are outstanding examples of Iranian Islamic architecture.', tips_fa: 'برای مشاهده تزئینات کاشی‌کاری، از ایوان‌های اصلی بازدید کنید.', tips_en: 'Explore the main iwans to appreciate the intricate tile decorations.' },
+            { id: 'imam-reza-shrine', name_fa: 'حرم امام رضا', name_en: 'Imam Reza Shrine', city_id: 'mashhad', province_id: 'razavi-khorasan', category_fa: 'مجموعه مذهبی و تاریخی', category_en: 'Religious and Historical Complex', desc_fa: 'حرم امام رضا یکی از بزرگ‌ترین مجموعه‌های مذهبی و معماری ایران است که در شهر مشهد قرار دارد. این مجموعه شامل صحن‌ها، رواق‌ها، کتابخانه‌ها، موزه‌ها و بناهای تاریخی با تزئینات هنری چشمگیر است.', desc_en: 'The Imam Reza Shrine is one of Iran’s largest religious and architectural complexes, located in Mashhad. It includes courtyards, prayer halls, libraries, museums, and historic buildings featuring remarkable artistic decorations.', tips_fa: 'پیش از ورود، مقررات امنیتی و وسایل مجاز مجموعه را بررسی کنید.', tips_en: 'Check the complex’s security regulations and permitted belongings before entering.' },
+            { id: 'tomb-of-ferdowsi', name_fa: 'آرامگاه فردوسی', name_en: 'Tomb of Ferdowsi', city_id: 'tus', province_id: 'razavi-khorasan', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه فردوسی در شهر تاریخی توس قرار دارد و یادبود حکیم ابوالقاسم فردوسی، سراینده شاهنامه است. معماری آرامگاه و فضای فرهنگی اطراف آن، اهمیت فردوسی در حفظ زبان و ادبیات فارسی را یادآوری می‌کند.', desc_en: 'The Tomb of Ferdowsi is located in the historic city of Tus and commemorates Abolqasem Ferdowsi, the author of the Shahnameh. Its architecture and cultural surroundings celebrate his contribution to preserving Persian language and literature.', tips_fa: 'بازدید از موزه فردوسی و محوطه تاریخی توس را فراموش نکنید.', tips_en: 'Do not miss the Ferdowsi Museum and the surrounding historic grounds.' },
+            { id: 'soltaniyeh-dome', name_fa: 'گنبد سلطانیه', name_en: 'Soltaniyeh Dome', city_id: 'soltaniyeh', province_id: 'zanjan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'گنبد سلطانیه آرامگاه الجایتو از پادشاهان ایلخانی و یکی از بزرگ‌ترین گنبدهای آجری جهان است. ساختار هشت‌ضلعی، گنبد فیروزه‌ای و تزئینات داخلی آن از شاهکارهای معماری دوره ایلخانی به شمار می‌روند.', desc_en: 'The Soltaniyeh Dome is the mausoleum of Öljaitü, an Ilkhanid ruler, and one of the largest brick domes in the world. Its octagonal structure, turquoise dome, and interior decorations are masterpieces of Ilkhanid architecture.', tips_fa: 'برای مشاهده تزئینات داخلی، از بخش‌های مختلف فضای داخلی بازدید کنید.', tips_en: 'Explore the interior to appreciate its architectural decorations.' },
+            { id: 'takht-e-soleyman', name_fa: 'تخت سلیمان', name_en: 'Takht-e Soleyman', city_id: 'takab', province_id: 'west-azerbaijan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'تخت سلیمان محوطه‌ای باستانی شامل بقایای آتشکده آذرگشنسب و مجموعه‌ای از بناهای دوره ساسانی و ایلخانی است. دریاچه طبیعی مرکزی و آثار معماری اطراف آن، این مکان را به یکی از مهم‌ترین محوطه‌های تاریخی ایران تبدیل کرده‌اند.', desc_en: 'Takht-e Soleyman is an archaeological site containing the remains of the Azargoshnasp fire temple and buildings from the Sassanian and Ilkhanid periods. Its central natural lake and surrounding architectural remains make it one of Iran’s most important historic sites.', tips_fa: 'برای پیاده‌روی در محوطه تاریخی کفش مناسب همراه داشته باشید.', tips_en: 'Wear comfortable shoes for walking around the archaeological site.' },
+            { id: 'bisotun', name_fa: 'کتیبه بیستون', name_en: 'Behistun Inscription', city_id: 'bisotun', province_id: 'kermanshah', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'کتیبه بیستون یکی از مهم‌ترین آثار تاریخی دوره هخامنشی است که به دستور داریوش بزرگ ایجاد شد. این کتیبه چندزبانه همراه با نقش‌برجسته‌های آن، روایتگر به قدرت رسیدن داریوش و رویدادهای مهم دوران اوست.', desc_en: 'The Behistun Inscription is one of the most important historical monuments of the Achaemenid period, commissioned by Darius the Great. Its multilingual inscription and accompanying reliefs describe Darius’s rise to power and important events of his reign.', tips_fa: 'برای مشاهده بهتر کتیبه از فاصله مناسب و نقاط مجاز استفاده کنید.', tips_en: 'Use designated viewing areas and suitable distances to observe the inscription.' },
+            { id: 'tappeh-sialk', name_fa: 'تپه سیلک', name_en: 'Sialk Hills', city_id: 'kashan', province_id: 'isfahan', category_fa: 'محوطه باستان‌شناسی', category_en: 'Archaeological Site', desc_fa: 'تپه سیلک یکی از کهن‌ترین محوطه‌های باستانی فلات ایران است که آثار سکونت انسان در آن به هزاران سال پیش بازمی‌گردد. بقایای معماری، سفالینه‌ها و آثار تاریخی این محوطه اطلاعات مهمی درباره جوامع اولیه ایران ارائه می‌کنند.', desc_en: 'Sialk Hills is one of the oldest archaeological sites on the Iranian plateau, with evidence of human settlement dating back thousands of years. Its architectural remains, pottery, and artifacts provide important insights into early Iranian societies.', tips_fa: 'بازدید از موزه و محوطه باستانی را در یک برنامه ترکیب کنید.', tips_en: 'Combine your visit to the archaeological site with its museum.' },
+            { id: 'fin-garden', name_fa: 'باغ فین کاشان', name_en: 'Fin Garden', city_id: 'kashan', province_id: 'isfahan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'باغ فین یکی از باغ‌های تاریخی مشهور ایران است که به دلیل طراحی هندسی، حوض‌ها و جریان آب در میان درختان شهرت دارد. این باغ همچنین به دلیل ارتباط تاریخی با قتل امیرکبیر، صدراعظم دوره قاجار، شناخته می‌شود.', desc_en: 'Fin Garden is one of Iran’s most famous historic gardens, renowned for its geometric design, pools, and flowing water among trees. It is also historically associated with the assassination of Amir Kabir, a prominent Qajar-era statesman.', tips_fa: 'از کوشک‌ها و سامانه تاریخی آب‌رسانی باغ نیز دیدن کنید.', tips_en: 'Explore the garden’s pavilions and historic water system.' },
+            { id: 'tabatabaei-house', name_fa: 'خانه طباطبایی‌ها', name_en: 'Tabatabaei Historical House', city_id: 'kashan', province_id: 'isfahan', category_fa: 'خانه تاریخی', category_en: 'Historic House', desc_fa: 'خانه طباطبایی‌ها یکی از خانه‌های باشکوه تاریخی کاشان است که در دوره قاجار ساخته شد. حیاط‌های متعدد، بادگیرها، شیشه‌های رنگی و گچ‌بری‌های ظریف، نمونه‌ای برجسته از معماری خانه‌های سنتی ایران هستند.', desc_en: 'Tabatabaei House is one of Kashan’s magnificent historic residences, built during the Qajar period. Its multiple courtyards, windcatchers, colorful stained glass, and delicate plasterwork exemplify traditional Iranian residential architecture.', tips_fa: 'برای مشاهده جزئیات معماری از راهنمای محلی کمک بگیرید.', tips_en: 'Consider hiring a local guide to understand the architectural details.' },
+            { id: 'abbasi-house', name_fa: 'خانه عباسیان', name_en: 'Abbasian House', city_id: 'kashan', province_id: 'isfahan', category_fa: 'خانه تاریخی', category_en: 'Historic House', desc_fa: 'خانه عباسیان یکی از خانه‌های تاریخی ارزشمند کاشان با معماری پیچیده و حیاط‌های متعدد است. تزئینات گچ‌بری، مقرنس‌کاری و طراحی هوشمندانه فضاهای داخلی از ویژگی‌های برجسته این خانه محسوب می‌شوند.', desc_en: 'Abbasian House is a valuable historic residence in Kashan, featuring complex architecture and multiple courtyards. Its plasterwork, muqarnas decorations, and carefully designed interior spaces are among its most distinctive features.', tips_fa: 'از بخش‌های زیرزمینی و حیاط‌های مختلف خانه بازدید کنید.', tips_en: 'Explore the underground sections and the house’s different courtyards.' },
+            { id: 'borujerdi-house', name_fa: 'خانه بروجردی‌ها', name_en: 'Borujerdi House', city_id: 'kashan', province_id: 'isfahan', category_fa: 'خانه تاریخی', category_en: 'Historic House', desc_fa: 'خانه بروجردی‌ها از بناهای معروف دوره قاجار در کاشان است که به خاطر بادگیرهای بلند و نقاشی‌های ظریف شهرت دارد. ترکیب معماری سنتی، گچ‌بری‌های هنرمندانه و نقاشی‌های دیواری، زیبایی خاصی به این خانه بخشیده است.', desc_en: 'Borujerdi House is a famous Qajar-era residence in Kashan, renowned for its tall windcatchers and delicate paintings. Its traditional architecture, artistic plasterwork, and wall paintings give the house its distinctive beauty.', tips_fa: 'به سقف تالار اصلی و نقاشی‌های ظریف آن توجه کنید.', tips_en: 'Pay special attention to the main hall’s ceiling and delicate paintings.' },
+            { id: 'yazd-historic-city', name_fa: 'بافت تاریخی یزد', name_en: 'Historic City of Yazd', city_id: 'yazd', province_id: 'yazd', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'بافت تاریخی یزد مجموعه‌ای از کوچه‌های باریک، خانه‌های خشتی و بادگیرهای سنتی در قلب شهر کویری یزد است. این بافت نمونه‌ای برجسته از سازگاری معماری ایرانی با شرایط اقلیمی مناطق گرم و خشک محسوب می‌شود.', desc_en: 'The Historic City of Yazd features narrow alleys, adobe houses, and traditional windcatchers in the heart of the desert city. It is an outstanding example of Iranian architecture adapting to the climate of hot and arid regions.', tips_fa: 'برای گشت‌وگذار در کوچه‌های خشتی، صبح زود یا عصر را انتخاب کنید.', tips_en: 'Explore the adobe alleys early in the morning or late in the afternoon.' },
+            { id: 'dolat-abad-garden', name_fa: 'باغ دولت‌آباد', name_en: 'Dowlatabad Garden', city_id: 'yazd', province_id: 'yazd', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'باغ دولت‌آباد از باغ‌های تاریخی معروف یزد است که به دلیل بادگیر بلند و معماری زیبای خود شهرت دارد. عمارت هشتی، حوض‌های آب و درختان سرسبز آن نمونه‌ای از طراحی باغ ایرانی در اقلیم کویری هستند.', desc_en: 'Dowlatabad Garden is one of Yazd’s famous historic gardens, renowned for its tall windcatcher and beautiful architecture. Its octagonal pavilion, water pools, and green trees demonstrate Persian garden design in a desert climate.', tips_fa: 'برای دیدن بادگیر معروف باغ، از عمارت مرکزی بازدید کنید.', tips_en: 'Visit the central pavilion to see the garden’s famous windcatcher.' },
+
+            // Batch 3
+            { id: 'jameh-mosque-yazd', name_fa: 'مسجد جامع یزد', name_en: 'Jameh Mosque of Yazd', city_id: 'yazd', province_id: 'yazd', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد جامع یزد یکی از شاهکارهای معماری اسلامی ایران است که قدمت بخش‌هایی از آن به دوره‌های تاریخی مختلف بازمی‌گردد. مناره‌های بلند، سردر باشکوه و کاشی‌کاری‌های فیروزه‌ای آن از نمادهای معماری شهر یزد هستند.', desc_en: 'The Jameh Mosque of Yazd is a masterpiece of Iranian Islamic architecture, with sections dating to different historical periods. Its tall minarets, magnificent entrance portal, and turquoise tilework are iconic features of Yazd.', tips_fa: 'برای مشاهده جزئیات سردر و مناره‌ها از میدان مقابل مسجد دیدن کنید.', tips_en: 'View the entrance portal and minarets from the square in front of the mosque.' },
+            { id: 'amir-chakhmaq-complex', name_fa: 'مجموعه امیرچخماق', name_en: 'Amir Chakhmaq Complex', city_id: 'yazd', province_id: 'yazd', category_fa: 'مجموعه تاریخی', category_en: 'Historical Complex', desc_fa: 'مجموعه امیرچخماق یکی از مشهورترین نمادهای تاریخی شهر یزد است که شامل تکیه، مسجد، بازار و آب‌انبار می‌شود. نمای چندطبقه و طاق‌های متقارن آن جلوه‌ای خاص به مرکز تاریخی شهر بخشیده‌اند.', desc_en: 'The Amir Chakhmaq Complex is one of Yazd’s most famous historical landmarks, comprising a tekyeh, mosque, bazaar, and water reservoir. Its multi-level facade and symmetrical arches create a distinctive appearance in the historic city center.', tips_fa: 'برای عکاسی از نمای مجموعه، هنگام غروب مراجعه کنید.', tips_en: 'Visit around sunset to photograph the complex’s impressive facade.' },
+            { id: 'zoroastrian-fire-temple-yazd', name_fa: 'آتشکده زرتشتیان یزد', name_en: 'Yazd Zoroastrian Fire Temple', city_id: 'yazd', province_id: 'yazd', category_fa: 'مکان مذهبی تاریخی', category_en: 'Historic Religious Site', desc_fa: 'آتشکده زرتشتیان یزد یکی از مکان‌های مهم مذهبی جامعه زرتشتی ایران است. آتش مقدس این آتشکده از گذشته در آن نگهداری می‌شود و معماری ساختمان آن با نمادهای فرهنگی زرتشتی پیوند دارد.', desc_en: 'The Yazd Zoroastrian Fire Temple is an important religious site for Iran’s Zoroastrian community. Its sacred fire has been maintained for generations, and the building’s architecture incorporates Zoroastrian cultural symbolism.', tips_fa: 'هنگام بازدید به قوانین مجموعه و احترام به مراسم مذهبی توجه کنید.', tips_en: 'Respect the site’s rules and religious traditions during your visit.' },
+            { id: 'tower-of-silence-yazd', name_fa: 'برج خاموشان یزد', name_en: 'Yazd Towers of Silence', city_id: 'yazd', province_id: 'yazd', category_fa: 'میراث تاریخی', category_en: 'Historical Heritage', desc_fa: 'برج‌های خاموشان سازه‌هایی تاریخی هستند که در گذشته برای انجام آیین‌های تدفین زرتشتی استفاده می‌شدند. این بناها بر فراز تپه‌های اطراف یزد قرار دارند و بخشی از میراث فرهنگی و مذهبی منطقه محسوب می‌شوند.', desc_en: 'The Towers of Silence are historic structures once used for Zoroastrian funerary rituals. Located on hills outside Yazd, they represent an important part of the region’s religious and cultural heritage.', tips_fa: 'برای بازدید در هوای خنک‌تر، ساعات ابتدایی صبح را انتخاب کنید.', tips_en: 'Choose early morning hours to avoid the heat.' },
+            { id: 'bam-and-its-cultural-landscape', name_fa: 'منظر فرهنگی بم', name_en: 'Bam Cultural Landscape', city_id: 'bam', province_id: 'kerman', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'منظر فرهنگی بم شامل ارگ تاریخی بم و مجموعه‌ای از سازه‌های مرتبط با زندگی در واحه‌های کویری است. این منطقه نمونه‌ای ارزشمند از ارتباط معماری، کشاورزی و مدیریت آب در تمدن‌های قدیمی ایران به شمار می‌رود.', desc_en: 'The Bam Cultural Landscape includes the historic Bam Citadel and structures associated with life in desert oases. It demonstrates the relationship between architecture, agriculture, and water management in ancient Iranian civilization.', tips_fa: 'در کنار ارگ بم، درباره قنات‌ها و تاریخ واحه‌های منطقه نیز اطلاعات کسب کنید.', tips_en: 'Learn about the qanat systems and the history of the region’s desert oases.' },
+            { id: 'jabalieh-dome', name_fa: 'گنبد جبلیه', name_en: 'Jabalieh Dome', city_id: 'kerman', province_id: 'kerman', category_fa: 'بنای تاریخی', category_en: 'Historical Monument', desc_fa: 'گنبد جبلیه بنایی تاریخی با ساختاری هشت‌ضلعی و مصالح سنگی در شهر کرمان است. این اثر از بناهای معماری کمترشناخته‌شده اما ارزشمند منطقه به شمار می‌رود و امروزه به‌عنوان موزه سنگ مورد استفاده قرار می‌گیرد.', desc_en: 'The Jabalieh Dome is a historic octagonal stone structure in Kerman. It is one of the region’s distinctive architectural monuments and is now used as a stone museum.', tips_fa: 'از مجموعه سنگ‌های تاریخی داخل موزه نیز دیدن کنید.', tips_en: 'Explore the historical stone collection inside the museum.' },
+            { id: 'gombad-e-moshtaghieh', name_fa: 'گنبد مشتاقیه', name_en: 'Moshtaghieh Dome', city_id: 'kerman', province_id: 'kerman', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Mausoleum', desc_fa: 'مجموعه مشتاقیه آرامگاه مشتاق‌علی‌شاه و دو شخصیت تاریخی دیگر در شهر کرمان است. کاشی‌کاری‌های رنگارنگ، گنبدهای زیبا و معماری آرامگاه از ویژگی‌های شاخص این مجموعه هستند.', desc_en: 'The Moshtaghieh Complex contains the tomb of Moshtagh Ali Shah and two other historical figures in Kerman. Its colorful tilework, elegant domes, and distinctive mausoleum architecture make it a notable local landmark.', tips_fa: 'برای بازدید از تزئینات کاشی‌کاری، حیاط مجموعه را نیز بررسی کنید.', tips_en: 'Explore the courtyard to appreciate the decorative tilework.' },
+            { id: 'shahdad-kaluts', name_fa: 'کلوت‌های شهداد', name_en: 'Shahdad Kaluts', city_id: 'shahdad', province_id: 'kerman', category_fa: 'جاذبه طبیعی', category_en: 'Natural Attraction', desc_fa: 'کلوت‌های شهداد از شگفت‌انگیزترین پدیده‌های زمین‌شناسی ایران در حاشیه کویر لوت هستند. فرسایش باد و آب طی هزاران سال سازه‌های طبیعی عظیمی با شکل‌های منحصربه‌فرد در این منطقه ایجاد کرده است.', desc_en: 'The Shahdad Kaluts are among Iran’s most remarkable geological formations, located on the edge of the Lut Desert. Thousands of years of wind and water erosion have created enormous natural structures with unique shapes.', tips_fa: 'بدون راهنمای باتجربه و تجهیزات مناسب وارد مناطق دورافتاده کویر نشوید.', tips_en: 'Never enter remote desert areas without an experienced guide and proper equipment.' },
+            { id: 'lut-desert', name_fa: 'بیابان لوت', name_en: 'Lut Desert', city_id: 'shahdad', province_id: 'kerman', category_fa: 'میراث جهانی طبیعی یونسکو', category_en: 'UNESCO Natural World Heritage', desc_fa: 'بیابان لوت یکی از گرم‌ترین و خشک‌ترین مناطق زمین و نخستین اثر طبیعی ایران در فهرست میراث جهانی یونسکو است. کلوت‌ها، تپه‌های ماسه‌ای و چشم‌اندازهای شگفت‌انگیز آن از ویژگی‌های برجسته این بیابان هستند.', desc_en: 'The Lut Desert is one of the hottest and driest regions on Earth and Iran’s first natural property inscribed on the UNESCO World Heritage List. Its kaluts, sand dunes, and extraordinary landscapes are among its most remarkable features.', tips_fa: 'برای سفر به کویر از راهنمای حرفه‌ای و تجهیزات ایمنی استفاده کنید.', tips_en: 'Use a professional guide and appropriate safety equipment for desert trips.' },
+            { id: 'tomb-of-baba-taher', name_fa: 'آرامگاه باباطاهر', name_en: 'Tomb of Baba Taher', city_id: 'hamadan', province_id: 'hamadan', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه باباطاهر یادبود شاعر و عارف نامدار ایرانی در شهر همدان است. معماری بنا با طرحی چندضلعی و کاشی‌کاری‌های فیروزه‌ای، فضایی آرام در میان محوطه‌ای سرسبز ایجاد کرده است.', desc_en: 'The Tomb of Baba Taher commemorates the renowned Iranian poet and mystic in Hamadan. Its polygonal architectural design and turquoise tilework create a peaceful atmosphere within landscaped grounds.', tips_fa: 'در کنار آرامگاه، از فضای سبز و محوطه اطراف نیز دیدن کنید.', tips_en: 'Take time to enjoy the gardens and surrounding grounds.' },
+            { id: 'ganznameh-inscriptions', name_fa: 'کتیبه‌های گنجنامه', name_en: 'Ganjnameh Inscriptions', city_id: 'hamadan', province_id: 'hamadan', category_fa: 'کتیبه تاریخی', category_en: 'Historical Inscription', desc_fa: 'کتیبه‌های گنجنامه دو سنگ‌نوشته باستانی از دوره هخامنشی هستند که به دستور داریوش بزرگ و خشایارشا ایجاد شده‌اند. این کتیبه‌ها به زبان‌های باستانی نوشته شده‌اند و اطلاعات مهمی درباره تاریخ و باورهای شاهان هخامنشی ارائه می‌کنند.', desc_en: 'The Ganjnameh Inscriptions are two ancient Achaemenid rock inscriptions commissioned by Darius the Great and Xerxes I. Written in ancient languages, they provide important information about Achaemenid history and royal beliefs.', tips_fa: 'از آبشار گنجنامه و مسیرهای طبیعی اطراف نیز بازدید کنید.', tips_en: 'Also explore Ganjnameh Waterfall and the surrounding nature trails.' },
+            { id: 'ali-sadr-cave', name_fa: 'غار علیصدر', name_en: 'Ali Sadr Cave', city_id: 'kabudarahang', province_id: 'hamadan', category_fa: 'جاذبه طبیعی', category_en: 'Natural Attraction', desc_fa: 'غار علیصدر یکی از بزرگ‌ترین غارهای آبی قابل قایقرانی جهان است که در استان همدان قرار دارد. دریاچه‌های زیرزمینی، تالارهای وسیع و قندیل‌های آهکی، منظره‌ای شگفت‌انگیز در فضای داخلی غار ایجاد کرده‌اند.', desc_en: 'Ali Sadr Cave is one of the world’s largest water caves accessible by boat, located in Hamadan Province. Its underground lakes, spacious chambers, and limestone formations create a spectacular subterranean landscape.', tips_fa: 'لباس گرم سبک همراه داشته باشید، زیرا فضای داخل غار خنک است.', tips_en: 'Bring a light jacket because the cave interior is cool.' },
+            { id: 'tomb-of-esther-and-mordechai', name_fa: 'آرامگاه استر و مردخای', name_en: 'Tomb of Esther and Mordechai', city_id: 'hamadan', province_id: 'hamadan', category_fa: 'میراث مذهبی و تاریخی', category_en: 'Religious and Historical Heritage', desc_fa: 'آرامگاه استر و مردخای یکی از مکان‌های تاریخی و مذهبی جامعه یهودیان ایران در شهر همدان است. این مجموعه با معماری سنتی و فضای تاریخی خود از آثار شناخته‌شده میراث فرهنگی شهر به شمار می‌رود.', desc_en: 'The Tomb of Esther and Mordechai is an important historical and religious site for Iran’s Jewish community in Hamadan. Its traditional architecture and historic atmosphere make it a recognized part of the city’s cultural heritage.', tips_fa: 'پیش از مراجعه، شرایط بازدید و ساعات پذیرش را بررسی کنید.', tips_en: 'Check visitor access arrangements and opening hours before visiting.' },
+            { id: 'jameh-mosque-qazvin', name_fa: 'مسجد جامع قزوین', name_en: 'Jameh Mosque of Qazvin', city_id: 'qazvin', province_id: 'qazvin', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد جامع قزوین یکی از قدیمی‌ترین مساجد ایران است که بخش‌هایی از آن بر بقایای بناهای تاریخی پیشین ساخته شده‌اند. گنبد بزرگ، ایوان‌ها و تزئینات آجری و کاشی‌کاری آن نشان‌دهنده تحول معماری اسلامی در ایران هستند.', desc_en: 'The Jameh Mosque of Qazvin is one of Iran’s oldest mosques, with sections built over the remains of earlier structures. Its large dome, iwans, brickwork, and tile decorations illustrate the evolution of Islamic architecture in Iran.', tips_fa: 'برای مشاهده تاریخ معماری مسجد، به بخش‌های قدیمی‌تر آن توجه کنید.', tips_en: 'Pay attention to the older sections to understand the mosque’s architectural history.' },
+            { id: 'saad-al-saltaneh-caravanserai', name_fa: 'سرای سعدالسلطنه', name_en: 'Saad al-Saltaneh Caravanserai', city_id: 'qazvin', province_id: 'qazvin', category_fa: 'کاروانسرای تاریخی', category_en: 'Historic Caravanserai', desc_fa: 'سرای سعدالسلطنه یکی از بزرگ‌ترین کاروانسراهای سرپوشیده ایران است که در دوره قاجار ساخته شد. حجره‌های سنتی، حیاط‌های متعدد و معماری آجری آن امروزه فضایی برای صنایع‌دستی، کافه‌ها و فعالیت‌های فرهنگی فراهم کرده‌اند.', desc_en: 'Saad al-Saltaneh is one of Iran’s largest covered caravanserais, built during the Qajar period. Its traditional chambers, multiple courtyards, and brick architecture now accommodate handicraft shops, cafes, and cultural activities.', tips_fa: 'برای خرید صنایع‌دستی و عکاسی از حیاط‌های تاریخی وقت بگذارید.', tips_en: 'Spend time shopping for handicrafts and photographing the historic courtyards.' },
+            { id: 'alamut-castle', name_fa: 'قلعه الموت', name_en: 'Alamut Castle', city_id: 'gazorkhan', province_id: 'qazvin', category_fa: 'قلعه تاریخی', category_en: 'Historic Castle', desc_fa: 'قلعه الموت بر فراز صخره‌ای بلند در منطقه کوهستانی الموت قرار دارد و از مهم‌ترین دژهای تاریخی ایران است. این قلعه با تاریخ اسماعیلیان و حسن صباح پیوند دارد و چشم‌انداز کوهستانی اطراف آن بسیار تماشایی است.', desc_en: 'Alamut Castle stands atop a high rock in the mountainous Alamut region and is one of Iran’s most important historic fortresses. It is associated with the history of the Nizari Ismailis and Hassan-i Sabbah, while the surrounding mountain scenery is spectacular.', tips_fa: 'برای صعود به قلعه کفش کوهنوردی و آمادگی جسمانی مناسب داشته باشید.', tips_en: 'Wear hiking shoes and ensure you are physically prepared for the climb.' },
+            { id: 'shahrud-bayazid-bastami', name_fa: 'آرامگاه بایزید بسطامی', name_en: 'Tomb of Bayazid Bastami', city_id: 'bastam', province_id: 'semnan', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه بایزید بسطامی در شهر تاریخی بسطام قرار دارد و یادبود یکی از عارفان برجسته تاریخ ایران است. مجموعه تاریخی اطراف آرامگاه شامل بناهایی از دوره‌های مختلف و معماری مذهبی ارزشمند است.', desc_en: 'The Tomb of Bayazid Bastami is located in the historic town of Bastam and commemorates one of Iran’s prominent mystics. The surrounding historical complex includes buildings from different periods and valuable religious architecture.', tips_fa: 'از مجموعه تاریخی بسطام و برج کاشانه نیز بازدید کنید.', tips_en: 'Also visit the historic Bastam complex and Kashaneh Tower.' },
+            { id: 'gonbad-e-qabus', name_fa: 'گنبد قابوس', name_en: 'Gonbad-e Qabus Tower', city_id: 'gonbad-e-kavus', province_id: 'golestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'گنبد قابوس برج آجری بلندی است که در قرن یازدهم میلادی به دستور قابوس بن وشمگیر ساخته شد. ساختار ستاره‌ای‌شکل و ارتفاع چشمگیر آن از شاهکارهای معماری آجری ایران و جهان محسوب می‌شود.', desc_en: 'Gonbad-e Qabus is a tall brick tower built in the 11th century by order of Qabus ibn Wushmgir. Its star-shaped structure and impressive height make it a masterpiece of Iranian and world brick architecture.', tips_fa: 'برای مشاهده تناسبات برج، از زوایای مختلف محوطه اطراف آن را بررسی کنید.', tips_en: 'Explore different viewpoints around the tower to appreciate its proportions.' },
+            { id: 'khalid-nabi-cemetery', name_fa: 'گورستان خالد نبی', name_en: 'Khalid Nabi Cemetery', city_id: 'kalaleh', province_id: 'golestan', category_fa: 'میراث تاریخی و طبیعی', category_en: 'Historical and Natural Heritage', desc_fa: 'گورستان خالد نبی در منطقه‌ای کوهستانی در استان گلستان قرار دارد و به سنگ‌قبرهای سنگی و شکل‌های خاص آن شهرت دارد. چشم‌انداز تپه‌های سرسبز اطراف، این مکان را به یکی از جاذبه‌های متفاوت فرهنگی و طبیعی شمال ایران تبدیل کرده است.', desc_en: 'Khalid Nabi Cemetery is located in a mountainous area of Golestan Province and is known for its distinctive stone tombstones. The surrounding green hills make it a unique cultural and natural attraction in northern Iran.', tips_fa: 'در فصل بهار برای تماشای دشت‌های سرسبز منطقه سفر کنید.', tips_en: 'Visit in spring to enjoy the region’s green landscapes.' },
+            { id: 'golestan-national-park', name_fa: 'پارک ملی گلستان', name_en: 'Golestan National Park', city_id: 'tangrah', province_id: 'golestan', category_fa: 'پارک ملی و طبیعت', category_en: 'National Park and Nature', desc_fa: 'پارک ملی گلستان یکی از قدیمی‌ترین مناطق حفاظت‌شده ایران و زیستگاه گونه‌های متنوع جانوری و گیاهی است. جنگل‌های انبوه، آبشارها، مراتع و چشم‌اندازهای کوهستانی آن، تنوع طبیعی چشمگیری ایجاد کرده‌اند.', desc_en: 'Golestan National Park is one of Iran’s oldest protected areas and a habitat for diverse wildlife and plant species. Its dense forests, waterfalls, grasslands, and mountain landscapes create remarkable ecological diversity.', tips_fa: 'برای مشاهده حیات‌وحش از مسیرهای مجاز و دستورالعمل‌های محیط‌بانان پیروی کنید.', tips_en: 'Follow designated trails and park ranger instructions when observing wildlife.' }
+        ];
+
         // =========================================
         // TRANSLATIONS
         // =========================================
@@ -247,36 +278,26 @@
             "fa": {
                 "home.title": "به ایران‌گرد هیرکان خوش آمدید",
                 "home.desc": "زیبایی‌های ایران را کشف کنید",
-                "nav.home": "خانه",
-                "nav.provinces": "استان‌ها",
-                "nav.travel_info": "اطلاعات سفر",
-                "nav.favorites": "علاقه‌مندی‌ها",
-                "nav.settings": "تنظیمات",
-                "hirkan.title": "توسعه‌یافته توسط هیرکان",
-                "hirkan.desc": "طراحی و توسعه توسط Hirkan Develop Group",
-                "hirkan.btn": "وب‌سایت هیرکان",
-                "search.placeholder": "جستجوی استان یا شهر...",
-                "provinces.title": "استان‌های ایران",
-                "province.capital": "مرکز استان",
-                "btn.back": "بازگشت",
-                "btn.view_city": "مشاهده شهر"
+                "nav.home": "خانه", "nav.provinces": "استان‌ها", "nav.travel_info": "اطلاعات سفر", "nav.favorites": "علاقه‌مندی‌ها", "nav.settings": "تنظیمات",
+                "hirkan.title": "توسعه‌یافته توسط هیرکان", "hirkan.desc": "طراحی و توسعه توسط Hirkan Develop Group", "hirkan.btn": "وب‌سایت هیرکان",
+                "search.placeholder": "جستجوی استان، شهر یا جاذبه...",
+                "provinces.title": "استان‌های ایران", "province.capital": "مرکز استان",
+                "city.attractions": "جاذبه‌های گردشگری",
+                "attraction.city": "شهر", "attraction.province": "استان", "attraction.tips": "نکات بازدید",
+                "btn.back": "بازگشت", "btn.view_city": "مشاهده شهر", "btn.view_attraction": "مشاهده جزئیات", "btn.view_province": "مشاهده استان",
+                "no.results": "موردی یافت نشد.", "no.attractions": "هنوز جاذبه‌ای برای این شهر ثبت نشده است."
             },
             "en": {
                 "home.title": "Welcome to Irangard Hirkan",
                 "home.desc": "Discover the beauty of Iran",
-                "nav.home": "Home",
-                "nav.provinces": "Provinces",
-                "nav.travel_info": "Travel Info",
-                "nav.favorites": "Favorites",
-                "nav.settings": "Settings",
-                "hirkan.title": "Developed by Hirkan",
-                "hirkan.desc": "Designed and developed by Hirkan Develop Group",
-                "hirkan.btn": "Hirkan Website",
-                "search.placeholder": "Search province or city...",
-                "provinces.title": "Provinces of Iran",
-                "province.capital": "Capital",
-                "btn.back": "Back",
-                "btn.view_city": "View City"
+                "nav.home": "Home", "nav.provinces": "Provinces", "nav.travel_info": "Travel Info", "nav.favorites": "Favorites", "nav.settings": "Settings",
+                "hirkan.title": "Developed by Hirkan", "hirkan.desc": "Designed and developed by Hirkan Develop Group", "hirkan.btn": "Hirkan Website",
+                "search.placeholder": "Search province, city or attraction...",
+                "provinces.title": "Provinces of Iran", "province.capital": "Capital",
+                "city.attractions": "Tourist Attractions",
+                "attraction.city": "City", "attraction.province": "Province", "attraction.tips": "Visiting Tips",
+                "btn.back": "Back", "btn.view_city": "View City", "btn.view_attraction": "View Details", "btn.view_province": "View Province",
+                "no.results": "No results found.", "no.attractions": "No attractions recorded for this city yet."
             }
         };
 
@@ -297,7 +318,7 @@
             document.documentElement.lang = currentLang;
             document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
             document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
-            router(); // Re-render current page
+            router();
         });
 
         // =========================================
@@ -308,13 +329,14 @@
             const parts = hash.split('/').filter(Boolean);
             const t = TRANSLATIONS[currentLang];
 
-            // Update bottom nav active state
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             
             if (parts[0] === 'province' && parts[1]) {
                 renderProvince(parts[1], t);
             } else if (parts[0] === 'city' && parts[1]) {
                 renderCity(parts[1], t);
+            } else if (parts[0] === 'attraction' && parts[1]) {
+                renderAttraction(parts[1], t);
             } else if (parts[0] === 'provinces') {
                 document.querySelectorAll('.nav-item')[1].classList.add('active');
                 renderProvincesList(t);
@@ -322,6 +344,7 @@
                 document.querySelectorAll('.nav-item')[0].classList.add('active');
                 renderHome(t);
             }
+            window.scrollTo(0, 0);
         }
 
         // =========================================
@@ -333,21 +356,22 @@
                 <p class="page-subtitle">${t['home.desc']}</p>
                 
                 <div class="search-container">
-                    <input type="search" id="search-input" class="input" placeholder="${t['search.placeholder']}" oninput="filterProvinces(this.value)" />
+                    <input type="search" id="search-input" class="input" placeholder="${t['search.placeholder']}" oninput="performSearch(this.value)" />
                 </div>
 
-                <h2 class="section-title">${t['provinces.title']}</h2>
-                <div id="provinces-grid" class="grid">
-                    ${generateProvinceCards(PROVINCES_DATA, t)}
+                <div id="search-results" style="display:none; margin-bottom: 20px;">
+                    <h2 class="section-title">${t['search.results'] || 'نتایج'}</h2>
+                    <div id="search-grid" class="grid"></div>
                 </div>
 
-                <div class="hirkan-banner">
-                    <div>
-                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
-                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
+                <div id="main-content-area">
+                    <h2 class="section-title">${t['provinces.title']}</h2>
+                    <div id="provinces-grid" class="grid">
+                        ${generateProvinceCards(PROVINCES_DATA, t)}
                     </div>
-                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
                 </div>
+
+                ${getHirkanBanner(t)}
             `;
             document.getElementById('app-content').innerHTML = html;
         }
@@ -355,19 +379,10 @@
         function renderProvincesList(t) {
             const html = `
                 <h1 class="page-title">${t['provinces.title']}</h1>
-                <div class="search-container">
-                    <input type="search" id="search-input" class="input" placeholder="${t['search.placeholder']}" oninput="filterProvinces(this.value)" />
-                </div>
                 <div id="provinces-grid" class="grid">
                     ${generateProvinceCards(PROVINCES_DATA, t)}
                 </div>
-                <div class="hirkan-banner" style="margin-top: 40px;">
-                    <div>
-                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
-                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
-                    </div>
-                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
-                </div>
+                ${getHirkanBanner(t)}
             `;
             document.getElementById('app-content').innerHTML = html;
         }
@@ -380,11 +395,12 @@
             const name = currentLang === 'fa' ? prov.name_fa : prov.name_en;
             const desc = currentLang === 'fa' ? prov.desc_fa : prov.desc_en;
             const capName = capital ? (currentLang === 'fa' ? capital.name_fa : capital.name_en) : '';
+            
+            // Get attractions in this province
+            const provAttractions = ATTRACTIONS_DATA.filter(a => a.province_id === prov.id);
 
             const html = `
-                <button class="button" style="background: var(--surface-secondary); color: var(--text-primary); border: 1px solid var(--border); margin-bottom: 20px;" onclick="history.back()">
-                    ← ${t['btn.back']}
-                </button>
+                <button class="button button-outline" onclick="history.back()">← ${t['btn.back']}</button>
                 <h1 class="page-title">${name}</h1>
                 <p class="page-subtitle">${desc}</p>
 
@@ -394,13 +410,12 @@
                     ${capital ? `<button class="button" onclick="window.location.hash='#/city/${capital.id}'">${t['btn.view_city']}</button>` : ''}
                 </div>
 
-                <div class="hirkan-banner">
-                    <div>
-                        <div class="hirkan-banner-title">${t['hirkan.title']}</div>
-                        <div class="hirkan-banner-description">${t['hirkan.desc']}</div>
-                    </div>
-                    <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
+                <h2 class="section-title">${t['city.attractions']}</h2>
+                <div class="grid">
+                    ${provAttractions.length ? provAttractions.map(a => generateAttractionCard(a, t)).join('') : `<p>${t['no.attractions']}</p>`}
                 </div>
+
+                ${getHirkanBanner(t)}
             `;
             document.getElementById('app-content').innerHTML = html;
         }
@@ -410,22 +425,80 @@
             if (!city) return renderHome(t);
             
             const prov = PROVINCES_DATA.find(p => p.id === city.province_id);
-
             const name = currentLang === 'fa' ? city.name_fa : city.name_en;
             const desc = currentLang === 'fa' ? city.desc_fa : city.desc_en;
             const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : '';
+            
+            // Get attractions in this city
+            const cityAttractions = ATTRACTIONS_DATA.filter(a => a.city_id === city.id);
 
             const html = `
-                <button class="button" style="background: var(--surface-secondary); color: var(--text-primary); border: 1px solid var(--border); margin-bottom: 20px;" onclick="history.back()">
-                    ← ${t['btn.back']}
-                </button>
+                <button class="button button-outline" onclick="history.back()">← ${t['btn.back']}</button>
                 <h1 class="page-title">${name}</h1>
-                <p class="page-subtitle">${provName}</p>
+                <p class="page-subtitle" onclick="window.location.hash='#/province/${city.province_id}'" style="cursor:pointer; color:var(--primary)">
+                    ${provName} ↗
+                </p>
 
                 <div class="card">
                     <p class="card-description" style="font-size: 15px;">${desc}</p>
                 </div>
 
+                <h2 class="section-title">${t['city.attractions']}</h2>
+                <div class="grid">
+                    ${cityAttractions.length ? cityAttractions.map(a => generateAttractionCard(a, t)).join('') : `<p>${t['no.attractions']}</p>`}
+                </div>
+
+                ${getHirkanBanner(t)}
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        function renderAttraction(id, t) {
+            const attr = ATTRACTIONS_DATA.find(a => a.id === id);
+            if (!attr) return renderHome(t);
+
+            const name = currentLang === 'fa' ? attr.name_fa : attr.name_en;
+            const desc = currentLang === 'fa' ? attr.desc_fa : attr.desc_en;
+            const cat = currentLang === 'fa' ? attr.category_fa : attr.category_en;
+            const tips = currentLang === 'fa' ? attr.tips_fa : attr.tips_en;
+            
+            // Find city and province for links
+            const city = CITIES_DATA.find(c => c.id === attr.city_id);
+            const prov = PROVINCES_DATA.find(p => p.id === attr.province_id);
+            
+            const cityName = city ? (currentLang === 'fa' ? city.name_fa : city.name_en) : null;
+            const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : null;
+
+            const html = `
+                <button class="button button-outline" onclick="history.back()">← ${t['btn.back']}</button>
+                
+                <span class="badge">${cat}</span>
+                <h1 class="page-title">${name}</h1>
+                
+                <div class="card">
+                    <p class="card-description" style="font-size: 15px; color: var(--text-primary);">${desc}</p>
+                    
+                    <div class="tips-box">
+                        <strong>💡 ${t['attraction.tips']}:</strong><br>
+                        ${tips}
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:20px;">
+                    ${cityName ? `<button class="button" style="background:var(--surface-secondary); color:var(--text-primary); margin:0;" onclick="window.location.hash='#/city/${city.id}'">${t['attraction.city']}: ${cityName}</button>` : ''}
+                    ${provName ? `<button class="button" style="background:var(--surface-secondary); color:var(--text-primary); margin:0;" onclick="window.location.hash='#/province/${prov.id}'">${t['attraction.province']}: ${provName}</button>` : ''}
+                </div>
+
+                ${getHirkanBanner(t)}
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        // =========================================
+        // HELPERS & COMPONENTS
+        // =========================================
+        function getHirkanBanner(t) {
+            return `
                 <div class="hirkan-banner">
                     <div>
                         <div class="hirkan-banner-title">${t['hirkan.title']}</div>
@@ -434,12 +507,8 @@
                     <a href="https://hdg.hirkansara.ir" target="_blank" class="hirkan-banner-link">${t['hirkan.btn']}</a>
                 </div>
             `;
-            document.getElementById('app-content').innerHTML = html;
         }
 
-        // =========================================
-        // HELPERS
-        // =========================================
         function generateProvinceCards(data, t) {
             return data.map(p => {
                 const name = currentLang === 'fa' ? p.name_fa : p.name_en;
@@ -453,17 +522,68 @@
             }).join('');
         }
 
-        function filterProvinces(query) {
-            const t = TRANSLATIONS[currentLang];
-            const q = query.toLowerCase();
-            const filtered = PROVINCES_DATA.filter(p => 
-                p.name_fa.includes(q) || p.name_en.toLowerCase().includes(q) || 
-                p.desc_fa.includes(q) || p.desc_en.toLowerCase().includes(q)
-            );
-            document.getElementById('provinces-grid').innerHTML = generateProvinceCards(filtered, t);
+        function generateAttractionCard(attr, t) {
+            const name = currentLang === 'fa' ? attr.name_fa : attr.name_en;
+            const cat = currentLang === 'fa' ? attr.category_fa : attr.category_en;
+            return `
+                <div class="card clickable" onclick="window.location.hash='#/attraction/${attr.id}'" style="padding: 12px;">
+                    <span class="badge" style="font-size:10px; margin-bottom:4px;">${cat}</span>
+                    <h3 class="card-title" style="font-size:15px;">${name}</h3>
+                </div>
+            `;
         }
 
-        // Start App
+        function performSearch(query) {
+            const t = TRANSLATIONS[currentLang];
+            const q = query.trim().toLowerCase();
+            const searchResultsContainer = document.getElementById('search-results');
+            const searchGrid = document.getElementById('search-grid');
+            const mainContent = document.getElementById('main-content-area');
+
+            if (q.length < 2) {
+                searchResultsContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                return;
+            }
+
+            searchResultsContainer.style.display = 'block';
+            mainContent.style.display = 'none';
+
+            // Search Provinces
+            const matchedProvs = PROVINCES_DATA.filter(p => 
+                p.name_fa.includes(q) || p.name_en.toLowerCase().includes(q)
+            );
+
+            // Search Attractions
+            const matchedAttrs = ATTRACTIONS_DATA.filter(a => 
+                a.name_fa.includes(q) || a.name_en.toLowerCase().includes(q) ||
+                a.desc_fa.includes(q) || a.desc_en.toLowerCase().includes(q)
+            );
+
+            if (matchedProvs.length === 0 && matchedAttrs.length === 0) {
+                searchGrid.innerHTML = `<p>${t['no.results']}</p>`;
+                return;
+            }
+
+            let html = '';
+            
+            if (matchedProvs.length > 0) {
+                html += `<h3 style="grid-column: 1/-1; margin-top:10px; color:var(--primary);">${t['nav.provinces']}</h3>`;
+                html += matchedProvs.map(p => `
+                    <div class="card clickable" onclick="window.location.hash='#/province/${p.id}'">
+                        <h3 class="card-title">${currentLang === 'fa' ? p.name_fa : p.name_en}</h3>
+                    </div>
+                `).join('');
+            }
+
+            if (matchedAttrs.length > 0) {
+                html += `<h3 style="grid-column: 1/-1; margin-top:10px; color:var(--primary);">${t['city.attractions']}</h3>`;
+                html += matchedAttrs.map(a => generateAttractionCard(a, t)).join('');
+            }
+
+            searchGrid.innerHTML = html;
+        }
+
         window.addEventListener('hashchange', router);
         window.addEventListener('DOMContentLoaded', () => {
             if (!window.location.hash) window.location.hash = '#/';
