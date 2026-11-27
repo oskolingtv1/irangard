@@ -164,20 +164,13 @@
     </div>
 
     <script>
-        // دیتاها از فایل data.js لود می‌شوند
-        const APP_VERSION = "1.1.0"; // نسخه را بالا بردم چون محتوا غنی شده
+        const APP_VERSION = "1.1.0";
         
-        // =========================================
-        // STATE & STORAGE
-        // =========================================
         let currentLang = localStorage.getItem('irangard_lang') || "fa";
         let currentTheme = localStorage.getItem('irangard_theme') || "light";
         let favorites = JSON.parse(localStorage.getItem('irangard_favs')) || [];
         let activeTravelTab = "before";
 
-        // =========================================
-        // TRANSLATIONS
-        // =========================================
         const TRANSLATIONS = {
             "fa": {
                 "home.title": "به ایران‌گرد هیرکان خوش آمدید", "home.desc": "زیبایی‌های ایران را کشف کنید",
@@ -219,9 +212,6 @@
             }
         };
 
-        // =========================================
-        // INIT
-        // =========================================
         document.documentElement.setAttribute('data-theme', currentTheme);
         document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
         
@@ -238,9 +228,6 @@
             router();
         });
 
-        // =========================================
-        // ACTIONS
-        // =========================================
         function toggleTheme() {
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', currentTheme);
@@ -282,9 +269,6 @@
             renderTravel(TRANSLATIONS[currentLang]);
         }
 
-        // =========================================
-        // ROUTER
-        // =========================================
         function router() {
             let hash = window.location.hash.replace(/^#\/?/, '');
             if (!hash) hash = 'home';
@@ -330,9 +314,6 @@
             window.scrollTo(0, 0);
         }
 
-        // =========================================
-        // VIEWS
-        // =========================================
         function renderHome(t) {
             const featured = ATTRACTIONS_DATA.filter(a => a.category_fa.includes('یونسکو')).slice(0, 6);
             const homeProvinces = PROVINCES_DATA.slice(0, 6);
@@ -627,9 +608,6 @@
             document.getElementById('app-content').innerHTML = html;
         }
 
-        // =========================================
-        // HELPERS
-        // =========================================
         function getHirkanBanner(t) {
             return `
                 <div class="hirkan-banner">
@@ -742,7 +720,11 @@
             }
         }
     </script>
+    
+    <!-- لود کردن فایل دیتا -->
     <script src="/data.js"></script>
+
+    <!-- فعال‌سازی Service Worker -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
