@@ -1,0 +1,86 @@
+
+{
+    "app_name": "Irangard",
+
+    "nav": {
+        "home": "Home",
+        "provinces": "Provinces",
+        "travel_info": "Travel Info",
+        "favorites": "Favorites",
+        "settings": "Settings"
+    },
+
+    "home": {
+        "badge": "Iran Tourism Guide",
+        "title": "Discover Iran!",
+        "description": "From natural wonders to historical landmarks, Iran is full of surprises.",
+        "search": "Search provinces, cities or attractions...",
+        "provinces": "Provinces of Iran",
+        "province_intro": "31 Provinces, Thousands of Experiences",
+        "province_description": "Explore the provinces of Iran and discover their cities and tourist attractions.",
+        "explore": "Explore Provinces",
+        "discover": "Discover More"
+    },
+
+    "hirkan": {
+        "title": "Developed by Hirkan",
+        "description": "Designed and developed by Hirkan Develop Group",
+        "button": "Hirkan Website"
+    },
+
+    "provinces": {
+        "description": "Discover the provinces of Iran and their tourism potential.",
+        "coming_soon": "The list of all 31 Iranian provinces is under development."
+    },
+
+    "province": {
+        "title": "Province Details"
+    },
+
+    "city": {
+        "title": "City Details"
+    },
+
+    "attraction": {
+        "title": "Tourist Attraction"
+    },
+
+    "travel": {
+        "description": "Essential information and guidance for traveling in Iran.",
+        "before": "Before Traveling",
+        "before_description": "Travel planning, documents, accommodation, transportation and essential tips.",
+        "during": "During Your Trip",
+        "during_description": "Routes, local culture, safety and practical travel tips."
+    },
+
+    "favorites": {
+        "empty": "You haven't added any favorites yet."
+    },
+
+    "settings": {
+        "appearance": "Appearance",
+        "theme": "Theme",
+        "theme_description": "Switch between light and dark mode",
+        "light": "Light Mode",
+        "dark": "Dark Mode",
+        "language": "App Language",
+        "language_description": "Choose your preferred language",
+        "developer": "Developer",
+        "promotion": "About Hirkan",
+        "promotion_description": "This application is developed for free by Hirkan Develop Group.",
+        "promotion_note": "The Hirkan promotional banner is part of the application and appears on every screen."
+    },
+
+    "about": {
+        "title": "About Irangard",
+        "description": "Irangard is a free tourism guide introducing the provinces, cities and tourist attractions of Iran.",
+        "website": "Developer Website"
+    },
+
+    "common": {
+        "item_id": "ID",
+        "coming_soon": "This section will be completed in future development phases.",
+        "not_found": "The requested page could not be found.",
+        "home": "Back to Home"
+    }
+}
