@@ -56,7 +56,11 @@
 
         .page-title { margin: 0 0 8px; font-size: 25px; font-weight: 700; }
         .page-subtitle { margin: 0 0 22px; color: var(--text-secondary); font-size: 14px; }
-        .section-title { margin: 26px 0 14px; font-size: 19px; font-weight: 700; }
+        
+        /* Section Header with View All */
+        .section-header { display: flex; justify-content: space-between; align-items: baseline; margin: 26px 0 14px; }
+        .section-title { margin: 0; font-size: 19px; font-weight: 700; }
+        .view-all { font-size: 14px; color: var(--primary); font-weight: 700; cursor: pointer; }
         
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 12px; position: relative; }
         .card.clickable { cursor: pointer; transition: transform 0.2s; }
@@ -131,6 +135,9 @@
             <div class="nav-item" data-route="provinces" onclick="window.location.hash='#/provinces'">
                 <span class="nav-icon">◈</span><span data-i18n="nav.provinces">استان‌ها</span>
             </div>
+            <div class="nav-item" data-route="attractions" onclick="window.location.hash='#/attractions'">
+                <span class="nav-icon">🏛️</span><span data-i18n="nav.attractions">جاذبه‌ها</span>
+            </div>
             <div class="nav-item" data-route="favorites" onclick="window.location.hash='#/favorites'">
                 <span class="nav-icon">♡</span><span data-i18n="nav.favorites">علاقه‌مندی</span>
             </div>
@@ -142,8 +149,10 @@
 
     <script>
         // =========================================
-        // DATA
+        // VERSION & DATA
         // =========================================
+        const APP_VERSION = "1.0.0";
+        
         const PROVINCES_DATA = [
             { id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', capital_id: 'tehran', desc_fa: 'استان تهران مرکز سیاسی، اقتصادی و فرهنگی ایران است.', desc_en: 'Tehran Province is the political, economic, and cultural center of Iran.' },
             { id: 'alborz', name_fa: 'البرز', name_en: 'Alborz', capital_id: 'karaj', desc_fa: 'استان البرز با طبیعت کوهستانی و جاذبه‌های گردشگری در نزدیکی تهران قرار دارد.', desc_en: 'Alborz Province features mountain landscapes and tourist attractions near Tehran.' },
@@ -292,40 +301,42 @@
             "fa": {
                 "home.title": "به ایران‌گرد هیرکان خوش آمدید",
                 "home.desc": "زیبایی‌های ایران را کشف کنید",
-                "nav.home": "خانه", "nav.provinces": "استان‌ها", "nav.favorites": "علاقه‌مندی", "nav.settings": "تنظیمات",
+                "nav.home": "خانه", "nav.provinces": "استان‌ها", "nav.attractions": "جاذبه‌ها", "nav.favorites": "علاقه‌مندی", "nav.settings": "تنظیمات",
                 "hirkan.title": "توسعه‌یافته توسط هیرکان", "hirkan.desc": "طراحی و توسعه توسط Hirkan Develop Group", "hirkan.btn": "وب‌سایت هیرکان",
                 "search.placeholder": "جستجوی استان، شهر یا جاذبه...",
                 "search.results": "نتایج جستجو",
                 "provinces.title": "استان‌های ایران", "province.capital": "مرکز استان",
+                "attractions.title": "جاذبه‌های گردشگری ایران",
                 "city.attractions": "جاذبه‌های گردشگری",
                 "attraction.city": "شهر", "attraction.province": "استان", "attraction.tips": "نکات بازدید",
-                "btn.back": "بازگشت", "btn.view_city": "مشاهده شهر", "btn.view_attraction": "مشاهده جزئیات",
+                "btn.back": "بازگشت", "btn.view_city": "مشاهده شهر", "btn.view_all": "مشاهده همه",
                 "no.results": "موردی یافت نشد.", "no.attractions": "هنوز جاذبه‌ای برای این شهر ثبت نشده است.",
                 "featured.attractions": "جاذبه‌های شاخص ایران",
                 "settings.title": "تنظیمات", "settings.theme": "حالت نمایش", "settings.theme.desc": "تغییر بین حالت روز و شب",
                 "settings.lang": "زبان برنامه", "settings.lang.desc": "تغییر زبان برنامه (فارسی/انگلیسی)",
                 "settings.clear_fav": "پاک کردن علاقه‌مندی‌ها", "settings.clear_fav.desc": "حذف تمام موارد نشان‌شده",
-                "settings.clear_btn": "پاک کن",
+                "settings.clear_btn": "پاک کن", "settings.version": "نسخه برنامه",
                 "fav.empty": "هنوز هیچ موردی را نشان نکرده‌اید. با زدن آیکون قلب (♡) روی کارت‌ها، آن‌ها را اینجا ذخیره کنید.",
                 "fav.title": "علاقه‌مندی‌های من"
             },
             "en": {
                 "home.title": "Welcome to Irangard Hirkan",
                 "home.desc": "Discover the beauty of Iran",
-                "nav.home": "Home", "nav.provinces": "Provinces", "nav.favorites": "Favorites", "nav.settings": "Settings",
+                "nav.home": "Home", "nav.provinces": "Provinces", "nav.attractions": "Attractions", "nav.favorites": "Favorites", "nav.settings": "Settings",
                 "hirkan.title": "Developed by Hirkan", "hirkan.desc": "Designed and developed by Hirkan Develop Group", "hirkan.btn": "Hirkan Website",
                 "search.placeholder": "Search province, city or attraction...",
                 "search.results": "Search Results",
                 "provinces.title": "Provinces of Iran", "province.capital": "Capital",
+                "attractions.title": "Tourist Attractions of Iran",
                 "city.attractions": "Tourist Attractions",
                 "attraction.city": "City", "attraction.province": "Province", "attraction.tips": "Visiting Tips",
-                "btn.back": "Back", "btn.view_city": "View City", "btn.view_attraction": "View Details",
+                "btn.back": "Back", "btn.view_city": "View City", "btn.view_all": "View All",
                 "no.results": "No results found.", "no.attractions": "No attractions recorded for this city yet.",
                 "featured.attractions": "Featured Attractions of Iran",
                 "settings.title": "Settings", "settings.theme": "Theme Mode", "settings.theme.desc": "Switch between Light and Dark mode",
                 "settings.lang": "App Language", "settings.lang.desc": "Change app language (Persian/English)",
                 "settings.clear_fav": "Clear Favorites", "settings.clear_fav.desc": "Remove all saved items",
-                "settings.clear_btn": "Clear",
+                "settings.clear_btn": "Clear", "settings.version": "App Version",
                 "fav.empty": "You haven't liked anything yet. Tap the heart icon (♡) on cards to save them here.",
                 "fav.title": "My Favorites"
             }
@@ -359,7 +370,6 @@
             document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
             localStorage.setItem('irangard_theme', currentTheme);
             
-            // Update settings UI if we are on settings page
             if(window.location.hash === '#/settings') router();
         }
 
@@ -373,15 +383,13 @@
         }
 
         function toggleFavorite(id, event) {
-            event.stopPropagation(); // Prevent card click
+            event.stopPropagation();
             if (favorites.includes(id)) {
                 favorites = favorites.filter(f => f !== id);
             } else {
                 favorites.push(id);
             }
             localStorage.setItem('irangard_favs', JSON.stringify(favorites));
-            
-            // Re-render current page to update heart icons
             router();
         }
 
@@ -394,10 +402,9 @@
         }
 
         // =========================================
-        // ROUTER (Fixed)
+        // ROUTER
         // =========================================
         function router() {
-            // Clean the hash (remove #/ or #)
             let hash = window.location.hash.replace(/^#\/?/, '');
             if (!hash) hash = 'home';
             
@@ -417,6 +424,9 @@
             } else if (routeName === 'provinces') {
                 document.querySelector('[data-route="provinces"]').classList.add('active');
                 renderProvincesList(t);
+            } else if (routeName === 'attractions') {
+                document.querySelector('[data-route="attractions"]').classList.add('active');
+                renderAttractionsList(t);
             } else if (routeName === 'favorites') {
                 document.querySelector('[data-route="favorites"]').classList.add('active');
                 renderFavorites(t);
@@ -434,8 +444,9 @@
         // VIEWS
         // =========================================
         function renderHome(t) {
-            // Get 6 featured attractions (UNESCO)
+            // Get 6 featured attractions (UNESCO) and 6 provinces
             const featured = ATTRACTIONS_DATA.filter(a => a.category_fa.includes('یونسکو')).slice(0, 6);
+            const homeProvinces = PROVINCES_DATA.slice(0, 6);
 
             const html = `
                 <h1 class="page-title">${t['home.title']}</h1>
@@ -452,15 +463,21 @@
 
                 <div id="main-content-area">
                     <!-- Featured Attractions -->
-                    <h2 class="section-title">${t['featured.attractions']}</h2>
+                    <div class="section-header">
+                        <h2 class="section-title">${t['featured.attractions']}</h2>
+                        <span class="view-all" onclick="window.location.hash='#/attractions'">${t['btn.view_all']} ←</span>
+                    </div>
                     <div class="grid" style="margin-bottom: 30px;">
                         ${featured.map(a => generateAttractionCard(a, t)).join('')}
                     </div>
 
                     <!-- Provinces -->
-                    <h2 class="section-title">${t['provinces.title']}</h2>
+                    <div class="section-header">
+                        <h2 class="section-title">${t['provinces.title']}</h2>
+                        <span class="view-all" onclick="window.location.hash='#/provinces'">${t['btn.view_all']} ←</span>
+                    </div>
                     <div id="provinces-grid" class="grid">
-                        ${generateProvinceCards(PROVINCES_DATA, t)}
+                        ${generateProvinceCards(homeProvinces, t)}
                     </div>
                 </div>
 
@@ -474,6 +491,20 @@
                 <h1 class="page-title">${t['provinces.title']}</h1>
                 <div class="grid">
                     ${generateProvinceCards(PROVINCES_DATA, t)}
+                </div>
+                ${getHirkanBanner(t)}
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        function renderAttractionsList(t) {
+            const html = `
+                <h1 class="page-title">${t['attractions.title']}</h1>
+                <div class="search-container">
+                    <input type="search" id="attr-search-input" class="input" placeholder="${t['search.placeholder']}" oninput="filterAttractionsPage(this.value)" />
+                </div>
+                <div id="all-attractions-grid" class="grid">
+                    ${ATTRACTIONS_DATA.map(a => generateAttractionCard(a, t)).join('')}
                 </div>
                 ${getHirkanBanner(t)}
             `;
@@ -623,7 +654,7 @@
                     html += `</div>`;
                 }
                 if (favAttractions.length > 0) {
-                    html += `<h2 class="section-title">${t['city.attractions']}</h2><div class="grid">`;
+                    html += `<h2 class="section-title">${t['nav.attractions']}</h2><div class="grid">`;
                     html += favAttractions.map(a => generateAttractionCard(a, t)).join('');
                     html += `</div>`;
                 }
@@ -664,6 +695,10 @@
                         </div>
                         <button class="button" style="margin:0; background:var(--danger);" onclick="clearFavorites()">${t['settings.clear_btn']}</button>
                     </div>
+                </div>
+                
+                <div style="text-align:center; margin-top:40px; color:var(--text-muted); font-size:13px;">
+                    ${t['settings.version']}: ${APP_VERSION}
                 </div>
 
                 ${getHirkanBanner(t)}
@@ -757,11 +792,34 @@
             }
 
             if (matchedAttrs.length > 0) {
-                html += `<h3 style="grid-column: 1/-1; margin-top:10px; color:var(--primary);">${t['city.attractions']}</h3>`;
+                html += `<h3 style="grid-column: 1/-1; margin-top:10px; color:var(--primary);">${t['nav.attractions']}</h3>`;
                 html += matchedAttrs.map(a => generateAttractionCard(a, t)).join('');
             }
 
             searchGrid.innerHTML = html;
+        }
+        
+        // Filter just the attractions page
+        function filterAttractionsPage(query) {
+            const t = TRANSLATIONS[currentLang];
+            const q = query.trim().toLowerCase();
+            const grid = document.getElementById('all-attractions-grid');
+            
+            if(q.length < 2) {
+                 grid.innerHTML = ATTRACTIONS_DATA.map(a => generateAttractionCard(a, t)).join('');
+                 return;
+            }
+            
+            const matched = ATTRACTIONS_DATA.filter(a => 
+                a.name_fa.includes(q) || a.name_en.toLowerCase().includes(q) ||
+                a.desc_fa.includes(q) || a.desc_en.toLowerCase().includes(q)
+            );
+            
+            if(matched.length === 0) {
+                grid.innerHTML = `<p>${t['no.results']}</p>`;
+            } else {
+                grid.innerHTML = matched.map(a => generateAttractionCard(a, t)).join('');
+            }
         }
     </script>
 </body>
