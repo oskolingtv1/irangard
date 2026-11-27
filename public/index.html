@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#0f766e">
     <title>ایران‌گرد هیرکان | Irangard Hirkan</title>
     <link rel="manifest" href="/manifest.json">
+    
     <style>
         :root {
             --primary: #0f766e; --primary-hover: #115e59; --primary-light: #ccfbf1;
@@ -45,12 +46,10 @@
         }
         .language-button { padding: 8px 12px; background: var(--primary-light); color: var(--primary); border: none; border-radius: var(--radius-sm); font-weight: 700; }
 
-        /* Bottom Nav (Adjusted for 6 items) */
         .bottom-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 900px; height: 68px; display: flex; align-items: center; justify-content: space-around;
-            background: var(--surface); border-top: 1px solid var(--border); z-index: 100;
-            padding: 0 4px;
+            background: var(--surface); border-top: 1px solid var(--border); z-index: 100; padding: 0 4px;
         }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); font-size: 10px; cursor: pointer; }
         .nav-icon { font-size: 20px; }
@@ -68,6 +67,16 @@
         .card.clickable:active { transform: scale(0.98); }
         .card-title { margin: 0 0 6px; font-size: 17px; font-weight: 700; color: var(--primary); padding-left: 30px; }
         .card-description { margin: 0; color: var(--text-secondary); font-size: 13px; }
+        
+        /* ==== کلاس جدید برای متن‌های طولانی (500 کلمه‌ای) ==== */
+        .rich-text {
+            white-space: pre-line; /* این دستور \n\n را تبدیل به پاراگراف واقعی می‌کند */
+            line-height: 1.9;
+            text-align: justify;
+            font-size: 15px;
+            color: var(--text-primary);
+            margin-top: 10px;
+        }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
         .button {
@@ -95,12 +104,10 @@
             padding: 12px; border-radius: var(--radius-sm); margin-top: 16px; font-size: 14px;
         }
 
-        /* Tabs for Travel Info */
         .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
         .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 700; color: var(--text-secondary); border-bottom: 3px solid transparent; transition: all 0.2s; }
         .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-        /* Heart Icon (Favorites) */
         .fav-btn {
             position: absolute; top: 14px; left: 14px;
             background: none; border: none; font-size: 22px; padding: 0;
@@ -157,142 +164,16 @@
     </div>
 
     <script>
-        const APP_VERSION = "1.0.0";
+        // دیتاها از فایل data.js لود می‌شوند
+        const APP_VERSION = "1.1.0"; // نسخه را بالا بردم چون محتوا غنی شده
         
-        const PROVINCES_DATA = [
-            { id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', capital_id: 'tehran', desc_fa: 'استان تهران مرکز سیاسی، اقتصادی و فرهنگی ایران است.', desc_en: 'Tehran Province is the political, economic, and cultural center of Iran.' },
-            { id: 'alborz', name_fa: 'البرز', name_en: 'Alborz', capital_id: 'karaj', desc_fa: 'استان البرز با طبیعت کوهستانی و جاذبه‌های گردشگری در نزدیکی تهران قرار دارد.', desc_en: 'Alborz Province features mountain landscapes and tourist attractions near Tehran.' },
-            { id: 'isfahan', name_fa: 'اصفهان', name_en: 'Isfahan', capital_id: 'isfahan', desc_fa: 'استان اصفهان با معماری تاریخی و آثار باشکوه یکی از قطب‌های گردشگری ایران است.', desc_en: 'Isfahan Province is a major tourism destination known for its magnificent historical architecture.' },
-            { id: 'fars', name_fa: 'فارس', name_en: 'Fars', capital_id: 'shiraz', desc_fa: 'استان فارس سرزمین تاریخ، شعر و تمدن باستانی ایران است.', desc_en: 'Fars Province is a land of history, poetry, and ancient Persian civilization.' },
-            { id: 'razavi-khorasan', name_fa: 'خراسان رضوی', name_en: 'Razavi Khorasan', capital_id: 'mashhad', desc_fa: 'استان خراسان رضوی به دلیل وجود حرم امام رضا از مهم‌ترین مقاصد زیارتی ایران است.', desc_en: 'Razavi Khorasan is one of Iran’s most important pilgrimage destinations.' },
-            { id: 'north-khorasan', name_fa: 'خراسان شمالی', name_en: 'North Khorasan', capital_id: 'bojnurd', desc_fa: 'استان خراسان شمالی با طبیعت سرسبز و فرهنگ اقوام گوناگون شناخته می‌شود.', desc_en: 'North Khorasan is known for its green landscapes and diverse ethnic cultures.' },
-            { id: 'south-khorasan', name_fa: 'خراسان جنوبی', name_en: 'South Khorasan', capital_id: 'birjand', desc_fa: 'استان خراسان جنوبی با کویرهای زیبا و محصولات کشاورزی بومی شناخته می‌شود.', desc_en: 'South Khorasan is known for its beautiful deserts and traditional agricultural products.' },
-            { id: 'east-azerbaijan', name_fa: 'آذربایجان شرقی', name_en: 'East Azerbaijan', capital_id: 'tabriz', desc_fa: 'استان آذربایجان شرقی با تاریخ غنی، بازارهای سنتی و طبیعت کوهستانی شناخته می‌شود.', desc_en: 'East Azerbaijan is known for its rich history, traditional bazaars, and mountain scenery.' },
-            { id: 'west-azerbaijan', name_fa: 'آذربایجان غربی', name_en: 'West Azerbaijan', capital_id: 'urmia', desc_fa: 'استان آذربایجان غربی با دریاچه ارومیه و جاذبه‌های طبیعی و تاریخی شناخته می‌شود.', desc_en: 'West Azerbaijan is known for Lake Urmia and its natural and historical attractions.' },
-            { id: 'ardabil', name_fa: 'اردبیل', name_en: 'Ardabil', capital_id: 'ardabil', desc_fa: 'استان اردبیل با چشمه‌های آب گرم، کوه سبلان و طبیعت خنک مقصدی گردشگری است.', desc_en: 'Ardabil Province is a tourism destination famous for hot springs, Mount Sabalan, and cool landscapes.' },
-            { id: 'zanjan', name_fa: 'زنجان', name_en: 'Zanjan', capital_id: 'zanjan', desc_fa: 'استان زنجان با صنایع دستی، گنبد سلطانیه و جاذبه‌های تاریخی شناخته می‌شود.', desc_en: 'Zanjan Province is known for its handicrafts, Soltaniyeh Dome, and historical attractions.' },
-            { id: 'gilan', name_fa: 'گیلان', name_en: 'Gilan', capital_id: 'rasht', desc_fa: 'استان گیلان با جنگل‌های سرسبز، شالیزارها و سواحل دریای خزر شناخته می‌شود.', desc_en: 'Gilan Province is famous for its green forests, rice fields, and Caspian Sea coastline.' },
-            { id: 'mazandaran', name_fa: 'مازندران', name_en: 'Mazandaran', capital_id: 'sari', desc_fa: 'استان مازندران با جنگل‌های هیرکانی، کوهستان و سواحل زیبای خزر مقصدی محبوب است.', desc_en: 'Mazandaran is a popular destination featuring Hyrcanian forests, mountains, and beautiful Caspian beaches.' },
-            { id: 'golestan', name_fa: 'گلستان', name_en: 'Golestan', capital_id: 'gorgan', desc_fa: 'استان گلستان با جنگل‌های باستانی، آبشارها و تنوع زیستی چشمگیر شناخته می‌شود.', desc_en: 'Golestan Province is known for its ancient forests, waterfalls, and remarkable biodiversity.' },
-            { id: 'qazvin', name_fa: 'قزوین', name_en: 'Qazvin', capital_id: 'qazvin', desc_fa: 'استان قزوین با بناهای تاریخی، باغ‌های سنتی و آثار فرهنگی ارزشمند شناخته می‌شود.', desc_en: 'Qazvin Province is known for its historical buildings, traditional gardens, and cultural heritage.' },
-            { id: 'markazi', name_fa: 'مرکزی', name_en: 'Markazi', capital_id: 'arak', desc_fa: 'استان مرکزی با آثار تاریخی، روستاهای دیدنی و جاذبه‌های طبیعی شناخته می‌شود.', desc_en: 'Markazi Province is known for its historical monuments, scenic villages, and natural attractions.' },
-            { id: 'hamadan', name_fa: 'همدان', name_en: 'Hamadan', capital_id: 'hamadan', desc_fa: 'استان همدان با پیشینه تاریخی کهن و جاذبه‌هایی مانند غار علیصدر شناخته می‌شود.', desc_en: 'Hamadan Province is known for its ancient history and attractions such as Ali Sadr Cave.' },
-            { id: 'kurdistan', name_fa: 'کردستان', name_en: 'Kurdistan', capital_id: 'sanandaj', desc_fa: 'استان کردستان با کوهستان‌های زیبا، فرهنگ کردی و موسیقی محلی شناخته می‌شود.', desc_en: 'Kurdistan Province is known for its beautiful mountains, Kurdish culture, and traditional music.' },
-            { id: 'kermanshah', name_fa: 'کرمانشاه', name_en: 'Kermanshah', capital_id: 'kermanshah', desc_fa: 'استان کرمانشاه با آثار باستانی ارزشمند و طبیعت کوهستانی شناخته می‌شود.', desc_en: 'Kermanshah Province is known for its valuable archaeological sites and mountain landscapes.' },
-            { id: 'lorestan', name_fa: 'لرستان', name_en: 'Lorestan', capital_id: 'khorramabad', desc_fa: 'استان لرستان با آبشارهای فراوان، کوه‌های زاگرس و طبیعت بکر شناخته می‌شود.', desc_en: 'Lorestan Province is known for its numerous waterfalls, Zagros Mountains, and pristine nature.' },
-            { id: 'ilam', name_fa: 'ایلام', name_en: 'Ilam', capital_id: 'ilam', desc_fa: 'استان ایلام با جنگل‌های بلوط، دره‌های زیبا و طبیعت زاگرسی شناخته می‌شود.', desc_en: 'Ilam Province is known for its oak forests, beautiful valleys, and Zagros landscapes.' },
-            { id: 'khuzestan', name_fa: 'خوزستان', name_en: 'Khuzestan', capital_id: 'ahvaz', desc_fa: 'استان خوزستان با تاریخ باستانی، رودخانه‌های بزرگ و تمدن کهن شناخته می‌شود.', desc_en: 'Khuzestan Province is known for its ancient civilization, historic heritage, and major rivers.' },
-            { id: 'chaharmahal-and-bakhtiari', name_fa: 'چهارمحال و بختیاری', name_en: 'Chaharmahal and Bakhtiari', capital_id: 'shahrekord', desc_fa: 'استان چهارمحال و بختیاری با چشمه‌های زلال، کوهستان‌های مرتفع و طبیعت بکر شناخته می‌شود.', desc_en: 'Chaharmahal and Bakhtiari is known for its clear springs, high mountains, and pristine nature.' },
-            { id: 'kohgiluyeh-and-boyer-ahmad', name_fa: 'کهگیلویه و بویراحمد', name_en: 'Kohgiluyeh and Boyer-Ahmad', capital_id: 'yasuj', desc_fa: 'استان کهگیلویه و بویراحمد با جنگل‌های بلوط، آبشارها و طبیعت سرسبز زاگرس شناخته می‌شود.', desc_en: 'Kohgiluyeh and Boyer-Ahmad is known for its oak forests, waterfalls, and green Zagros landscapes.' },
-            { id: 'bushehr', name_fa: 'بوشهر', name_en: 'Bushehr', capital_id: 'bushehr', desc_fa: 'استان بوشهر با سواحل خلیج فارس، معماری ساحلی و فرهنگ دریانوردی شناخته می‌شود.', desc_en: 'Bushehr Province is known for its Persian Gulf coastline, coastal architecture, and maritime culture.' },
-            { id: 'hormozgan', name_fa: 'هرمزگان', name_en: 'Hormozgan', capital_id: 'bandar-abbas', desc_fa: 'استان هرمزگان با جزایر زیبا، سواحل خلیج فارس و جاذبه‌های دریایی شناخته می‌شود.', desc_en: 'Hormozgan Province is known for its beautiful islands, Persian Gulf beaches, and marine attractions.' },
-            { id: 'sistan-and-baluchestan', name_fa: 'سیستان و بلوچستان', name_en: 'Sistan and Baluchestan', capital_id: 'zahedan', desc_fa: 'استان سیستان و بلوچستان با فرهنگ بومی، سواحل مکران و آثار تاریخی کهن شناخته می‌شود.', desc_en: 'Sistan and Baluchestan is known for its indigenous cultures, Makran coastline, and ancient historical sites.' },
-            { id: 'kerman', name_fa: 'کرمان', name_en: 'Kerman', capital_id: 'kerman', desc_fa: 'استان کرمان با باغ‌های تاریخی، کویرهای شگفت‌انگیز و آثار تمدن باستانی شناخته می‌شود.', desc_en: 'Kerman Province is known for its historical gardens, spectacular deserts, and ancient heritage.' },
-            { id: 'yazd', name_fa: 'یزد', name_en: 'Yazd', capital_id: 'yazd', desc_fa: 'استان یزد با معماری خشتی، بادگیرها و بافت تاریخی ثبت جهانی شناخته می‌شود.', desc_en: 'Yazd Province is known for its adobe architecture, windcatchers, and UNESCO-listed historic city.' },
-            { id: 'semnan', name_fa: 'سمنان', name_en: 'Semnan', capital_id: 'semnan', desc_fa: 'استان سمنان با کویرهای وسیع، مناطق حفاظت‌شده و جاذبه‌های تاریخی شناخته می‌شود.', desc_en: 'Semnan Province is known for its vast deserts, protected areas, and historical attractions.' },
-            { id: 'qom', name_fa: 'قم', name_en: 'Qom', capital_id: 'qom', desc_fa: 'استان قم با حرم حضرت معصومه و جایگاه مهم مذهبی و تاریخی شناخته می‌شود.', desc_en: 'Qom Province is known for the Shrine of Fatima Masumeh and its important religious heritage.' }
-        ];
-
-        const CITIES_DATA = [
-            { id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', province_id: 'tehran', desc_fa: 'تهران پایتخت ایران و شهری بزرگ با جاذبه‌های تاریخی، فرهنگی و مدرن است.', desc_en: 'Tehran is the capital of Iran and a major city with historical, cultural, and modern attractions.' },
-            { id: 'karaj', name_fa: 'کرج', name_en: 'Karaj', province_id: 'alborz', desc_fa: 'کرج مرکز استان البرز و شهری در دامنه رشته‌کوه البرز است.', desc_en: 'Karaj is the capital of Alborz Province, located near the Alborz mountain range.' },
-            { id: 'isfahan', name_fa: 'اصفهان', name_en: 'Isfahan', province_id: 'isfahan', desc_fa: 'اصفهان شهری تاریخی با میدان نقش جهان، پل‌های قدیمی و معماری باشکوه است.', desc_en: 'Isfahan is a historic city famous for Naqsh-e Jahan Square, ancient bridges, and magnificent architecture.' },
-            { id: 'shiraz', name_fa: 'شیراز', name_en: 'Shiraz', province_id: 'fars', desc_fa: 'شیراز شهر شعر و ادب فارسی و زادگاه شاعران بزرگی چون حافظ و سعدی است.', desc_en: 'Shiraz is a city of Persian poetry and literature and the home of renowned poets Hafez and Saadi.' },
-            { id: 'mashhad', name_fa: 'مشهد', name_en: 'Mashhad', province_id: 'razavi-khorasan', desc_fa: 'مشهد یکی از مهم‌ترین شهرهای زیارتی ایران و میزبان حرم امام رضا است.', desc_en: 'Mashhad is one of Iran’s most important pilgrimage cities and home to the Imam Reza Shrine.' },
-            { id: 'bojnurd', name_fa: 'بجنورد', name_en: 'Bojnurd', province_id: 'north-khorasan', desc_fa: 'بجنورد مرکز خراسان شمالی و شهری با فرهنگ و طبیعت متنوع است.', desc_en: 'Bojnurd is the capital of North Khorasan and a city with diverse culture and landscapes.' },
-            { id: 'birjand', name_fa: 'بیرجند', name_en: 'Birjand', province_id: 'south-khorasan', desc_fa: 'بیرجند شهری تاریخی با باغ‌های ایرانی و معماری سنتی در شرق ایران است.', desc_en: 'Birjand is a historic eastern Iranian city known for its Persian gardens and traditional architecture.' },
-            { id: 'tabriz', name_fa: 'تبریز', name_en: 'Tabriz', province_id: 'east-azerbaijan', desc_fa: 'تبریز شهری تاریخی با بازار بزرگ سرپوشیده و فرهنگ غنی آذربایجانی است.', desc_en: 'Tabriz is a historic city known for its grand covered bazaar and rich Azerbaijani culture.' },
-            { id: 'urmia', name_fa: 'ارومیه', name_en: 'Urmia', province_id: 'west-azerbaijan', desc_fa: 'ارومیه شهری تاریخی در کنار دریاچه ارومیه با فرهنگی چندقومیتی است.', desc_en: 'Urmia is a historic city near Lake Urmia with a multicultural heritage.' },
-            { id: 'ardabil', name_fa: 'اردبیل', name_en: 'Ardabil', province_id: 'ardabil', desc_fa: 'اردبیل شهری باستانی و خنک در نزدیکی کوه سبلان و چشمه‌های آب گرم است.', desc_en: 'Ardabil is an ancient, cool-climate city near Mount Sabalan and natural hot springs.' },
-            { id: 'zanjan', name_fa: 'زنجان', name_en: 'Zanjan', province_id: 'zanjan', desc_fa: 'زنجان شهری تاریخی با صنایع دستی مشهور و جاذبه‌های فرهنگی است.', desc_en: 'Zanjan is a historic city famous for its handicrafts and cultural attractions.' },
-            { id: 'rasht', name_fa: 'رشت', name_en: 'Rasht', province_id: 'gilan', desc_fa: 'رشت مرکز گیلان و شهری سرسبز با غذاهای محلی و فرهنگ غنی است.', desc_en: 'Rasht is the capital of Gilan, a green city famous for its local cuisine and rich culture.' },
-            { id: 'sari', name_fa: 'ساری', name_en: 'Sari', province_id: 'mazandaran', desc_fa: 'ساری مرکز مازندران و شهری سرسبز در نزدیکی جنگل‌ها و دریای خزر است.', desc_en: 'Sari is the capital of Mazandaran, a green city near forests and the Caspian Sea.' },
-            { id: 'gorgan', name_fa: 'گرگان', name_en: 'Gorgan', province_id: 'golestan', desc_fa: 'گرگان شهری تاریخی با طبیعت سرسبز و دسترسی به جنگل‌های هیرکانی است.', desc_en: 'Gorgan is a historic city surrounded by green landscapes and Hyrcanian forests.' },
-            { id: 'qazvin', name_fa: 'قزوین', name_en: 'Qazvin', province_id: 'qazvin', desc_fa: 'قزوین شهری تاریخی با بناهای صفوی، مساجد قدیمی و شیرینی‌های سنتی است.', desc_en: 'Qazvin is a historic city known for Safavid architecture, ancient mosques, and traditional sweets.' },
-            { id: 'arak', name_fa: 'اراک', name_en: 'Arak', province_id: 'markazi', desc_fa: 'اراک مرکز استان مرکزی و شهری با پیشینه صنعتی و جاذبه‌های تاریخی است.', desc_en: 'Arak is the capital of Markazi Province, known for its industrial heritage and historical attractions.' },
-            { id: 'hamadan', name_fa: 'همدان', name_en: 'Hamadan', province_id: 'hamadan', desc_fa: 'همدان از کهن‌ترین شهرهای ایران و میزبان آرامگاه بوعلی سینا است.', desc_en: 'Hamadan is one of Iran’s oldest cities and home to the Avicenna Mausoleum.' },
-            { id: 'sanandaj', name_fa: 'سنندج', name_en: 'Sanandaj', province_id: 'kurdistan', desc_fa: 'سنندج مرکز کردستان و شهری شناخته‌شده برای موسیقی و فرهنگ کردی است.', desc_en: 'Sanandaj is the capital of Kurdistan and is renowned for Kurdish music and culture.' },
-            { id: 'kermanshah', name_fa: 'کرمانشاه', name_en: 'Kermanshah', province_id: 'kermanshah', desc_fa: 'کرمانشاه شهری تاریخی در زاگرس و نزدیک به مجموعه باستانی طاق بستان است.', desc_en: 'Kermanshah is a historic Zagros city near the ancient Taq-e Bostan complex.' },
-            { id: 'khorramabad', name_fa: 'خرم‌آباد', name_en: 'Khorramabad', province_id: 'lorestan', desc_fa: 'خرم‌آباد شهری سرسبز با قلعه فلک‌الافلاک و آبشارهای دیدنی است.', desc_en: 'Khorramabad is a green city famous for Falak-ol-Aflak Castle and scenic waterfalls.' },
-            { id: 'ilam', name_fa: 'ایلام', name_en: 'Ilam', province_id: 'ilam', desc_fa: 'ایلام شهری کوهستانی با جنگل‌های بلوط و طبیعت زیبای زاگرس است.', desc_en: 'Ilam is a mountainous city surrounded by oak forests and beautiful Zagros landscapes.' },
-            { id: 'ahvaz', name_fa: 'اهواز', name_en: 'Ahvaz', province_id: 'khuzestan', desc_fa: 'اهواز مرکز خوزستان و شهری بزرگ در کنار رودخانه کارون است.', desc_en: 'Ahvaz is the capital of Khuzestan and a major city situated along the Karun River.' },
-            { id: 'shahrekord', name_fa: 'شهرکرد', name_en: 'Shahrekord', province_id: 'chaharmahal-and-bakhtiari', desc_fa: 'شهرکرد یکی از مرتفع‌ترین مراکز استان ایران و شهری با آب‌وهوای خنک است.', desc_en: 'Shahrekord is one of Iran’s highest provincial capitals and is known for its cool climate.' },
-            { id: 'yasuj', name_fa: 'یاسوج', name_en: 'Yasuj', province_id: 'kohgiluyeh-and-boyer-ahmad', desc_fa: 'یاسوج شهری کوهستانی با آبشارها و جنگل‌های زیبای بلوط است.', desc_en: 'Yasuj is a mountainous city known for its waterfalls and beautiful oak forests.' },
-            { id: 'bushehr', name_fa: 'بوشهر', name_en: 'Bushehr', province_id: 'bushehr', desc_fa: 'بوشهر شهری بندری با معماری تاریخی و چشم‌انداز زیبای خلیج فارس است.', desc_en: 'Bushehr is a port city with historic architecture and beautiful Persian Gulf views.' },
-            { id: 'bandar-abbas', name_fa: 'بندرعباس', name_en: 'Bandar Abbas', province_id: 'hormozgan', desc_fa: 'بندرعباس مرکز هرمزگان و یکی از مهم‌ترین شهرهای بندری جنوب ایران است.', desc_en: 'Bandar Abbas is the capital of Hormozgan and one of southern Iran’s most important port cities.' },
-            { id: 'zahedan', name_fa: 'زاهدان', name_en: 'Zahedan', province_id: 'sistan-and-baluchestan', desc_fa: 'زاهدان مرکز سیستان و بلوچستان و شهری با فرهنگ بومی متنوع است.', desc_en: 'Zahedan is the capital of Sistan and Baluchestan and a city with diverse local cultures.' },
-            { id: 'kerman', name_fa: 'کرمان', name_en: 'Kerman', province_id: 'kerman', desc_fa: 'کرمان شهری تاریخی با بازارهای سنتی، باغ شاهزاده و آثار معماری ارزشمند است.', desc_en: 'Kerman is a historic city known for traditional bazaars, Shazdeh Garden, and valuable architecture.' },
-            { id: 'yazd', name_fa: 'یزد', name_en: 'Yazd', province_id: 'yazd', desc_fa: 'یزد شهری کویری با بادگیرهای سنتی و بافت تاریخی ثبت‌شده در یونسکو است.', desc_en: 'Yazd is a desert city famous for traditional windcatchers and its UNESCO-listed historic center.' },
-            { id: 'semnan', name_fa: 'سمنان', name_en: 'Semnan', province_id: 'semnan', desc_fa: 'سمنان شهری تاریخی در حاشیه کویر با جاذبه‌های طبیعی و فرهنگی است.', desc_en: 'Semnan is a historic city on the edge of the desert with natural and cultural attractions.' },
-            { id: 'qom', name_fa: 'قم', name_en: 'Qom', province_id: 'qom', desc_fa: 'قم شهری مذهبی و تاریخی با حرم حضرت معصومه و مراکز فرهنگی است.', desc_en: 'Qom is a religious and historic city known for the Shrine of Fatima Masumeh and cultural centers.' }
-        ];
-
-        // برای صرفه جویی در حجم، من فقط ۲۰ جاذبه اول را اینجا گذاشتم. شما می‌توانید بقیه را اضافه کنید.
-        const ATTRACTIONS_DATA = [
-            { id: 'persepolis', name_fa: 'تخت جمشید', name_en: 'Persepolis', city_id: 'marvdasht', province_id: 'fars', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'تخت جمشید پایتخت تشریفاتی امپراتوری هخامنشی بود که به دستور داریوش بزرگ ساخته شد. این مجموعه باستانی با ستون‌های عظیم، پلکان‌های سنگی و نقش‌برجسته‌های باشکوه، نمادی از هنر و تمدن ایران باستان است.', desc_en: 'Persepolis was the ceremonial capital of the Achaemenid Empire, founded under Darius the Great. Its monumental columns, stone staircases, and magnificent reliefs showcase the art and civilization of ancient Persia.', tips_fa: 'برای بازدید کامل، صبح زود و در هوای خنک مراجعه کنید.', tips_en: 'Visit early in the morning for a more comfortable experience.' },
-            { id: 'naqsh-e-rostam', name_fa: 'نقش رستم', name_en: 'Naqsh-e Rostam', city_id: 'marvdasht', province_id: 'fars', category_fa: 'میراث تاریخی', category_en: 'Historical Heritage', desc_fa: 'نقش رستم مجموعه‌ای از آرامگاه‌های شاهان هخامنشی و سنگ‌نگاره‌های ساسانی است. این محوطه تاریخی از مهم‌ترین آثار باستانی ایران بوده و روایتگر بخش بزرگی از تاریخ شاهنشاهی ایران است.', desc_en: 'Naqsh-e Rostam contains the rock-cut tombs of Achaemenid kings and remarkable Sassanian reliefs. This archaeological site is one of Iran’s most important historical landmarks, illustrating centuries of Persian imperial history.', tips_fa: 'بازدید از نقش رستم را با تخت جمشید در یک روز برنامه‌ریزی کنید.', tips_en: 'Combine your visit with Persepolis for a full-day historical tour.' },
-            { id: 'pasargadae', name_fa: 'پاسارگاد', name_en: 'Pasargadae', city_id: 'pasargad', province_id: 'fars', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'پاسارگاد نخستین پایتخت امپراتوری هخامنشی و محل آرامگاه کوروش بزرگ است. باغ‌های تاریخی، کاخ‌ها و بقایای معماری این مجموعه نشان‌دهنده آغاز شکوفایی هنر و معماری هخامنشی هستند.', desc_en: 'Pasargadae was the first capital of the Achaemenid Empire and is home to the tomb of Cyrus the Great. Its ancient gardens, palaces, and architectural remains represent the beginnings of Achaemenid artistic and architectural achievements.', tips_fa: 'برای دیدن تمام بخش‌های مجموعه، چند ساعت زمان اختصاص دهید.', tips_en: 'Allow several hours to explore the entire archaeological complex.' },
-            { id: 'naqsh-e-jahan', name_fa: 'میدان نقش جهان', name_en: 'Naqsh-e Jahan Square', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'میدان نقش جهان یکی از بزرگ‌ترین میدان‌های تاریخی جهان است که در دوره صفویه ساخته شد. این میدان با مساجد تاریخی، کاخ عالی‌قاپو و بازارهای سنتی، جلوه‌ای بی‌نظیر از معماری ایرانی را به نمایش می‌گذارد.', desc_en: 'Naqsh-e Jahan Square is one of the largest historic squares in the world, built during the Safavid era. Surrounded by historic mosques, Ali Qapu Palace, and traditional bazaars, it showcases the magnificence of Persian architecture.', tips_fa: 'غروب آفتاب زمان مناسبی برای قدم‌زدن و عکاسی در میدان است.', tips_en: 'Sunset is an excellent time for walking and photography.' },
-            { id: 'ali-qapu', name_fa: 'کاخ عالی‌قاپو', name_en: 'Ali Qapu Palace', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'کاخ تاریخی', category_en: 'Historical Palace', desc_fa: 'کاخ عالی‌قاپو یکی از بناهای شاخص دوره صفویه در میدان نقش جهان است. تالار موسیقی، نقاشی‌های دیواری و ایوان مرتفع آن از ویژگی‌های برجسته معماری این کاخ هستند.', desc_en: 'Ali Qapu Palace is one of the most prominent Safavid monuments overlooking Naqsh-e Jahan Square. Its music hall, wall paintings, and elevated terrace are among the palace’s most remarkable architectural features.', tips_fa: 'تالار موسیقی و ایوان بالایی کاخ را از دست ندهید.', tips_en: 'Do not miss the music hall and the upper terrace.' },
-            { id: 'imam-mosque-isfahan', name_fa: 'مسجد امام اصفهان', name_en: 'Imam Mosque of Isfahan', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد امام اصفهان یکی از شاهکارهای معماری اسلامی و صفوی است که در ضلع جنوبی میدان نقش جهان قرار دارد. کاشی‌کاری‌های فیروزه‌ای، گنبد باشکوه و کتیبه‌های هنری آن شهرت جهانی دارند.', desc_en: 'The Imam Mosque of Isfahan is a masterpiece of Islamic and Safavid architecture located on the southern side of Naqsh-e Jahan Square. Its turquoise tilework, magnificent dome, and artistic inscriptions are internationally renowned.', tips_fa: 'برای مشاهده جزئیات کاشی‌کاری‌ها با دقت در حیاط و شبستان‌ها قدم بزنید.', tips_en: 'Explore the courtyard and prayer halls to appreciate the intricate tilework.' },
-            { id: 'sheikh-lotfollah-mosque', name_fa: 'مسجد شیخ لطف‌الله', name_en: 'Sheikh Lotfollah Mosque', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد شیخ لطف‌الله از زیباترین بناهای دوره صفوی در میدان نقش جهان است. گنبد کرم‌رنگ، نقوش ظریف اسلیمی و تغییر رنگ کاشی‌های آن در نور روز از جذابیت‌های ویژه این بنا محسوب می‌شوند.', desc_en: 'Sheikh Lotfollah Mosque is one of the most beautiful Safavid monuments in Naqsh-e Jahan Square. Its cream-colored dome, delicate arabesque patterns, and changing tile colors under daylight make it particularly distinctive.', tips_fa: 'در ساعات مختلف روز از تغییر رنگ گنبد دیدن کنید.', tips_en: 'Observe the dome at different times of day to appreciate its changing colors.' },
-            { id: 'chehel-sotoun', name_fa: 'کاخ چهلستون', name_en: 'Chehel Sotoun Palace', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'کاخ تاریخی', category_en: 'Historical Palace', desc_fa: 'کاخ چهلستون از بناهای باشکوه دوره صفویه در اصفهان است که در میان باغی زیبا قرار دارد. ایوان ستون‌دار، استخر بزرگ و نقاشی‌های تاریخی تالار اصلی، جلوه‌ای از هنر درباری ایران را نشان می‌دهند.', desc_en: 'Chehel Sotoun Palace is a magnificent Safavid monument situated within a beautiful garden in Isfahan. Its columned veranda, large reflecting pool, and historical paintings showcase the artistic traditions of the Persian royal court.', tips_fa: 'بازتاب ستون‌ها در آب استخر را برای عکاسی امتحان کنید.', tips_en: 'Photograph the reflections of the columns in the palace pool.' },
-            { id: 'jameh-mosque-isfahan', name_fa: 'مسجد جامع اصفهان', name_en: 'Jameh Mosque of Isfahan', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'مسجد جامع اصفهان یکی از قدیمی‌ترین و مهم‌ترین مساجد تاریخی ایران است که در طول قرن‌ها توسعه یافته است. این بنا مجموعه‌ای ارزشمند از سبک‌های معماری دوره‌های مختلف ایران اسلامی را در خود جای داده است.', desc_en: 'The Jameh Mosque of Isfahan is one of Iran’s oldest and most significant historic mosques, developed over many centuries. It contains an extraordinary collection of architectural styles from different periods of Islamic Persian history.', tips_fa: 'برای مشاهده تنوع معماری، بخش‌های مختلف مسجد را به‌طور کامل بازدید کنید.', tips_en: 'Explore the different sections to discover its diverse architectural styles.' },
-            { id: 'si-o-se-pol', name_fa: 'پل سی‌وسه‌پل', name_en: 'Si-o-se-pol Bridge', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'پل تاریخی', category_en: 'Historic Bridge', desc_fa: 'سی‌وسه‌پل یکی از معروف‌ترین پل‌های تاریخی ایران است که در دوره شاه عباس صفوی ساخته شد. این پل با ۳۳ دهانه و معماری آجری چشمگیر، زاینده‌رود را به یکی از نمادهای شهر اصفهان تبدیل کرده است.', desc_en: 'Si-o-se-pol is one of Iran’s most famous historic bridges, built during the reign of Shah Abbas I. With its 33 arches and impressive brick architecture, it has become one of Isfahan’s most recognizable landmarks.', tips_fa: 'شب‌ها برای تماشای نورپردازی و معماری پل مراجعه کنید.', tips_en: 'Visit at night to enjoy the bridge’s architecture and illumination.' },
-            { id: 'khaju-bridge', name_fa: 'پل خواجو', name_en: 'Khaju Bridge', city_id: 'isfahan', province_id: 'isfahan', category_fa: 'پل تاریخی', category_en: 'Historic Bridge', desc_fa: 'پل خواجو از زیباترین پل‌های تاریخی اصفهان است که در دوره صفویه ساخته شد. معماری چندطبقه، تزئینات کاشی‌کاری و فضای تاریخی آن، این پل را به یکی از جاذبه‌های مهم شهر تبدیل کرده است.', desc_en: 'Khaju Bridge is one of the most beautiful historic bridges in Isfahan, built during the Safavid period. Its multi-level architecture, decorative tilework, and historic atmosphere make it an important city attraction.', tips_fa: 'برای تماشای جزئیات معماری، از طبقات مختلف پل بازدید کنید.', tips_en: 'Explore its different levels to appreciate the architectural details.' },
-            { id: 'golestan-palace', name_fa: 'کاخ گلستان', name_en: 'Golestan Palace', city_id: 'tehran', province_id: 'tehran', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'کاخ گلستان مجموعه‌ای تاریخی از دوران قاجار و یکی از مهم‌ترین آثار معماری تهران است. تالار آینه، تخت مرمر و تزئینات کاشی‌کاری و آینه‌کاری آن، هنر و شکوه دربار قاجار را به نمایش می‌گذارند.', desc_en: 'Golestan Palace is a historic Qajar-era complex and one of Tehran’s most important architectural landmarks. Its Mirror Hall, Marble Throne, and intricate tile and mirror decorations showcase the artistic heritage of the Qajar court.', tips_fa: 'برای بازدید از تالارهای مختلف، زمان کافی در نظر بگیرید.', tips_en: 'Allow enough time to explore the palace’s various halls and museums.' },
-            { id: 'national-museum-iran', name_fa: 'موزه ملی ایران', name_en: 'National Museum of Iran', city_id: 'tehran', province_id: 'tehran', category_fa: 'موزه', category_en: 'Museum', desc_fa: 'موزه ملی ایران مهم‌ترین موزه باستان‌شناسی کشور است و آثار ارزشمندی از دوران پیشاتاریخ تا دوره اسلامی را نگهداری می‌کند. این مجموعه فرصتی برای آشنایی با تاریخ، فرهنگ و تمدن چندین هزار ساله ایران فراهم می‌کند.', desc_en: 'The National Museum of Iran is the country’s most important archaeological museum, preserving valuable artifacts from prehistoric times through the Islamic period. It offers visitors an opportunity to explore thousands of years of Iranian history and civilization.', tips_fa: 'بازدید از هر دو بخش ایران باستان و دوران اسلامی را برنامه‌ریزی کنید.', tips_en: 'Plan to visit both the Ancient Iran and Islamic Archaeology sections.' },
-            { id: 'saadabad-palace', name_fa: 'مجموعه کاخ سعدآباد', name_en: 'Saadabad Palace Complex', city_id: 'tehran', province_id: 'tehran', category_fa: 'مجموعه تاریخی', category_en: 'Historical Complex', desc_fa: 'مجموعه سعدآباد در منطقه خوش‌آب‌وهوای شمال تهران قرار دارد و شامل کاخ‌ها و موزه‌های متعددی است. این مجموعه در دوره قاجار شکل گرفت و در دوره پهلوی به اقامتگاه سلطنتی تبدیل شد.', desc_en: 'The Saadabad Complex is located in the scenic northern part of Tehran and contains numerous palaces and museums. Originally developed during the Qajar era, it later became a royal residence during the Pahlavi period.', tips_fa: 'برای بازدید از محوطه گسترده مجموعه کفش مناسب پیاده‌روی بپوشید.', tips_en: 'Wear comfortable walking shoes to explore the extensive grounds.' },
-            { id: 'milad-tower', name_fa: 'برج میلاد', name_en: 'Milad Tower', city_id: 'tehran', province_id: 'tehran', category_fa: 'جاذبه شهری', category_en: 'Urban Attraction', desc_fa: 'برج میلاد یکی از بلندترین برج‌های ایران و از نمادهای مدرن شهر تهران است. این برج دارای سکوی دید باز، فضاهای تفریحی، رستوران‌ها و امکانات فرهنگی و گردشگری است.', desc_en: 'Milad Tower is one of Iran’s tallest towers and a modern symbol of Tehran. It features observation decks, recreational spaces, restaurants, and cultural and tourist facilities.', tips_fa: 'در روزهای صاف برای تماشای چشم‌انداز گسترده تهران مراجعه کنید.', tips_en: 'Visit on a clear day for expansive views of Tehran.' },
-            { id: 'shah-cheragh', name_fa: 'شاهچراغ', name_en: 'Shah Cheragh Shrine', city_id: 'shiraz', province_id: 'fars', category_fa: 'زیارتگاه تاریخی', category_en: 'Historic Shrine', desc_fa: 'شاهچراغ آرامگاه احمد بن موسی، از شخصیت‌های مهم تاریخی و مذهبی شیراز است. فضای داخلی زیارتگاه با آینه‌کاری‌های درخشان، کاشی‌های رنگارنگ و معماری چشمگیر تزئین شده است.', desc_en: 'Shah Cheragh is the shrine of Ahmad ibn Musa, an important historical and religious figure in Shiraz. Its interior is decorated with brilliant mirror mosaics, colorful tiles, and striking architectural details.', tips_fa: 'هنگام بازدید، مقررات پوشش و عکاسی مجموعه را رعایت کنید.', tips_en: 'Respect the shrine’s dress code and photography regulations.' },
-            { id: 'hafez-tomb', name_fa: 'آرامگاه حافظ', name_en: 'Tomb of Hafez', city_id: 'shiraz', province_id: 'fars', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه حافظ، شاعر نامدار ایرانی، در باغی زیبا به نام حافظیه قرار دارد. معماری آرامگاه، فضای شاعرانه باغ و حضور دوستداران شعر فارسی، این مکان را به یکی از محبوب‌ترین جاذبه‌های فرهنگی شیراز تبدیل کرده است.', desc_en: 'The Tomb of Hafez, the resting place of the renowned Persian poet, is located in the beautiful Hafezieh Garden. Its architecture, poetic atmosphere, and visitors celebrating Persian literature make it one of Shiraz’s most beloved cultural attractions.', tips_fa: 'عصر هنگام برای تجربه فضای شاعرانه حافظیه زمان مناسبی است.', tips_en: 'Visit in the evening to enjoy the garden’s poetic atmosphere.' },
-            { id: 'saadi-tomb', name_fa: 'آرامگاه سعدی', name_en: 'Tomb of Saadi', city_id: 'shiraz', province_id: 'fars', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه سعدی در باغی سرسبز در شمال شرقی شیراز قرار دارد و محل دفن یکی از بزرگ‌ترین شاعران ادبیات فارسی است. معماری آرامگاه و حوض ماهی معروف آن، فضایی آرام و فرهنگی برای بازدیدکنندگان ایجاد کرده‌اند.', desc_en: 'The Tomb of Saadi is situated in a green garden in northeastern Shiraz and commemorates one of the greatest poets of Persian literature. Its architectural design and famous fish pond create a peaceful cultural atmosphere for visitors.', tips_fa: 'از فضای باغ و حوض ماهی نیز در کنار آرامگاه دیدن کنید.', tips_en: 'Take time to explore the garden and its famous fish pond.' },
-            { id: 'arg-e-karim-khan', name_fa: 'ارگ کریم‌خان', name_en: 'Arg of Karim Khan', city_id: 'shiraz', province_id: 'fars', category_fa: 'بنای تاریخی', category_en: 'Historical Monument', desc_fa: 'ارگ کریم‌خان در مرکز شیراز به دستور کریم‌خان زند ساخته شد و زمانی محل اقامت و حکومت او بود. برج‌های بلند، دیوارهای مستحکم و معماری آجری این بنا از ویژگی‌های شاخص آن هستند.', desc_en: 'The Arg of Karim Khan was built in central Shiraz by order of Karim Khan Zand and once served as his residence and seat of government. Its tall towers, fortified walls, and brick architecture are among its most distinctive features.', tips_fa: 'جزئیات برج‌ها و تزئینات معماری داخلی را با دقت مشاهده کنید.', tips_en: 'Pay attention to the towers and the interior architectural details.' },
-            { id: 'chogha-zanbil', name_fa: 'چغازنبیل', name_en: 'Chogha Zanbil', city_id: 'shush', province_id: 'khuzestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'چغازنبیل یکی از مهم‌ترین زیگورات‌های باستانی جهان است که در تمدن ایلام ساخته شده است. این بنای مذهبی باستانی دارای ساختاری پلکانی و بقایای معابد و سازه‌های تاریخی ارزشمند است.', desc_en: 'Chogha Zanbil is one of the most important ancient ziggurats in the world, built by the Elamite civilization. This ancient religious monument features a stepped structure and the remains of valuable temples and historical buildings.', tips_fa: 'برای بازدید از محوطه وسیع، کفش مناسب و آب آشامیدنی همراه داشته باشید.', tips_en: 'Bring comfortable shoes and drinking water when exploring the site.' },
-            { id: 'susa-ancient-city', name_fa: 'شهر باستانی شوش', name_en: 'Ancient City of Susa', city_id: 'shush', province_id: 'khuzestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'شوش یکی از کهن‌ترین مراکز تمدنی ایران و جهان است که تاریخ سکونت در آن به هزاران سال پیش بازمی‌گردد. بقایای کاخ‌های باستانی، محوطه‌های باستان‌شناسی و آثار تاریخی متعدد، اهمیت این شهر را نشان می‌دهند.', desc_en: 'Susa is one of the oldest centers of civilization in Iran and the world, with a history of settlement dating back thousands of years. Ancient palace remains, archaeological areas, and numerous historical artifacts demonstrate the importance of this city.', tips_fa: 'بازدید از موزه شوش و قلعه تاریخی شوش را نیز در برنامه قرار دهید.', tips_en: 'Include the Susa Museum and historic Susa Castle in your visit.' },
-            { id: 'shushtar-historical-hydraulic-system', name_fa: 'سازه‌های آبی تاریخی شوشتر', name_en: 'Shushtar Historical Hydraulic System', city_id: 'shushtar', province_id: 'khuzestan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'سازه‌های آبی شوشتر مجموعه‌ای شگفت‌انگیز از آسیاب‌ها، کانال‌ها، پل‌ها و آبشارهای مصنوعی هستند که قدمت بخش‌هایی از آن‌ها به دوران باستان می‌رسد. این مجموعه نمونه‌ای برجسته از مهندسی آب و مدیریت منابع طبیعی در ایران تاریخی است.', desc_en: 'The Shushtar Historical Hydraulic System is an extraordinary network of watermills, canals, bridges, and artificial waterfalls, with parts dating back to ancient times. It is an outstanding example of water engineering and resource management in historic Iran.', tips_fa: 'در ساعات روشنایی روز از محوطه آسیاب‌ها و آبشارها بازدید کنید.', tips_en: 'Visit the watermills and waterfalls during daylight hours.' },
-            { id: 'bishapur', name_fa: 'شهر باستانی بیشاپور', name_en: 'Bishapur Ancient City', city_id: 'kazerun', province_id: 'fars', category_fa: 'میراث تاریخی', category_en: 'Historical Heritage', desc_fa: 'بیشاپور شهری باستانی از دوره ساسانی است که به دستور شاپور اول ساخته شد. بقایای کاخ‌ها، معابد و نقش‌برجسته‌های ساسانی این شهر، اطلاعات ارزشمندی درباره هنر و معماری آن دوران ارائه می‌کنند.', desc_en: 'Bishapur is an ancient Sassanian city founded by order of Shapur I. Its palace ruins, temples, and Sassanian rock reliefs provide valuable insights into the art and architecture of that era.', tips_fa: 'بازدید از نقش‌برجسته‌های تنگ چوگان را با شهر بیشاپور ترکیب کنید.', tips_en: 'Combine your visit with the rock reliefs of Tang-e Chogan.' },
-            { id: 'arg-e-bam', name_fa: 'ارگ بم', name_en: 'Bam Citadel', city_id: 'bam', province_id: 'kerman', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'ارگ بم یکی از بزرگ‌ترین سازه‌های خشتی جهان و نمونه‌ای برجسته از معماری سنتی مناطق کویری ایران است. این مجموعه تاریخی شامل بخش‌های مسکونی، نظامی، حکومتی و فضاهای عمومی بوده است.', desc_en: 'Bam Citadel is one of the largest adobe structures in the world and an outstanding example of traditional architecture in Iran’s desert regions. The historic complex once included residential, military, governmental, and public areas.', tips_fa: 'پیش از بازدید، وضعیت بخش‌های قابل دسترس مجموعه را بررسی کنید.', tips_en: 'Check which sections of the citadel are accessible before visiting.' },
-            { id: 'shahzadeh-garden', name_fa: 'باغ شاهزاده ماهان', name_en: 'Shazdeh Garden', city_id: 'mahan', province_id: 'kerman', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'باغ شاهزاده ماهان یکی از زیباترین باغ‌های تاریخی ایران است که در نزدیکی شهر ماهان قرار دارد. حوض‌ها، فواره‌ها، درختان سرسبز و عمارت انتهایی باغ، نمونه‌ای چشمگیر از باغ‌سازی ایرانی هستند.', desc_en: 'Shazdeh Garden is one of Iran’s most beautiful historic gardens, located near the town of Mahan. Its pools, fountains, green trees, and elegant pavilion represent the remarkable tradition of Persian garden design.', tips_fa: 'بهار و اوایل پاییز زمان مناسبی برای بازدید از باغ است.', tips_en: 'Spring and early autumn are pleasant seasons to visit the garden.' },
-            { id: 'goharshad-mosque', name_fa: 'مسجد گوهرشاد', name_en: 'Goharshad Mosque', city_id: 'mashhad', province_id: 'razavi-khorasan', category_fa: 'مسجد تاریخی', category_en: 'Historic Mosque', desc_fa: 'مسجد گوهرشاد از بناهای برجسته دوره تیموری است که به دستور گوهرشاد بیگم ساخته شد. کاشی‌کاری‌های نفیس، گنبد بزرگ و ایوان‌های باشکوه آن از نمونه‌های ارزشمند معماری اسلامی ایران هستند.', desc_en: 'Goharshad Mosque is a remarkable Timurid monument commissioned by Goharshad Begum. Its exquisite tilework, large dome, and magnificent iwans are outstanding examples of Iranian Islamic architecture.', tips_fa: 'برای مشاهده تزئینات کاشی‌کاری، از ایوان‌های اصلی بازدید کنید.', tips_en: 'Explore the main iwans to appreciate the intricate tile decorations.' },
-            { id: 'imam-reza-shrine', name_fa: 'حرم امام رضا', name_en: 'Imam Reza Shrine', city_id: 'mashhad', province_id: 'razavi-khorasan', category_fa: 'مجموعه مذهبی و تاریخی', category_en: 'Religious and Historical Complex', desc_fa: 'حرم امام رضا یکی از بزرگ‌ترین مجموعه‌های مذهبی و معماری ایران است که در شهر مشهد قرار دارد. این مجموعه شامل صحن‌ها، رواق‌ها، کتابخانه‌ها، موزه‌ها و بناهای تاریخی با تزئینات هنری چشمگیر است.', desc_en: 'The Imam Reza Shrine is one of Iran’s largest religious and architectural complexes, located in Mashhad. It includes courtyards, prayer halls, libraries, museums, and historic buildings featuring remarkable artistic decorations.', tips_fa: 'پیش از ورود، مقررات امنیتی و وسایل مجاز مجموعه را بررسی کنید.', tips_en: 'Check the complex’s security regulations and permitted belongings before entering.' },
-            { id: 'tomb-of-ferdowsi', name_fa: 'آرامگاه فردوسی', name_en: 'Tomb of Ferdowsi', city_id: 'tus', province_id: 'razavi-khorasan', category_fa: 'آرامگاه تاریخی', category_en: 'Historic Tomb', desc_fa: 'آرامگاه فردوسی در شهر تاریخی توس قرار دارد و یادبود حکیم ابوالقاسم فردوسی، سراینده شاهنامه است. معماری آرامگاه و فضای فرهنگی اطراف آن، اهمیت فردوسی در حفظ زبان و ادبیات فارسی را یادآوری می‌کند.', desc_en: 'The Tomb of Ferdowsi is located in the historic city of Tus and commemorates Abolqasem Ferdowsi, the author of the Shahnameh. Its architecture and cultural surroundings celebrate his contribution to preserving Persian language and literature.', tips_fa: 'بازدید از موزه فردوسی و محوطه تاریخی توس را فراموش نکنید.', tips_en: 'Do not miss the Ferdowsi Museum and the surrounding historic grounds.' },
-            { id: 'soltaniyeh-dome', name_fa: 'گنبد سلطانیه', name_en: 'Soltaniyeh Dome', city_id: 'soltaniyeh', province_id: 'zanjan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'گنبد سلطانیه آرامگاه الجایتو از پادشاهان ایلخانی و یکی از بزرگ‌ترین گنبدهای آجری جهان است. ساختار هشت‌ضلعی، گنبد فیروزه‌ای و تزئینات داخلی آن از شاهکارهای معماری دوره ایلخانی به شمار می‌روند.', desc_en: 'The Soltaniyeh Dome is the mausoleum of Öljaitü, an Ilkhanid ruler, and one of the largest brick domes in the world. Its octagonal structure, turquoise dome, and interior decorations are masterpieces of Ilkhanid architecture.', tips_fa: 'برای مشاهده تزئینات داخلی، از بخش‌های مختلف فضای داخلی بازدید کنید.', tips_en: 'Explore the interior to appreciate its architectural decorations.' },
-            { id: 'takht-e-soleyman', name_fa: 'تخت سلیمان', name_en: 'Takht-e Soleyman', city_id: 'takab', province_id: 'west-azerbaijan', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'تخت سلیمان محوطه‌ای باستانی شامل بقایای آتشکده آذرگشنسب و مجموعه‌ای از بناهای دوره ساسانی و ایلخانی است. دریاچه طبیعی مرکزی و آثار معماری اطراف آن، این مکان را به یکی از مهم‌ترین محوطه‌های تاریخی ایران تبدیل کرده‌اند.', desc_en: 'Takht-e Soleyman is an archaeological site containing the remains of the Azargoshnasp fire temple and buildings from the Sassanian and Ilkhanid periods. Its central natural lake and surrounding architectural remains make it one of Iran’s most important historic sites.', tips_fa: 'برای پیاده‌روی در محوطه تاریخی کفش مناسب همراه داشته باشید.', tips_en: 'Wear comfortable shoes for walking around the archaeological site.' },
-            { id: 'bisotun', name_fa: 'کتیبه بیستون', name_en: 'Behistun Inscription', city_id: 'bisotun', province_id: 'kermanshah', category_fa: 'میراث جهانی یونسکو', category_en: 'UNESCO World Heritage', desc_fa: 'کتیبه بیستون یکی از مهم‌ترین آثار تاریخی دوره هخامنشی است که به دستور داریوش بزرگ ایجاد شد. این کتیبه چندزبانه همراه با نقش‌برجسته‌های آن، روایتگر به قدرت رسیدن داریوش و رویدادهای مهم دوران اوست.', desc_en: 'The Behistun Inscription is one of the most important historical monuments of the Achaemenid period, commissioned by Darius the Great. Its multilingual inscription and accompanying reliefs describe Darius’s rise to power and important events of his reign.', tips_fa: 'برای مشاهده بهتر کتیبه از فاصله مناسب و نقاط مجاز استفاده کنید.', tips_en: 'Use designated viewing areas and suitable distances to observe the inscription.' }
-        ];
-
-        // =========================================
-        // TRAVEL INFO DATA (NEW)
-        // =========================================
-        const TRAVEL_INFO_DATA = {
-            before: {
-                title_fa: "آمادگی پیش از سفر", title_en: "Before Travel",
-                items: [
-                    { title_fa: "رزرو و برنامه‌ریزی", title_en: "Booking & Planning", desc_fa: "برای سفرهای داخلی، بلیط هواپیما، قطار و اتوبوس را از قبل رزرو کنید. اقامتگاه‌ها (هتل، بوم‌گردی، اقامتگاه سنتی) در فصل‌های اوج گردشگری (مثل نوروز) بسیار سریع پر می‌شوند.", desc_en: "Book your domestic flights, trains, and buses in advance. Accommodations (hotels, eco-lodges, traditional houses) fill up very quickly during peak seasons (e.g., Nowruz)." },
-                    { title_fa: "پول و بانک", title_en: "Money & Banking", desc_fa: "واحد پول ایران ریال است، اما مردم معمولاً با تومان حساب می‌کنند. کارت‌های بانکی بین‌المللی در ایران کار نمی‌کنند. گردشگران خارجی باید حتماً مبلغ کافی ارز نقدی به همراه داشته باشند یا از صرافی‌های مجاز استفاده کنند.", desc_en: "The currency is Rial, but people commonly use Toman. International credit cards (Visa/Mastercard) do not work in Iran. Foreign tourists must bring enough cash or use authorized exchange offices." },
-                    { title_fa: "اینترنت و سیم‌کارت", title_en: "Internet & SIM Card", desc_fa: "اپراتورهای اصلی ایرانسل، همراه اول و رایتل خدمات سیم‌کارت ارائه می‌دهند. برای گردشگران، تهیه بسته‌های اینترنت همراه بسیار مقرون‌به‌صرفه است. در بیشتر هتل‌ها و کافه‌ها وای‌فای وجود دارد.", desc_en: "Major operators Irancell, MCI, and Rightel provide SIM card services. For tourists, buying a mobile data package is highly cost-effective. Most hotels and cafes offer Wi-Fi." },
-                    { title_fa: "پوشش و لباس", title_en: "Dress Code", desc_fa: "طبق قوانین ایران، بانوان باید در مکان‌های عمومی حجاب اسلامی (پوشاندن موها و بدن) داشته باشند و آقایان بهتر است از شلوار بلند استفاده کنند. لباس‌های راحت و مناسب آب‌وهوا به همراه داشته باشید.", desc_en: "According to Iranian laws, women must observe Islamic dress code (hijab) in public, and men should wear long pants. Bring comfortable clothing suitable for the weather." }
-                ]
-            },
-            during: {
-                title_fa: "راهنمای در حین سفر", title_en: "During Travel",
-                items: [
-                    { title_fa: "حمل‌ونقل شهری", title_en: "Local Transport", desc_fa: "در کلان‌شهرها از مترو و اتوبوس BRT استفاده کنید. تاکسی‌های اینترنتی مثل اسنپ و تپسی رایج و ارزان هستند. برای سفرهای بین‌شهری، قطارهای سریع‌السیر و اتوبوس‌های VIP گزینه‌های عالی هستند.", desc_en: "Use the metro and BRT buses in big cities. Ride-hailing apps like Snapp and Tap30 are common and cheap. For intercity travel, high-speed trains and VIP buses are excellent choices." },
-                    { title_fa: "آداب معاشرت و فرهنگ", title_en: "Etiquette & Culture", desc_fa: "ایرانیان بسیار مهمان‌نواز هستند. هنگام ورود به خانه یا اماکن مذهبی کفش‌ها را درآورید. در اماکن زیارتی، عکاسی با دوربین حرفه‌ای گاهی محدود است. اجازه گرفتن قبل از عکاسی از افراد، نشانه احترام است.", desc_en: "Iranians are very hospitable. Remove your shoes when entering homes or religious places. In shrines, professional photography is sometimes restricted. Asking for permission before taking photos of people is a sign of respect." },
-                    { title_fa: "ایمنی و شماره‌های ضروری", title_en: "Safety & Emergency", desc_fa: "ایران یکی از امن‌ترین کشورهای منطقه است، اما مراقب وسایل خود در مکان‌های شلوغ باشید. شماره‌های مهم: پلیس ۱۱۰، اورژانس ۱۱۵، آتش‌نشانی ۱۲۵، هلال احمر ۱۱۲، راهداری ۱۲۳.", desc_en: "Iran is one of the safest countries in the region, but watch your belongings in crowded places. Emergency numbers: Police 110, Ambulance 115, Fire 125, Red Crescent 112, Road Rescue 123." },
-                    { title_fa: "غذا و رستوران‌ها", title_en: "Food & Restaurants", desc_fa: "غذاهای ایرانی مانند کباب، چلوخورش، دیزی و آش بسیار متنوع هستند. آب شیر در بیشتر شهرها قابل شرب است، اما برای احتیاط می‌توانید از آب معدنی استفاده کنید. حتماً شیرینی‌های سنتی شهرهای مختلف را امتحان کنید.", desc_en: "Persian cuisine like Kebab, Chelow Khoresh, Dizi, and Ash is very diverse. Tap water is drinkable in most cities, but bottled water is recommended for caution. Make sure to try traditional sweets in different cities." }
-                ]
-            }
-        };
-
         // =========================================
         // STATE & STORAGE
         // =========================================
         let currentLang = localStorage.getItem('irangard_lang') || "fa";
         let currentTheme = localStorage.getItem('irangard_theme') || "light";
         let favorites = JSON.parse(localStorage.getItem('irangard_favs')) || [];
-        let activeTravelTab = "before"; // before | during
+        let activeTravelTab = "before";
 
         // =========================================
         // TRANSLATIONS
@@ -415,6 +296,12 @@
             
             const routeName = parts[0];
 
+            // چک کردن اینکه دیتا لود شده است یا نه
+            if (typeof PROVINCES_DATA === 'undefined') {
+                document.getElementById('app-content').innerHTML = '<p style="text-align:center; margin-top:50px;">در حال بارگذاری داده‌ها...</p>';
+                return;
+            }
+
             if (routeName === 'province' && parts[1]) {
                 renderProvince(parts[1], t);
             } else if (routeName === 'city' && parts[1]) {
@@ -505,9 +392,9 @@
                     ${dataList.map(item => `
                         <div class="card">
                             <h3 class="card-title" style="padding-left:0; color:var(--text-primary);">${currentLang === 'fa' ? item.title_fa : item.title_en}</h3>
-                            <p class="card-description" style="font-size:14px; margin-top:8px; color:var(--text-primary);">
+                            <div class="rich-text">
                                 ${currentLang === 'fa' ? item.desc_fa : item.desc_en}
-                            </p>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -556,12 +443,15 @@
             const html = `
                 <button class="button button-outline" onclick="history.back()">← ${t['btn.back']}</button>
                 <h1 class="page-title">${name}</h1>
-                <p class="page-subtitle">${desc}</p>
+
+                <div class="card" style="margin-top: 16px;">
+                    <div class="rich-text">${desc}</div>
+                </div>
 
                 <div class="card">
-                    <h2 class="card-title">${t['province.capital']}</h2>
-                    <p class="card-description">${capName}</p>
-                    ${capital ? `<button class="button" onclick="window.location.hash='#/city/${capital.id}'">${t['btn.view_city']}</button>` : ''}
+                    <h2 class="card-title" style="padding-left:0;">${t['province.capital']}</h2>
+                    <p class="card-description" style="font-size:15px; margin-bottom:10px;">${capName}</p>
+                    ${capital ? `<button class="button" style="margin-top:0;" onclick="window.location.hash='#/city/${capital.id}'">${t['btn.view_city']}</button>` : ''}
                 </div>
 
                 <h2 class="section-title">${t['city.attractions']}</h2>
@@ -593,7 +483,7 @@
                 </p>
 
                 <div class="card">
-                    <p class="card-description" style="font-size: 15px;">${desc}</p>
+                    <div class="rich-text">${desc}</div>
                 </div>
 
                 <h2 class="section-title">${t['city.attractions']}</h2>
@@ -637,9 +527,9 @@
                 </div>
                 
                 <div class="card">
-                    <p class="card-description" style="font-size: 15px; color: var(--text-primary);">${desc}</p>
+                    <div class="rich-text">${desc}</div>
                     
-                    <div class="tips-box">
+                    <div class="tips-box" style="white-space: pre-line;">
                         <strong>💡 ${t['attraction.tips']}:</strong><br>
                         ${tips}
                     </div>
@@ -852,13 +742,13 @@
             }
         }
     </script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js');
-    });
-  }
-</script>
-<script src="/data.js"></script>
+    <script src="/data.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
 </body>
 </html>
