@@ -15,6 +15,7 @@
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
             --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px;
             --font-persian: "Vazirmatn", Tahoma, sans-serif; --font-default: system-ui, -apple-system, sans-serif;
+            --danger: #ef4444;
         }
         [data-theme="dark"] {
             --primary: #2dd4bf; --primary-light: #134e4a; --background: #0f172a;
@@ -57,13 +58,13 @@
         .page-subtitle { margin: 0 0 22px; color: var(--text-secondary); font-size: 14px; }
         .section-title { margin: 26px 0 14px; font-size: 19px; font-weight: 700; }
         
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 12px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 12px; position: relative; }
         .card.clickable { cursor: pointer; transition: transform 0.2s; }
-        .card.clickable:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        .card-title { margin: 0 0 6px; font-size: 17px; font-weight: 700; color: var(--primary); }
+        .card.clickable:active { transform: scale(0.98); }
+        .card-title { margin: 0 0 6px; font-size: 17px; font-weight: 700; color: var(--primary); padding-left: 30px; }
         .card-description { margin: 0; color: var(--text-secondary); font-size: 13px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
         .button {
             display: inline-flex; align-items: center; justify-content: center;
             min-height: 44px; padding: 10px 18px; border: none; border-radius: var(--radius-md);
@@ -88,6 +89,15 @@
             background: var(--surface-secondary); border-right: 4px solid var(--primary);
             padding: 12px; border-radius: var(--radius-sm); margin-top: 16px; font-size: 14px;
         }
+
+        /* Heart Icon (Favorites) */
+        .fav-btn {
+            position: absolute; top: 14px; left: 14px; /* Left for RTL */
+            background: none; border: none; font-size: 22px; padding: 0;
+            color: var(--text-muted); transition: color 0.2s;
+        }
+        [dir="ltr"] .fav-btn { left: auto; right: 14px; }
+        .fav-btn.active { color: var(--danger); }
 
         .hirkan-banner {
             margin-top: 32px; padding: 18px; background: var(--banner-background); color: var(--banner-text);
@@ -115,20 +125,17 @@
         <main id="app-content" class="main-content"></main>
 
         <nav class="bottom-nav">
-            <div class="nav-item active" onclick="window.location.hash='#/'">
-                <span class="nav-icon">⌂</span><span>خانه</span>
+            <div class="nav-item" data-route="home" onclick="window.location.hash='#/'">
+                <span class="nav-icon">⌂</span><span data-i18n="nav.home">خانه</span>
             </div>
-            <div class="nav-item" onclick="window.location.hash='#/provinces'">
-                <span class="nav-icon">◈</span><span>استان‌ها</span>
+            <div class="nav-item" data-route="provinces" onclick="window.location.hash='#/provinces'">
+                <span class="nav-icon">◈</span><span data-i18n="nav.provinces">استان‌ها</span>
             </div>
-            <div class="nav-item">
-                <span class="nav-icon">✈</span><span>سفر</span>
+            <div class="nav-item" data-route="favorites" onclick="window.location.hash='#/favorites'">
+                <span class="nav-icon">♡</span><span data-i18n="nav.favorites">علاقه‌مندی</span>
             </div>
-            <div class="nav-item">
-                <span class="nav-icon">♡</span><span>علاقه‌مندی</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">⚙</span><span>تنظیمات</span>
+            <div class="nav-item" data-route="settings" onclick="window.location.hash='#/settings'">
+                <span class="nav-icon">⚙</span><span data-i18n="nav.settings">تنظیمات</span>
             </div>
         </nav>
     </div>
@@ -272,76 +279,152 @@
         ];
 
         // =========================================
+        // STATE & STORAGE
+        // =========================================
+        let currentLang = localStorage.getItem('irangard_lang') || "fa";
+        let currentTheme = localStorage.getItem('irangard_theme') || "light";
+        let favorites = JSON.parse(localStorage.getItem('irangard_favs')) || [];
+
+        // =========================================
         // TRANSLATIONS
         // =========================================
         const TRANSLATIONS = {
             "fa": {
                 "home.title": "به ایران‌گرد هیرکان خوش آمدید",
                 "home.desc": "زیبایی‌های ایران را کشف کنید",
-                "nav.home": "خانه", "nav.provinces": "استان‌ها", "nav.travel_info": "اطلاعات سفر", "nav.favorites": "علاقه‌مندی‌ها", "nav.settings": "تنظیمات",
+                "nav.home": "خانه", "nav.provinces": "استان‌ها", "nav.favorites": "علاقه‌مندی", "nav.settings": "تنظیمات",
                 "hirkan.title": "توسعه‌یافته توسط هیرکان", "hirkan.desc": "طراحی و توسعه توسط Hirkan Develop Group", "hirkan.btn": "وب‌سایت هیرکان",
                 "search.placeholder": "جستجوی استان، شهر یا جاذبه...",
+                "search.results": "نتایج جستجو",
                 "provinces.title": "استان‌های ایران", "province.capital": "مرکز استان",
                 "city.attractions": "جاذبه‌های گردشگری",
                 "attraction.city": "شهر", "attraction.province": "استان", "attraction.tips": "نکات بازدید",
-                "btn.back": "بازگشت", "btn.view_city": "مشاهده شهر", "btn.view_attraction": "مشاهده جزئیات", "btn.view_province": "مشاهده استان",
-                "no.results": "موردی یافت نشد.", "no.attractions": "هنوز جاذبه‌ای برای این شهر ثبت نشده است."
+                "btn.back": "بازگشت", "btn.view_city": "مشاهده شهر", "btn.view_attraction": "مشاهده جزئیات",
+                "no.results": "موردی یافت نشد.", "no.attractions": "هنوز جاذبه‌ای برای این شهر ثبت نشده است.",
+                "featured.attractions": "جاذبه‌های شاخص ایران",
+                "settings.title": "تنظیمات", "settings.theme": "حالت نمایش", "settings.theme.desc": "تغییر بین حالت روز و شب",
+                "settings.lang": "زبان برنامه", "settings.lang.desc": "تغییر زبان برنامه (فارسی/انگلیسی)",
+                "settings.clear_fav": "پاک کردن علاقه‌مندی‌ها", "settings.clear_fav.desc": "حذف تمام موارد نشان‌شده",
+                "settings.clear_btn": "پاک کن",
+                "fav.empty": "هنوز هیچ موردی را نشان نکرده‌اید. با زدن آیکون قلب (♡) روی کارت‌ها، آن‌ها را اینجا ذخیره کنید.",
+                "fav.title": "علاقه‌مندی‌های من"
             },
             "en": {
                 "home.title": "Welcome to Irangard Hirkan",
                 "home.desc": "Discover the beauty of Iran",
-                "nav.home": "Home", "nav.provinces": "Provinces", "nav.travel_info": "Travel Info", "nav.favorites": "Favorites", "nav.settings": "Settings",
+                "nav.home": "Home", "nav.provinces": "Provinces", "nav.favorites": "Favorites", "nav.settings": "Settings",
                 "hirkan.title": "Developed by Hirkan", "hirkan.desc": "Designed and developed by Hirkan Develop Group", "hirkan.btn": "Hirkan Website",
                 "search.placeholder": "Search province, city or attraction...",
+                "search.results": "Search Results",
                 "provinces.title": "Provinces of Iran", "province.capital": "Capital",
                 "city.attractions": "Tourist Attractions",
                 "attraction.city": "City", "attraction.province": "Province", "attraction.tips": "Visiting Tips",
-                "btn.back": "Back", "btn.view_city": "View City", "btn.view_attraction": "View Details", "btn.view_province": "View Province",
-                "no.results": "No results found.", "no.attractions": "No attractions recorded for this city yet."
+                "btn.back": "Back", "btn.view_city": "View City", "btn.view_attraction": "View Details",
+                "no.results": "No results found.", "no.attractions": "No attractions recorded for this city yet.",
+                "featured.attractions": "Featured Attractions of Iran",
+                "settings.title": "Settings", "settings.theme": "Theme Mode", "settings.theme.desc": "Switch between Light and Dark mode",
+                "settings.lang": "App Language", "settings.lang.desc": "Change app language (Persian/English)",
+                "settings.clear_fav": "Clear Favorites", "settings.clear_fav.desc": "Remove all saved items",
+                "settings.clear_btn": "Clear",
+                "fav.empty": "You haven't liked anything yet. Tap the heart icon (♡) on cards to save them here.",
+                "fav.title": "My Favorites"
             }
         };
 
-        let currentLang = "fa";
-        let currentTheme = "light";
-
         // =========================================
-        // INIT & EVENTS
+        // INIT
         // =========================================
-        document.getElementById('theme-toggle').addEventListener('click', () => {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
-        });
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
+        
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+        document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
 
-        document.getElementById('lang-toggle').addEventListener('click', () => {
-            currentLang = currentLang === 'fa' ? 'en' : 'fa';
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
-            document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+
+        window.addEventListener('hashchange', router);
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!window.location.hash) window.location.hash = '#/';
             router();
         });
 
         // =========================================
-        // ROUTER
+        // ACTIONS
+        // =========================================
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.getElementById('theme-toggle').textContent = currentTheme === 'light' ? '☾' : '☀';
+            localStorage.setItem('irangard_theme', currentTheme);
+            
+            // Update settings UI if we are on settings page
+            if(window.location.hash === '#/settings') router();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fa' ? 'en' : 'fa';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+            document.getElementById('lang-toggle').textContent = currentLang === 'fa' ? 'EN' : 'FA';
+            localStorage.setItem('irangard_lang', currentLang);
+            router();
+        }
+
+        function toggleFavorite(id, event) {
+            event.stopPropagation(); // Prevent card click
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(f => f !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('irangard_favs', JSON.stringify(favorites));
+            
+            // Re-render current page to update heart icons
+            router();
+        }
+
+        function clearFavorites() {
+            if(confirm('Are you sure? / آیا مطمئن هستید؟')) {
+                favorites = [];
+                localStorage.setItem('irangard_favs', JSON.stringify(favorites));
+                router();
+            }
+        }
+
+        // =========================================
+        // ROUTER (Fixed)
         // =========================================
         function router() {
-            const hash = window.location.hash || '#/';
-            const parts = hash.split('/').filter(Boolean);
+            // Clean the hash (remove #/ or #)
+            let hash = window.location.hash.replace(/^#\/?/, '');
+            if (!hash) hash = 'home';
+            
+            const parts = hash.split('/');
             const t = TRANSLATIONS[currentLang];
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             
-            if (parts[0] === 'province' && parts[1]) {
+            const routeName = parts[0];
+
+            if (routeName === 'province' && parts[1]) {
                 renderProvince(parts[1], t);
-            } else if (parts[0] === 'city' && parts[1]) {
+            } else if (routeName === 'city' && parts[1]) {
                 renderCity(parts[1], t);
-            } else if (parts[0] === 'attraction' && parts[1]) {
+            } else if (routeName === 'attraction' && parts[1]) {
                 renderAttraction(parts[1], t);
-            } else if (parts[0] === 'provinces') {
-                document.querySelectorAll('.nav-item')[1].classList.add('active');
+            } else if (routeName === 'provinces') {
+                document.querySelector('[data-route="provinces"]').classList.add('active');
                 renderProvincesList(t);
+            } else if (routeName === 'favorites') {
+                document.querySelector('[data-route="favorites"]').classList.add('active');
+                renderFavorites(t);
+            } else if (routeName === 'settings') {
+                document.querySelector('[data-route="settings"]').classList.add('active');
+                renderSettings(t);
             } else {
-                document.querySelectorAll('.nav-item')[0].classList.add('active');
+                document.querySelector('[data-route="home"]').classList.add('active');
                 renderHome(t);
             }
             window.scrollTo(0, 0);
@@ -351,6 +434,9 @@
         // VIEWS
         // =========================================
         function renderHome(t) {
+            // Get 6 featured attractions (UNESCO)
+            const featured = ATTRACTIONS_DATA.filter(a => a.category_fa.includes('یونسکو')).slice(0, 6);
+
             const html = `
                 <h1 class="page-title">${t['home.title']}</h1>
                 <p class="page-subtitle">${t['home.desc']}</p>
@@ -360,11 +446,18 @@
                 </div>
 
                 <div id="search-results" style="display:none; margin-bottom: 20px;">
-                    <h2 class="section-title">${t['search.results'] || 'نتایج'}</h2>
+                    <h2 class="section-title" style="margin-top:0;">${t['search.results']}</h2>
                     <div id="search-grid" class="grid"></div>
                 </div>
 
                 <div id="main-content-area">
+                    <!-- Featured Attractions -->
+                    <h2 class="section-title">${t['featured.attractions']}</h2>
+                    <div class="grid" style="margin-bottom: 30px;">
+                        ${featured.map(a => generateAttractionCard(a, t)).join('')}
+                    </div>
+
+                    <!-- Provinces -->
                     <h2 class="section-title">${t['provinces.title']}</h2>
                     <div id="provinces-grid" class="grid">
                         ${generateProvinceCards(PROVINCES_DATA, t)}
@@ -379,7 +472,7 @@
         function renderProvincesList(t) {
             const html = `
                 <h1 class="page-title">${t['provinces.title']}</h1>
-                <div id="provinces-grid" class="grid">
+                <div class="grid">
                     ${generateProvinceCards(PROVINCES_DATA, t)}
                 </div>
                 ${getHirkanBanner(t)}
@@ -396,7 +489,6 @@
             const desc = currentLang === 'fa' ? prov.desc_fa : prov.desc_en;
             const capName = capital ? (currentLang === 'fa' ? capital.name_fa : capital.name_en) : '';
             
-            // Get attractions in this province
             const provAttractions = ATTRACTIONS_DATA.filter(a => a.province_id === prov.id);
 
             const html = `
@@ -429,7 +521,6 @@
             const desc = currentLang === 'fa' ? city.desc_fa : city.desc_en;
             const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : '';
             
-            // Get attractions in this city
             const cityAttractions = ATTRACTIONS_DATA.filter(a => a.city_id === city.id);
 
             const html = `
@@ -462,18 +553,26 @@
             const cat = currentLang === 'fa' ? attr.category_fa : attr.category_en;
             const tips = currentLang === 'fa' ? attr.tips_fa : attr.tips_en;
             
-            // Find city and province for links
             const city = CITIES_DATA.find(c => c.id === attr.city_id);
             const prov = PROVINCES_DATA.find(p => p.id === attr.province_id);
             
             const cityName = city ? (currentLang === 'fa' ? city.name_fa : city.name_en) : null;
             const provName = prov ? (currentLang === 'fa' ? prov.name_fa : prov.name_en) : null;
 
+            const isFav = favorites.includes(attr.id);
+
             const html = `
                 <button class="button button-outline" onclick="history.back()">← ${t['btn.back']}</button>
                 
-                <span class="badge">${cat}</span>
-                <h1 class="page-title">${name}</h1>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <span class="badge">${cat}</span>
+                        <h1 class="page-title">${name}</h1>
+                    </div>
+                    <button class="fav-btn ${isFav ? 'active' : ''}" style="position:static; font-size:32px; margin-top:10px;" onclick="toggleFavorite('${attr.id}', event)">
+                        ${isFav ? '❤️' : '♡'}
+                    </button>
+                </div>
                 
                 <div class="card">
                     <p class="card-description" style="font-size: 15px; color: var(--text-primary);">${desc}</p>
@@ -494,8 +593,86 @@
             document.getElementById('app-content').innerHTML = html;
         }
 
+        function renderFavorites(t) {
+            const favAttractions = ATTRACTIONS_DATA.filter(a => favorites.includes(a.id));
+            const favProvinces = PROVINCES_DATA.filter(p => favorites.includes(p.id));
+            const favCities = CITIES_DATA.filter(c => favorites.includes(c.id));
+
+            let html = `<h1 class="page-title">${t['fav.title']}</h1>`;
+
+            if (favAttractions.length === 0 && favProvinces.length === 0 && favCities.length === 0) {
+                html += `
+                    <div class="card" style="text-align:center; padding:40px 20px;">
+                        <div style="font-size:40px; margin-bottom:16px;">♡</div>
+                        <p class="card-description">${t['fav.empty']}</p>
+                    </div>
+                `;
+            } else {
+                if (favProvinces.length > 0) {
+                    html += `<h2 class="section-title">${t['nav.provinces']}</h2><div class="grid">`;
+                    html += favProvinces.map(p => generateProvinceCards([p], t)).join('');
+                    html += `</div>`;
+                }
+                if (favCities.length > 0) {
+                    html += `<h2 class="section-title">${t['attraction.city']}</h2><div class="grid">`;
+                    html += favCities.map(c => `
+                        <div class="card clickable" onclick="window.location.hash='#/city/${c.id}'">
+                            <h3 class="card-title">${currentLang === 'fa' ? c.name_fa : c.name_en}</h3>
+                        </div>
+                    `).join('');
+                    html += `</div>`;
+                }
+                if (favAttractions.length > 0) {
+                    html += `<h2 class="section-title">${t['city.attractions']}</h2><div class="grid">`;
+                    html += favAttractions.map(a => generateAttractionCard(a, t)).join('');
+                    html += `</div>`;
+                }
+            }
+            html += getHirkanBanner(t);
+            document.getElementById('app-content').innerHTML = html;
+        }
+
+        function renderSettings(t) {
+            const html = `
+                <h1 class="page-title">${t['settings.title']}</h1>
+                
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <div>
+                            <div style="font-weight:700;">${t['settings.theme']}</div>
+                            <div class="card-description">${t['settings.theme.desc']}</div>
+                        </div>
+                        <button class="button" style="margin:0;" onclick="toggleTheme()">${currentTheme === 'light' ? '☾' : '☀'}</button>
+                    </div>
+                    
+                    <hr style="border:0; border-top:1px solid var(--border); margin:16px 0;">
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:700;">${t['settings.lang']}</div>
+                            <div class="card-description">${t['settings.lang.desc']}</div>
+                        </div>
+                        <button class="button" style="margin:0;" onclick="toggleLanguage()">${currentLang === 'fa' ? 'English' : 'فارسی'}</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:700; color:var(--danger);">${t['settings.clear_fav']}</div>
+                            <div class="card-description">${t['settings.clear_fav.desc']}</div>
+                        </div>
+                        <button class="button" style="margin:0; background:var(--danger);" onclick="clearFavorites()">${t['settings.clear_btn']}</button>
+                    </div>
+                </div>
+
+                ${getHirkanBanner(t)}
+            `;
+            document.getElementById('app-content').innerHTML = html;
+        }
+
         // =========================================
-        // HELPERS & COMPONENTS
+        // HELPERS
         // =========================================
         function getHirkanBanner(t) {
             return `
@@ -513,8 +690,12 @@
             return data.map(p => {
                 const name = currentLang === 'fa' ? p.name_fa : p.name_en;
                 const desc = currentLang === 'fa' ? p.desc_fa : p.desc_en;
+                const isFav = favorites.includes(p.id);
                 return `
                     <div class="card clickable" onclick="window.location.hash='#/province/${p.id}'">
+                        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${p.id}', event)">
+                            ${isFav ? '❤️' : '♡'}
+                        </button>
                         <h3 class="card-title">${name}</h3>
                         <p class="card-description" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${desc}</p>
                     </div>
@@ -525,9 +706,14 @@
         function generateAttractionCard(attr, t) {
             const name = currentLang === 'fa' ? attr.name_fa : attr.name_en;
             const cat = currentLang === 'fa' ? attr.category_fa : attr.category_en;
+            const isFav = favorites.includes(attr.id);
+            
             return `
                 <div class="card clickable" onclick="window.location.hash='#/attraction/${attr.id}'" style="padding: 12px;">
-                    <span class="badge" style="font-size:10px; margin-bottom:4px;">${cat}</span>
+                    <button class="fav-btn ${isFav ? 'active' : ''}" style="top:8px; left:8px;" onclick="toggleFavorite('${attr.id}', event)">
+                        ${isFav ? '❤️' : '♡'}
+                    </button>
+                    <span class="badge" style="font-size:10px; margin-bottom:4px; margin-left:25px;">${cat}</span>
                     <h3 class="card-title" style="font-size:15px;">${name}</h3>
                 </div>
             `;
@@ -549,12 +735,10 @@
             searchResultsContainer.style.display = 'block';
             mainContent.style.display = 'none';
 
-            // Search Provinces
             const matchedProvs = PROVINCES_DATA.filter(p => 
                 p.name_fa.includes(q) || p.name_en.toLowerCase().includes(q)
             );
 
-            // Search Attractions
             const matchedAttrs = ATTRACTIONS_DATA.filter(a => 
                 a.name_fa.includes(q) || a.name_en.toLowerCase().includes(q) ||
                 a.desc_fa.includes(q) || a.desc_en.toLowerCase().includes(q)
@@ -569,11 +753,7 @@
             
             if (matchedProvs.length > 0) {
                 html += `<h3 style="grid-column: 1/-1; margin-top:10px; color:var(--primary);">${t['nav.provinces']}</h3>`;
-                html += matchedProvs.map(p => `
-                    <div class="card clickable" onclick="window.location.hash='#/province/${p.id}'">
-                        <h3 class="card-title">${currentLang === 'fa' ? p.name_fa : p.name_en}</h3>
-                    </div>
-                `).join('');
+                html += matchedProvs.map(p => generateProvinceCards([p], t)).join('');
             }
 
             if (matchedAttrs.length > 0) {
@@ -583,12 +763,6 @@
 
             searchGrid.innerHTML = html;
         }
-
-        window.addEventListener('hashchange', router);
-        window.addEventListener('DOMContentLoaded', () => {
-            if (!window.location.hash) window.location.hash = '#/';
-            router();
-        });
     </script>
 </body>
 </html>
