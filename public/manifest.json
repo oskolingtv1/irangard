@@ -1,20 +1,34 @@
 
 {
-    "id": "./",
-    "name": "ایران‌گرد | Irangard",
-    "short_name": "ایران‌گرد",
-    "description": "راهنمای گردشگری ایران؛ کشف استان‌ها، شهرها و جاذبه‌های ایران",
-    "lang": "fa",
-    "dir": "rtl",
-    "start_url": "./index.html#/home",
-    "scope": "./",
-    "display": "standalone",
-    "orientation": "portrait",
-    "background_color": "#f8fafc",
-    "theme_color": "#0f766e",
-    "categories": [
-        "travel",
-        "navigation",
-        "lifestyle"
-    ]
+  "id": "/",
+  "name": "ایران‌گرد هیرکان | Irangard Hirkan",
+  "short_name": "ایران‌گرد هیرکان",
+  "description": "راهنمای رایگان گردشگری ایران - ایران‌گرد هیرکان",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#146c43",
+  "categories": [
+    "travel",
+    "navigation",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
