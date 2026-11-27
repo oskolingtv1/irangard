@@ -2,6 +2,82 @@
 // IRANGARD DATA (Version 1.1.0 - Rich Content)
 // ==========================================
 
+// =========================================
+// HIRKAN PRODUCTS (Exact Subdomains)
+// =========================================
+const HIRKAN_PRODUCTS = [
+    {
+        title_fa: "سما | Sama",
+        title_en: "Sama",
+        desc_fa: "سامانه اندرویدی مشاوران املاک",
+        desc_en: "Android platform for real-estate consultants",
+        url: "https://sama.hirkansara.ir"
+    },
+    {
+        title_fa: "ملکسا | Melksa",
+        title_en: "Melksa",
+        desc_fa: "سامانه تحت وب حسابداری دفاتر املاک",
+        desc_en: "Web-based accounting for real-estate agencies",
+        url: "https://melksa.hirkansara.ir"
+    },
+    {
+        title_fa: "آژانسا | Azhansa",
+        title_en: "Azhansa",
+        desc_fa: "راهکار اندرویدی مدیریت فعالیت مشاوران املاک",
+        desc_en: "Android management solution for real-estate consultants",
+        url: "https://azhansa.hirkansara.ir"
+    },
+    {
+        title_fa: "مغازه‌دار | Maghazedaar",
+        title_en: "Maghazedaar",
+        desc_fa: "اپلیکیشن مدیریت مغازه",
+        desc_en: "Shop management application",
+        url: "https://maghazedaar.hirkansara.ir"
+    },
+    {
+        title_fa: "عمده‌یار | Omdehyaar",
+        title_en: "Omdehyaar",
+        desc_fa: "راهکار مدیریت کسب‌وکارهای عمده‌فروشی",
+        desc_en: "Wholesale business management solution",
+        url: "https://omdehyaar.hirkansara.ir"
+    },
+    {
+        title_fa: "سما بنگاه | SamaBongah",
+        title_en: "SamaBongah",
+        desc_fa: "راهکار تخصصی مدیریت فرایندهای بنگاه‌های املاک",
+        desc_en: "Specialized process management for real-estate agencies",
+        url: "https://samagency.hirkansara.ir"
+    },
+    {
+        title_fa: "هیرکان‌سرا | Hirkansara",
+        title_en: "Hirkansara",
+        desc_fa: "مجموعه خدمات و مشاوره املاک",
+        desc_en: "Real-estate services and consulting",
+        url: "https://www.hirkansara.ir"
+    },
+    {
+        title_fa: "بومدار | Boomdaar",
+        title_en: "Boomdaar",
+        desc_fa: "پلتفرم هوشمند جست‌وجو و آگهی املاک در گیلان",
+        desc_en: "Smart real-estate search and listing platform in Gilan",
+        url: "https://www.boomdaar.ir"
+    },
+    {
+        title_fa: "هیرکان‌پلاست | HirkanPlast",
+        title_en: "HirkanPlast",
+        desc_fa: "فروشگاه آنلاین ظروف یکبارمصرف و بسته‌بندی",
+        desc_en: "Online store for disposable tableware and packaging",
+        url: "https://www.hirkanplast.ir"
+    },
+    {
+        title_fa: "ایران‌گرد | Irangard",
+        title_en: "Irangard",
+        desc_fa: "راهنمای جامع گردشگری ایران",
+        desc_en: "Comprehensive Iran tourism guide",
+        url: "https://irangard.hirkansara.ir"
+    }
+];
+
 const PROVINCES_DATA = [
     { 
         id: 'tehran', name_fa: 'تهران', name_en: 'Tehran', capital_id: 'tehran', 
