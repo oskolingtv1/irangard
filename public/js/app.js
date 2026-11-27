@@ -10,12 +10,12 @@
 const CONFIG = {
     appName: "ایران‌گرد هیرکان",
     appNameEn: "Irangard Hirkan",
-    localePath: "./locales/",
+    localePath: "/locales/",
     defaultLanguage: "fa",
     fallbackLanguage: "en",
     languageTimeout: 10000,
     appVersion: "0.5.0",
-    serviceWorkerPath: "./sw.js"
+    serviceWorkerPath: "/sw.js"
 };
 
 const App = {
